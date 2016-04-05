@@ -1,5 +1,6 @@
 #include <sys/ioctl.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
 
@@ -13,18 +14,24 @@ void clearTermWindow(int, int);
 int main(void) {
 	int termSizeRows = getTermSizeRows();
 	int termSizeCols = getTermSizeCols();
-	char inputBuffer[termSizeRows * termSizeCols];
+	char *inputBuffer;
+
+	inputBuffer = malloc(sizeof(char));
 
 	clearTermWindow(termSizeRows, termSizeCols);
 
 	// Geting input
-	int c;
+	int c, i = 0;
 	while ((c = getchar()) != EOF) {
-		if (isspace(c))
-			putchar(c);
-		else
-			putchar('x');
+		inputBuffer = realloc(inputBuffer, sizeof(char) * (i + 2));
+		inputBuffer[i] = c;
+		++i;
 	}
+	inputBuffer[i] = '\0';
+
+	printf("%s", inputBuffer);
+
+	free(inputBuffer);
 
 	return 0;
 }
