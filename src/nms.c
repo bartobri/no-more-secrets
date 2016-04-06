@@ -16,8 +16,6 @@ int main(void) {
 	int termSizeCols = getTermSizeCols();
 	char *inputBuffer;
 
-	inputBuffer = malloc(sizeof(char));
-
 	clearTermWindow(termSizeRows, termSizeCols);
 
 	// Geting input
@@ -53,7 +51,6 @@ int getTermSizeCols(void) {
 void clearTermWindow(int pRows, int pCols) {
 	int row, col;
 
-	printf("rows: %i, cols: %i\n", pRows, pCols);
 	// Clearing window
 	for (row = 1; row <= pRows; ++row) {
 		for (col = 1; col <= pCols; ++col)
