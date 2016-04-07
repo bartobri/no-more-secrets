@@ -29,43 +29,32 @@ int main(void) {
 	int c, x = 1, y = 1;
 	bool first = true;
 	while ((c = getchar()) != EOF) {
-		switch (c) {
-			case '\n':
-				++y;
-				x = 1;
-				break;
-			case ' ':
-			case '\t':
-			case '\f':
-			case '\r':
-			case '\v':
-				++x;
-				break;
-			default:
-				if (first) {
-					start.source = c;
-					start.row = y;
-					start.col = x;
-					start.next = (struct winpos *) 0;
-					first = false;
-					++x;
-				} else {
-					// Allocate space for the new struct in our linked list
-					// and point *next to it.
-					list_pointer->next = malloc(sizeof(struct winpos));
+		if (c == NEWLINE) {
+			++y;
+			x = 1;
+		} else if (isspace(c)) {
+			++x;
+		} else if (first) {
+			start.source = c;
+			start.row = y;
+			start.col = x;
+			start.next = (struct winpos *) 0;
+			first = false;
+			++x;
+		} else {
+			// Allocate space for the new struct in our linked list
+			// and point *next to it.
+			list_pointer->next = malloc(sizeof(struct winpos));
 
-					// Now let's point list_pointer to the next structure
-					// and populate it.
-					list_pointer = list_pointer->next;
-					list_pointer->source = c;
-					list_pointer->row = y;
-					list_pointer->col = x;
-					list_pointer->next = (struct winpos *) 0;
+			// Now let's point list_pointer to the next structure
+			// and populate it.
+			list_pointer = list_pointer->next;
+			list_pointer->source = c;
+			list_pointer->row = y;
+			list_pointer->col = x;
+			list_pointer->next = (struct winpos *) 0;
 
-					++x;
-				}
-				break;
-					
+			++x;
 		}
 	}
 
