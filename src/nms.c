@@ -5,8 +5,8 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-#define SPACE      040                                                                              
-#define NEWLINE    012
+#define SPACE      32
+#define NEWLINE    10
 
 int getTermSizeRows(void);
 int getTermSizeCols(void);
