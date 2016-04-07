@@ -19,9 +19,9 @@ int main(void) {
 		int col;
 		struct winpos *next;
 	};
-	struct winpos start;
-	struct winpos *list_pointer = &start;
-	struct winpos *temp;					// Used for free()ing the list
+	struct winpos *list_pointer = NULL;
+	struct winpos *start;                   // Always points to start of list
+	struct winpos *temp;                    // Used for free()ing the list
 	int termSizeRows = getTermSizeRows();
 	int termSizeCols = getTermSizeCols();
 
@@ -34,21 +34,16 @@ int main(void) {
 			x = 1;
 		} else if (isspace(c)) {
 			++x;
-		} else if (first) {
-			start.source = c;
-			start.row = y;
-			start.col = x;
-			start.next = (struct winpos *) 0;
-			first = false;
-			++x;
 		} else {
-			// Allocate space for the new struct in our linked list
-			// and point *next to it.
-			list_pointer->next = malloc(sizeof(struct winpos));
+			if (first) {
+				list_pointer = malloc(sizeof(struct winpos));
+				start = list_pointer;
+				first = false;
+			} else {
+				list_pointer->next = malloc(sizeof(struct winpos));
+				list_pointer = list_pointer->next;
+			}
 
-			// Now let's point list_pointer to the next structure
-			// and populate it.
-			list_pointer = list_pointer->next;
 			list_pointer->source = c;
 			list_pointer->row = y;
 			list_pointer->col = x;
@@ -60,7 +55,8 @@ int main(void) {
 
 	clearTermWindow(termSizeRows, termSizeCols);
 
-	list_pointer = &start;
+	// Printing the list
+	list_pointer = start;
 	while (list_pointer != (struct winpos *) 0) {
 		printf("row: %i, ", list_pointer->row);
 		printf("col: %i, ", list_pointer->col);
@@ -68,9 +64,8 @@ int main(void) {
 		list_pointer = list_pointer->next;
 	}
 
-	// Freeing the list. Starting with the second list item because
-	// the first one was not created with malloc 
-	list_pointer = start.next;
+	// Freeing the list. 
+	list_pointer = start;
 	while (list_pointer != (struct winpos *) 0) {
 		temp = list_pointer;
 		list_pointer = list_pointer->next;
