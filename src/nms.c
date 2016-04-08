@@ -1,9 +1,11 @@
 #include <sys/ioctl.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <time.h>
 
 #define SPACE      32
 #define NEWLINE    10
@@ -11,10 +13,12 @@
 int getTermSizeRows(void);
 int getTermSizeCols(void);
 void clearTermWindow(int, int);
+char getMaskChar(void);
 
 int main(void) {
 	struct winpos {
 		char source;
+		char mask;
 		int row;
 		int col;
 		struct winpos *next;
@@ -24,6 +28,9 @@ int main(void) {
 	struct winpos *temp;                    // Used for free()ing the list
 	int termSizeRows = getTermSizeRows();
 	int termSizeCols = getTermSizeCols();
+
+	// Seed my random number generator with the current time
+	srand(time(NULL));
 
 	// Geting input
 	int c, x = 1, y = 1;
@@ -45,9 +52,10 @@ int main(void) {
 			}
 
 			list_pointer->source = c;
+			list_pointer->mask = getMaskChar();
 			list_pointer->row = y;
 			list_pointer->col = x;
-			list_pointer->next = (struct winpos *) 0;
+			list_pointer->next = NULL;
 
 			++x;
 		}
@@ -57,16 +65,15 @@ int main(void) {
 
 	// Printing the list
 	list_pointer = start;
-	while (list_pointer != (struct winpos *) 0) {
-		printf("row: %i, ", list_pointer->row);
-		printf("col: %i, ", list_pointer->col);
-		printf("char: %c\n", list_pointer->source);
+	while (list_pointer != NULL) {
+		printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
 		list_pointer = list_pointer->next;
 	}
+	printf("\n");
 
 	// Freeing the list. 
 	list_pointer = start;
-	while (list_pointer != (struct winpos *) 0) {
+	while (list_pointer != NULL) {
 		temp = list_pointer;
 		list_pointer = list_pointer->next;
 		free(temp);
@@ -102,4 +109,12 @@ void clearTermWindow(int pRows, int pCols) {
 
 	// Position cursor at the top
 	printf("\033[%i;%iH", 1, 1);
+}
+
+char getMaskChar(void) {
+	char *maskChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	                  "abcdefghijklmnopqrstuvwxyz"
+	                  "1234567890";
+
+	return maskChars[rand() % strlen(maskChars)];
 }
