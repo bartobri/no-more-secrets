@@ -42,6 +42,8 @@ int main(void) {
 	// Seed my random number generator with the current time
 	srand(time(NULL));
 
+	// TODO: what is the data piped is greater than the size of the terminal window?
+
 	// Geting input
 	while ((c = getchar()) != EOF) {
 		if (c == NEWLINE) {
@@ -79,6 +81,8 @@ int main(void) {
 	}
 
 	clearTermWindow(termSizeRows, termSizeCols);
+
+	// TODO: Data should initially 'type' itself on to the screen
 
 	// TODO: pause with getchar() - something about the input stream being redirected
 	// to a file is causing getchar() to immediately return here.
