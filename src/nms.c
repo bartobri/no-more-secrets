@@ -98,6 +98,7 @@ int main(void) {
 			list_pointer->mask = getMaskChar();
 			list_pointer = list_pointer->next;
 		}
+		fflush(stdout);
 		usleep(ms * 1000);
 		++x;
 	}
@@ -129,6 +130,7 @@ int main(void) {
 			printf(KNRM);
 			list_pointer = list_pointer->next;
 		}
+		fflush(stdout);
 		usleep(ms * 1000);
 	}
 
