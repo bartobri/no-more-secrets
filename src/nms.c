@@ -28,13 +28,14 @@ int main(void) {
 	struct winpos *temp;                    // Used for free()ing the list
 	int termSizeRows = getTermSizeRows();
 	int termSizeCols = getTermSizeCols();
+	int c, x = 1, y = 1;
+	int ms, ls;
+	bool first = true;
 
 	// Seed my random number generator with the current time
 	srand(time(NULL));
 
 	// Geting input
-	int c, x = 1, y = 1;
-	bool first = true;
 	while ((c = getchar()) != EOF) {
 		if (c == NEWLINE) {
 			++y;
@@ -63,13 +64,33 @@ int main(void) {
 
 	clearTermWindow(termSizeRows, termSizeCols);
 
-	// Printing the list
-	list_pointer = start;
-	while (list_pointer != NULL) {
-		printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
-		list_pointer = list_pointer->next;
+	// TODO: pause with getchar() - something about the input stream being redirected
+	// to a file is causing getchar() to immediately return here.
+
+	// Jumble loop
+	ms = 35;           // miliseconds, used for usleep()
+	ls = 2;            // loop seconds, number of seconds to loop
+	x = 0;
+	while (x < (ls * 1000) / ms) {
+		list_pointer = start;
+		while (list_pointer != NULL) {
+			printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
+			list_pointer->mask = getMaskChar();
+			list_pointer = list_pointer->next;
+		}
+		usleep(ms * 1000);
+		++x;
 	}
+
 	printf("\n");
+
+	/*
+	// Reveal loop
+	x = 0;
+	while (x < 50) {
+		++x;
+	}
+	*/
 
 	// Freeing the list. 
 	list_pointer = start;
