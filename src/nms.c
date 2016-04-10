@@ -10,6 +10,10 @@
 #define SPACE      32
 #define NEWLINE    10
 
+#define KNRM       "\x1B[0m"
+#define KMAG       "\x1B[35m"
+#define KCYN       "\x1B[36m"
+
 int getTermSizeRows(void);
 int getTermSizeCols(void);
 void clearTermWindow(int, int);
@@ -21,6 +25,8 @@ int main(void) {
 		char mask;
 		int row;
 		int col;
+		int s1_time;
+		int s2_time;
 		struct winpos *next;
 	};
 	struct winpos *list_pointer = NULL;
@@ -29,6 +35,7 @@ int main(void) {
 	int termSizeRows = getTermSizeRows();
 	int termSizeCols = getTermSizeCols();
 	int c, x = 1, y = 1;
+	int r_time, r_time_l, r_time_s;
 	int ms, ls;
 	bool first = true;
 
@@ -52,10 +59,19 @@ int main(void) {
 				list_pointer = list_pointer->next;
 			}
 
+			r_time = rand() % 50;
+			r_time_s = r_time * .25;
+			r_time_l = r_time * .75;
+			r_time *= 100;
+			r_time_s *= 100;
+			r_time_l *= 100;
+
 			list_pointer->source = c;
 			list_pointer->mask = getMaskChar();
 			list_pointer->row = y;
 			list_pointer->col = x;
+			list_pointer->s1_time = r_time > 1000 ? r_time_l : r_time;
+			list_pointer->s2_time = r_time > 1000 ? r_time_s : 0;
 			list_pointer->next = NULL;
 
 			++x;
@@ -82,15 +98,37 @@ int main(void) {
 		++x;
 	}
 
-	printf("\n");
 
-	/*
 	// Reveal loop
-	x = 0;
-	while (x < 50) {
-		++x;
+	ms = 100;                     // miliseconds to sleep (must always evenly divisible by 5)
+	int s1_remask_time = 500;     // time, in milliseconds, we change the mask for stage 1
+	bool loop = true;
+	while (loop) {
+		loop = false;
+		list_pointer = start;
+		while (list_pointer != NULL) {
+			if (list_pointer->s1_time > 0) {
+				loop = true;
+				list_pointer->s1_time -= ms;
+				if (list_pointer->s1_time % s1_remask_time == 0) {
+					list_pointer->mask = getMaskChar();
+				}
+			} else if (list_pointer->s2_time > 0) {
+				loop = true;
+				list_pointer->s2_time -= ms;
+				list_pointer->mask = getMaskChar();
+			} else {
+				list_pointer->mask = list_pointer->source;
+				printf(KCYN);
+			}
+			printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
+			printf(KNRM);
+			list_pointer = list_pointer->next;
+		}
+		usleep(ms * 1000);
 	}
-	*/
+
+	printf("\n");
 
 	// Freeing the list. 
 	list_pointer = start;
