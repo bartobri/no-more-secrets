@@ -42,15 +42,16 @@ int main(void) {
 	// Seed my random number generator with the current time
 	srand(time(NULL));
 
-	// TODO: what is the data piped is greater than the size of the terminal window?
-
 	// Geting input
 	while ((c = getchar()) != EOF) {
 		if (c == NEWLINE) {
 			++y;
 			x = 1;
 		} else if (isspace(c)) {
-			++x;
+			if (++x > termSizeCols) {
+				++y;
+				x = 1;
+			}
 		} else {
 			if (first) {
 				list_pointer = malloc(sizeof(struct winpos));
@@ -76,7 +77,10 @@ int main(void) {
 			list_pointer->s2_time = r_time > 1000 ? r_time_s : 0;
 			list_pointer->next = NULL;
 
-			++x;
+			if (++x > termSizeCols) {
+				++y;
+				x = 1;
+			}
 		}
 	}
 
@@ -93,7 +97,7 @@ int main(void) {
 	x = 0;
 	while (x < (ls * 1000) / ms) {
 		list_pointer = start;
-		while (list_pointer != NULL) {
+		while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
 			printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
 			list_pointer->mask = getMaskChar();
 			list_pointer = list_pointer->next;
@@ -111,7 +115,7 @@ int main(void) {
 	while (loop) {
 		loop = false;
 		list_pointer = start;
-		while (list_pointer != NULL) {
+		while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
 			if (list_pointer->s1_time > 0) {
 				loop = true;
 				list_pointer->s1_time -= ms;
@@ -135,6 +139,26 @@ int main(void) {
 	}
 
 	printf("\n");
+
+	// Printing remaining characters from list if we stopped short due to 
+	// a terminal row limitation. i.e. the number of textual rows in the input
+	// stream were greater than the number of rows in the terminal.
+	int prevRow;
+	if (list_pointer != NULL) {
+		prevRow = list_pointer->row;
+		printf(KCYN);
+		while (list_pointer != NULL) {
+			while (list_pointer->row > prevRow) {
+				printf("\n");
+				++prevRow;
+			}
+			printf("\033[%i;%iH%c", termSizeRows, list_pointer->col, list_pointer->source);
+			list_pointer = list_pointer->next;
+		}
+		printf(KNRM);
+		printf("\n");
+	}
+
 
 	// Freeing the list. 
 	list_pointer = start;
