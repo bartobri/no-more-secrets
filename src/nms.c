@@ -9,6 +9,7 @@
 
 #define SPACE      32
 #define NEWLINE    10
+#define TAB        9
 
 #define KNRM       "\x1B[0m"
 #define KMAG       "\x1B[35m"
@@ -47,6 +48,8 @@ int main(void) {
 		if (c == NEWLINE) {
 			++y;
 			x = 1;
+		} else if (c == TAB && x + 4 <= termSizeCols) {
+			x += 4;
 		} else if (isspace(c)) {
 			if (++x > termSizeCols) {
 				++y;
