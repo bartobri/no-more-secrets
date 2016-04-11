@@ -15,21 +15,22 @@
 #define KMAG       "\x1B[35m"
 #define KCYN       "\x1B[36m"
 
+struct winpos {
+	char source;
+	char mask;
+	int row;
+	int col;
+	int s1_time;
+	int s2_time;
+	struct winpos *next;
+};
+
 int getTermSizeRows(void);
 int getTermSizeCols(void);
 void clearTermWindow(int, int);
 char getMaskChar(void);
 
 int main(void) {
-	struct winpos {
-		char source;
-		char mask;
-		int row;
-		int col;
-		int s1_time;
-		int s2_time;
-		struct winpos *next;
-	};
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
 	struct winpos *temp;                    // Used for free()ing the list
