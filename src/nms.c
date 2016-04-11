@@ -216,7 +216,8 @@ void clearTermWindow(int pRows, int pCols) {
 char getMaskChar(void) {
 	char *maskChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	                  "abcdefghijklmnopqrstuvwxyz"
-	                  "1234567890";
+	                  "1234567890"
+	                  "!@#$%^&*()-_=+{}[]:;|\\\"'<>,.?/";
 
 	return maskChars[rand() % strlen(maskChars)];
 }
