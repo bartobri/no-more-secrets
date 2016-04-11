@@ -86,10 +86,20 @@ int main(void) {
 
 	clearTermWindow(termSizeRows, termSizeCols);
 
-	// TODO: Data should initially 'type' itself on to the screen
+	// Initially display the characters in the terminal with a 'type effect'.
+	ms = 5;             // miliseconds, used for usleep()
+	list_pointer = start;
+	while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
+		printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
+		list_pointer->mask = getMaskChar();
+		list_pointer = list_pointer->next;
+		fflush(stdout);
+		usleep(ms * 1000);
+	}
 
 	// TODO: pause with getchar() - something about the input stream being redirected
 	// to a file is causing getchar() to immediately return here.
+	sleep(1);
 
 	// Jumble loop
 	ms = 35;           // miliseconds, used for usleep()
