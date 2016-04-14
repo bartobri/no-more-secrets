@@ -1,5 +1,5 @@
-#include <sys/ioctl.h>
 #include <stdio.h>
+#include <ncurses.h>
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -31,9 +31,6 @@ char *display = NULL;
 
 void nmsprintf(const char *, ...);
 void nmsexec(void);
-int getTermSizeRows(void);
-int getTermSizeCols(void);
-void clearTermWindow(int, int);
 char getMaskChar(void);
 
 void nmsprintf(const char *format, ...) {
@@ -56,12 +53,25 @@ void nmsexec(void) {
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
 	struct winpos *temp;                    // Used for free()ing the list
-	int termSizeRows = getTermSizeRows();
-	int termSizeCols = getTermSizeCols();
-	int c, n, x = 1, y = 1;
+	int termSizeRows, termSizeCols;
+	int c, n, x = 0, y = 0;
 	int r_time, r_time_l, r_time_s;
 	int ms, ls;
 	bool first = true;
+
+	// Start and initialize curses mode
+	initscr();
+	cbreak();
+	noecho();
+
+	// Setting up and starting colors if terminal supports them
+	if (has_colors()) {
+		start_color();
+		init_pair(1, COLOR_BLUE, COLOR_BLACK);
+	}
+
+	// Get terminal window size
+	getmaxyx(stdscr, termSizeRows, termSizeCols);
 
 	// Seed my random number generator with the current time
 	srand(time(NULL));
@@ -71,13 +81,13 @@ void nmsexec(void) {
 	while ((c = display[n++]) != '\0') {
 		if (c == NEWLINE) {
 			++y;
-			x = 1;
+			x = 0;
 		} else if (c == TAB && x + 4 <= termSizeCols) {
 			x += 4;
 		} else if (isspace(c)) {
 			if (++x > termSizeCols) {
 				++y;
-				x = 1;
+				x = 0;
 			}
 		} else {
 			if (first) {
@@ -106,7 +116,7 @@ void nmsexec(void) {
 
 			if (++x > termSizeCols) {
 				++y;
-				x = 1;
+				x = 0;
 			}
 		}
 	}
@@ -114,16 +124,14 @@ void nmsexec(void) {
 	// Freeing the display character array
 	free(display);
 
-	clearTermWindow(termSizeRows, termSizeCols);
-
 	// Initially display the characters in the terminal with a 'type effect'.
 	ms = 5;             // miliseconds, used for usleep()
 	list_pointer = start;
 	while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
-		printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
+		mvaddch(list_pointer->row, list_pointer->col, list_pointer->mask);
+		refresh();
 		list_pointer->mask = getMaskChar();
 		list_pointer = list_pointer->next;
-		fflush(stdout);
 		usleep(ms * 1000);
 	}
 
@@ -138,11 +146,11 @@ void nmsexec(void) {
 	while (x < (ls * 1000) / ms) {
 		list_pointer = start;
 		while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
-			printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
+			mvaddch(list_pointer->row, list_pointer->col, list_pointer->mask);
+			refresh();
 			list_pointer->mask = getMaskChar();
 			list_pointer = list_pointer->next;
 		}
-		fflush(stdout);
 		usleep(ms * 1000);
 		++x;
 	}
@@ -168,37 +176,38 @@ void nmsexec(void) {
 				list_pointer->mask = getMaskChar();
 			} else {
 				list_pointer->mask = list_pointer->source;
-				printf(KCYN);
+				//printf(KCYN);
 			}
-			printf("\033[%i;%iH%c", list_pointer->row, list_pointer->col, list_pointer->mask);
-			printf(KNRM);
+			mvaddch(list_pointer->row, list_pointer->col, list_pointer->mask);
+			refresh();
 			list_pointer = list_pointer->next;
 		}
-		fflush(stdout);
 		usleep(ms * 1000);
 	}
-
-	printf("\n");
 
 	// Printing remaining characters from list if we stopped short due to 
 	// a terminal row limitation. i.e. the number of textual rows in the input
 	// stream were greater than the number of rows in the terminal.
+	/* TODO - Handle overflow data via ncurses in some way
 	int prevRow;
 	if (list_pointer != NULL) {
 		prevRow = list_pointer->row;
-		printf(KCYN);
+		//printf(KCYN);
 		while (list_pointer != NULL) {
 			while (list_pointer->row > prevRow) {
-				printf("\n");
+				//printf("\n");
 				++prevRow;
 			}
-			printf("\033[%i;%iH%c", termSizeRows, list_pointer->col, list_pointer->source);
+			mvaddch(list_pointer->row, list_pointer->col, list_pointer->source);
 			list_pointer = list_pointer->next;
 		}
-		printf(KNRM);
-		printf("\n");
+		//printf(KNRM);
+		//printf("\n");
 	}
+	*/
 
+	// End curses mode
+	endwin();
 
 	// Freeing the list. 
 	list_pointer = start;
@@ -207,34 +216,6 @@ void nmsexec(void) {
 		list_pointer = list_pointer->next;
 		free(temp);
 	}
-}
-
-int getTermSizeRows(void) {
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
-	return w.ws_row;
-}
-
-int getTermSizeCols(void) {
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
-	return w.ws_col;
-}
-
-void clearTermWindow(int pRows, int pCols) {
-	int row, col;
-
-	// Clearing window
-	for (row = 1; row <= pRows; ++row) {
-		for (col = 1; col <= pCols; ++col)
-			printf("\033[%i;%iH%c", row, col, SPACE);
-		printf("\033[%i;%iH%c", row, col, NEWLINE);
-	}
-
-	// Position cursor at the top
-	printf("\033[%i;%iH", 1, 1);
 }
 
 char getMaskChar(void) {
