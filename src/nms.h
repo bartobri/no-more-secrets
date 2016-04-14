@@ -29,12 +29,12 @@ struct winpos {
 char nmsprintBuffer[10000];
 char *display = NULL;
 
+void nmsprintf(const char *, ...);
+void nmsexec(void);
 int getTermSizeRows(void);
 int getTermSizeCols(void);
 void clearTermWindow(int, int);
 char getMaskChar(void);
-void nmsexec(void);
-void nmsprintf(const char *, ...);
 
 void nmsprintf(const char *format, ...) {
 	va_list argp;
@@ -111,7 +111,7 @@ void nmsexec(void) {
 		}
 	}
 
-	// Freeing the display chharacter array
+	// Freeing the display character array
 	free(display);
 
 	clearTermWindow(termSizeRows, termSizeCols);
