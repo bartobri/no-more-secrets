@@ -12,10 +12,6 @@
 #define NEWLINE    10
 #define TAB        9
 
-#define KNRM       "\x1B[0m"
-#define KMAG       "\x1B[35m"
-#define KCYN       "\x1B[36m"
-
 struct winpos {
 	char source;
 	char mask;
@@ -176,11 +172,17 @@ void nmsexec(void) {
 				list_pointer->mask = getMaskChar();
 			} else {
 				list_pointer->mask = list_pointer->source;
-				//printf(KCYN);
+				attron(A_BOLD);
+				if (has_colors())
+					attron(COLOR_PAIR(1));
 			}
 			mvaddch(list_pointer->row, list_pointer->col, list_pointer->mask);
 			refresh();
 			list_pointer = list_pointer->next;
+
+			attroff(A_BOLD);
+			if (has_colors())
+				attroff(COLOR_PAIR(1));
 		}
 		usleep(ms * 1000);
 	}
