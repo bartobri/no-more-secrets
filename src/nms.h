@@ -32,8 +32,8 @@ struct winpos {
 };
 
 // Globals
-char nmsprintBuffer[10000];
-char *display = NULL;
+static char nmsprintBuffer[10000];
+static char *display = NULL;
 
 // Function prototypes
 void nmsprintf(const char *, ...);
