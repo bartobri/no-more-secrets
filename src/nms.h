@@ -88,6 +88,7 @@ void nmsexec(void) {
 	initscr();
 	cbreak();
 	noecho();
+	scrollok(stdscr, true);
 
 	// Setting up and starting colors if terminal supports them
 	if (has_colors()) {
@@ -219,23 +220,27 @@ void nmsexec(void) {
 	// Printing remaining characters from list if we stopped short due to 
 	// a terminal row limitation. i.e. the number of textual rows in the input
 	// stream were greater than the number of rows in the terminal.
-	/* TODO - Handle overflow data via ncurses in some way
 	int prevRow;
 	if (list_pointer != NULL) {
+		attron(A_BOLD);
+		if (has_colors())
+			attron(COLOR_PAIR(1));
 		prevRow = list_pointer->row;
-		//printf(KCYN);
+		scroll(stdscr);
 		while (list_pointer != NULL) {
 			while (list_pointer->row > prevRow) {
-				//printf("\n");
+				scroll(stdscr);
 				++prevRow;
 			}
-			mvaddch(list_pointer->row, list_pointer->col, list_pointer->source);
+			mvaddch(termSizeRows -1, list_pointer->col, list_pointer->source);
+			refresh();
+			//mvaddch(0, 0, list_pointer->source);
 			list_pointer = list_pointer->next;
 		}
-		//printf(KNRM);
-		//printf("\n");
+		attroff(A_BOLD);
+		if (has_colors())
+			attroff(COLOR_PAIR(1));
 	}
-	*/
 
 	// End curses mode
 	endwin();
