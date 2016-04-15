@@ -32,7 +32,6 @@ struct winpos {
 };
 
 // Globals
-static char nmsprintBuffer[10000];
 static char *display = NULL;
 
 // Function prototypes
@@ -52,6 +51,8 @@ char getMaskChar(void);
  * const char *format - printf-style format string
  */
 void nmsprintf(const char *format, ...) {
+	char nmsprintBuffer[10000];
+
 	va_list argp;
 	va_start(argp, format);
 	vsprintf(nmsprintBuffer, format, argp);
