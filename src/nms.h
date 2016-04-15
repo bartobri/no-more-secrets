@@ -1,3 +1,10 @@
+// Copyright (c) 2016 Brian Barto
+//
+// This program is free software; you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by the Free
+// Software Foundation; either version 3 of the License, or (at your option)
+// any later version.  See COPYING for more details.
+
 #include <stdio.h>
 #include <ncurses.h>
 #include <string.h>
@@ -12,6 +19,8 @@
 #define NEWLINE    10
 #define TAB        9
 
+// Window position structure, linked list. Keeps track of every
+// character's position on the terminal, as well as other attributes.
 struct winpos {
 	char source;
 	char mask;
@@ -22,13 +31,26 @@ struct winpos {
 	struct winpos *next;
 };
 
+// Globals
 char nmsprintBuffer[10000];
 char *display = NULL;
 
+// Function prototypes
 void nmsprintf(const char *, ...);
 void nmsexec(void);
 char getMaskChar(void);
 
+/*
+ * void nmsprintf(const char *format, ...)
+ *
+ * DESCR:
+ * Used to load characters in to the display queue that will later
+ * be rendered on tothe screen via nmsexec(). It is a wrapper for 
+ * sprintf(), and the parameters that it accepts are the same.
+ *
+ * PARAMS:
+ * const char *format - printf-style format string
+ */
 void nmsprintf(const char *format, ...) {
 	va_list argp;
 	va_start(argp, format);
@@ -45,6 +67,13 @@ void nmsprintf(const char *format, ...) {
 }
 
 
+/*
+ * void nmsexec(void)
+ *
+ * DESCR:
+ * Displays the characters stored in the display queue.
+ *
+ */
 void nmsexec(void) {
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
@@ -220,6 +249,14 @@ void nmsexec(void) {
 	}
 }
 
+/*
+ * void getMaskChar(void)
+ *
+ * DESCR:
+ * Returns a random character from the maskChars string. Used for generating
+ * a corresponding 'mask' character for each character in the display queue.
+ *
+ */
 char getMaskChar(void) {
 	char *maskChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	                  "abcdefghijklmnopqrstuvwxyz"
