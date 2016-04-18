@@ -14,7 +14,6 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <time.h>
-#include <stdarg.h>
 
 #define SPACE      32
 #define NEWLINE    10
@@ -34,55 +33,17 @@ struct winpos {
 	struct winpos *next;
 };
 
-// Globals
-static char *display = NULL;
-
 // Function prototypes (internal)
 char getMaskChar(void);
 
 /*
- * void nmsprintf(const char *format, ...)
+ * void nmsexec(char *)
  *
  * DESCR:
- * Used to load characters in to the display queue that will later
- * be rendered on tothe screen via nmsexec(). It is a wrapper for 
- * sprintf(), and the parameters that it accepts are the same.
- *
- * PARAMS:
- * const char *format - printf-style format string
- */
-void nmsprintf(const char *format, ...) {
-	char *nmsprintBuffer = malloc(PRINT_BUFFER);
-	int fmtSize;
-
-	va_list argp;
-	va_start(argp, format);
-	if ((fmtSize = vsnprintf(nmsprintBuffer, PRINT_BUFFER, format, argp)) >= PRINT_BUFFER) {
-		nmsprintBuffer = realloc(nmsprintBuffer, fmtSize + 1);
-		vsnprintf(nmsprintBuffer, fmtSize + 1, format, argp);
-	}
-	va_end(argp);
-
-	if (display == NULL) {
-		display = malloc(strlen(nmsprintBuffer) + 1);
-		strcpy(display, nmsprintBuffer);
-	} else {
-		display = realloc(display, strlen(display) + strlen(nmsprintBuffer) + 1);
-		strcat(display, nmsprintBuffer);
-	}
-
-	free(nmsprintBuffer);
-}
-
-
-/*
- * void nmsexec(void)
- *
- * DESCR:
- * Displays the characters stored in the display queue.
+ * Displays the characters stored in the / char * / parameter
  *
  */
-void nmsexec(void) {
+void nmsexec(char *src) {
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
 	struct winpos *temp;                    // Used for free()ing the list
@@ -112,7 +73,7 @@ void nmsexec(void) {
 
 	// Geting input
 	n = 0;
-	while ((c = display[n++]) != '\0') {
+	while ((c = src[n++]) != '\0') {
 		if (c == NEWLINE) {
 			++y;
 			x = 0;
@@ -154,9 +115,6 @@ void nmsexec(void) {
 			}
 		}
 	}
-
-	// Freeing the display character array
-	free(display);
 
 	// Initially display the characters in the terminal with a 'type effect'.
 	ms = 5;             // miliseconds, used for usleep()
@@ -266,8 +224,7 @@ void nmsexec(void) {
  * void getMaskChar(void)
  *
  * DESCR:
- * Returns a random character from the maskChars string. Used for generating
- * a corresponding 'mask' character for each character in the display queue.
+ * Returns a random character from the maskChars string. 
  *
  */
 char getMaskChar(void) {

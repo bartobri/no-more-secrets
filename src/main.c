@@ -1,13 +1,24 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "nms.h"
 
 int main(void) {
+	char *input;
+
 	// Geting input
-	int c;
+	int c, inSize = 0;
 	while ((c = getchar()) != EOF) {
-		nmsprintf("%c", c);
+		++inSize;
+		input = realloc(input, inSize + 1);
+		input[inSize - 1] = c;
+		input[inSize] = '\0';
 	}
-	nmsexec();
+
+	// Display characters
+	nmsexec(input);
+
+	// Don't forget to free the allocated memory!
+	free(input);
 
 	return 0;
 }
