@@ -19,8 +19,6 @@
 #define NEWLINE    10
 #define TAB        9
 
-#define PRINT_BUFFER 100
-
 // Window position structure, linked list. Keeps track of every
 // character's position on the terminal, as well as other attributes.
 struct winpos {
