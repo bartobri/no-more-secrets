@@ -71,6 +71,8 @@ void nmsprintf(const char *format, ...) {
 		display = realloc(display, strlen(display) + strlen(nmsprintBuffer) + 1);
 		strcat(display, nmsprintBuffer);
 	}
+
+	free(nmsprintBuffer);
 }
 
 
