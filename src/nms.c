@@ -20,6 +20,8 @@
 #define NEWLINE    10
 #define TAB        9
 
+#define PRINT_BUFFER 100
+
 // Window position structure, linked list. Keeps track of every
 // character's position on the terminal, as well as other attributes.
 struct winpos {
@@ -50,11 +52,16 @@ char getMaskChar(void);
  * const char *format - printf-style format string
  */
 void nmsprintf(const char *format, ...) {
-	char nmsprintBuffer[10000];
+	int bufferSize = PRINT_BUFFER;
+	int bufferIncrementSize = PRINT_BUFFER;
+	char *nmsprintBuffer = malloc(bufferSize);
 
 	va_list argp;
 	va_start(argp, format);
-	vsprintf(nmsprintBuffer, format, argp);
+	while (vsnprintf(nmsprintBuffer, bufferSize, format, argp) >= strlen(nmsprintBuffer) + 1) {
+		bufferSize += bufferIncrementSize;
+		nmsprintBuffer = realloc(nmsprintBuffer, bufferSize);
+	}
 	va_end(argp);
 
 	if (display == NULL) {
