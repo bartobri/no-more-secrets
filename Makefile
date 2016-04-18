@@ -3,13 +3,13 @@ OBJ=obj
 SRC=src
 
 CC = gcc
-CFLAGS = -lncurses
+LDLIBS = -lncurses
 
 ${BIN}/nms: ${OBJ}/nms.o
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(LDLIBS) -o $@ $^
 
 ${OBJ}/nms.o: ${SRC}/nms.c ${SRC}/nms.h
-	$(CC) $(CFLAGS) -o $@ -c ${SRC}/nms.c
+	$(CC) -o $@ -c ${SRC}/nms.c
 
 clean:
 	rm -f ${BIN}/*
