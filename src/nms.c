@@ -52,15 +52,14 @@ char getMaskChar(void);
  * const char *format - printf-style format string
  */
 void nmsprintf(const char *format, ...) {
-	int bufferSize = PRINT_BUFFER;
-	int bufferIncrementSize = PRINT_BUFFER;
-	char *nmsprintBuffer = malloc(bufferSize);
+	char *nmsprintBuffer = malloc(PRINT_BUFFER);
+	int fmtSize;
 
 	va_list argp;
 	va_start(argp, format);
-	while (vsnprintf(nmsprintBuffer, bufferSize, format, argp) >= bufferSize) {
-		bufferSize += bufferIncrementSize;
-		nmsprintBuffer = realloc(nmsprintBuffer, bufferSize);
+	if ((fmtSize = vsnprintf(nmsprintBuffer, PRINT_BUFFER, format, argp)) >= PRINT_BUFFER) {
+		nmsprintBuffer = realloc(nmsprintBuffer, fmtSize + 1);
+		vsnprintf(nmsprintBuffer, fmtSize + 1, format, argp);
 	}
 	va_end(argp);
 
