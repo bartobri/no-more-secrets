@@ -58,7 +58,7 @@ void nmsprintf(const char *format, ...) {
 
 	va_list argp;
 	va_start(argp, format);
-	while (vsnprintf(nmsprintBuffer, bufferSize, format, argp) >= strlen(nmsprintBuffer) + 1) {
+	while (vsnprintf(nmsprintBuffer, bufferSize, format, argp) >= bufferSize) {
 		bufferSize += bufferIncrementSize;
 		nmsprintBuffer = realloc(nmsprintBuffer, bufferSize);
 	}
