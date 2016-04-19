@@ -125,9 +125,13 @@ void nmsexec(char *src) {
 		usleep(ms * 1000);
 	}
 
-	// TODO: pause with getchar() - something about the input stream being redirected
-	// to a file is causing getchar() to immediately return here.
-	sleep(1);
+	// Reopen stdin for interactive input (keyboard), then require user
+	// to press a key to continue.
+	if (!isatty(STDIN_FILENO))
+		if (!freopen ("/dev/tty", "r", stdin))
+			sleep(1);
+		else
+			getch();
 
 	// Jumble loop
 	ms = 35;           // miliseconds, used for usleep()
@@ -205,6 +209,12 @@ void nmsexec(char *src) {
 		if (has_colors())
 			attroff(COLOR_PAIR(1));
 	}
+
+	// If stdin is set to the keyboard, user must press a key to continue
+	if (isatty(STDIN_FILENO))
+		getch();
+	else
+		sleep(2);
 
 	// End curses mode
 	endwin();
