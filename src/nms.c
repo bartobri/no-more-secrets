@@ -115,7 +115,7 @@ void nmsexec(char *src) {
 	}
 
 	// Initially display the characters in the terminal with a 'type effect'.
-	ms = 5;             // miliseconds, used for usleep()
+	ms = 4;             // miliseconds, used for usleep()
 	list_pointer = start;
 	while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
 		mvaddch(list_pointer->row, list_pointer->col, list_pointer->mask);
