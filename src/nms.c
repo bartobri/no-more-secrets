@@ -132,6 +132,8 @@ void nmsexec(char *src) {
 			sleep(1);
 		else
 			getch();
+	else
+		getch();
 
 	// Jumble loop
 	ms = 35;           // miliseconds, used for usleep()
