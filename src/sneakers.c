@@ -15,7 +15,7 @@ int main(void) {
 	char *head5Center    = "================================================================";
 	char *menu1          = "[1] Interbank Funds Transfer  (Code Prog: 485-GWU)";
 	char *menu2          = "[2] International Telelink Access  (Code Lim: XRP-262)";
-	char *menu3          = "[3] Remote Facsimile Send/receive  (Code Tran:  2LZP-517)";
+	char *menu3          = "[3] Remote Facsimile Send/Receive  (Code Tran:  2LZP-517)";
 	char *menu4          = "[4] Regional Bank Interconnect  (Security Code:  47-B34)";
 	char *menu5          = "[5] Update System Parameters  (Entry Auth. Req.)";
 	char *menu6          = "[6] Remote Operator Logon/Logoff";
