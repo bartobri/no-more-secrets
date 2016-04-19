@@ -13,10 +13,10 @@ int main(void) {
 	char *head3Center    = "National Headquarters";
 	char *head4Center    = "************  Remote Systems Network Input Station  ************";
 	char *head5Center    = "================================================================";
-	char *menu1          = "[1] Interbank Funds transfer  (Code Prog: 485-GWU)";
-	char *menu2          = "[2] International telelink Access  (Code Lim: XRP-262)";
+	char *menu1          = "[1] Interbank Funds Transfer  (Code Prog: 485-GWU)";
+	char *menu2          = "[2] International Telelink Access  (Code Lim: XRP-262)";
 	char *menu3          = "[3] Remote Facsimile Send/receive  (Code Tran:  2LZP-517)";
-	char *menu4          = "[4] Regional bank Interconnect  (Security Code:   47-B34)";
+	char *menu4          = "[4] Regional Bank Interconnect  (Security Code:  47-B34)";
 	char *menu5          = "[5] Update System Parameters  (Entry Auth. Req.)";
 	char *menu6          = "[6] Remote Operator Logon/Logoff";
 	char *foot1Center    = "================================================================";
