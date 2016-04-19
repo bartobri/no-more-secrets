@@ -15,6 +15,12 @@
 #include <stdbool.h>
 #include <time.h>
 
+#define TAB_SIZE             4
+#define TYPE_EFFECT_SPEED    4     // miliseconds per char
+#define JUMBLE_SECONDS       2     // number of seconds for jumble effect
+#define JUMBLE_LOOP_SPEED    35    // miliseconds between each jumble
+#define REVEAL_LOOP_SPEED    100   // miliseconds (must be evenly divisible by 5)
+
 #define SPACE      32
 #define NEWLINE    10
 #define TAB        9
@@ -76,7 +82,7 @@ void nmsexec(char *src) {
 			++y;
 			x = 0;
 		} else if (c == TAB && x + 4 <= termSizeCols) {
-			x += 4;
+			x += TAB_SIZE;
 		} else if (isspace(c)) {
 			if (++x > termSizeCols) {
 				++y;
@@ -115,14 +121,13 @@ void nmsexec(char *src) {
 	}
 
 	// Initially display the characters in the terminal with a 'type effect'.
-	ms = 4;             // miliseconds, used for usleep()
 	list_pointer = start;
 	while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
 		mvaddch(list_pointer->row, list_pointer->col, list_pointer->mask);
 		refresh();
 		list_pointer->mask = getMaskChar();
 		list_pointer = list_pointer->next;
-		usleep(ms * 1000);
+		usleep(TYPE_EFFECT_SPEED * 1000);
 	}
 
 	// Reopen stdin for interactive input (keyboard), then require user
@@ -136,10 +141,8 @@ void nmsexec(char *src) {
 		getch();
 
 	// Jumble loop
-	ms = 35;           // miliseconds, used for usleep()
-	ls = 2;            // loop seconds, number of seconds to loop
 	x = 0;
-	while (x < (ls * 1000) / ms) {
+	while (x < (JUMBLE_SECONDS * 1000) / JUMBLE_LOOP_SPEED) {
 		list_pointer = start;
 		while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
 			mvaddch(list_pointer->row, list_pointer->col, list_pointer->mask);
@@ -147,13 +150,12 @@ void nmsexec(char *src) {
 			list_pointer->mask = getMaskChar();
 			list_pointer = list_pointer->next;
 		}
-		usleep(ms * 1000);
+		usleep(JUMBLE_LOOP_SPEED * 1000);
 		++x;
 	}
 
 
 	// Reveal loop
-	ms = 100;                     // miliseconds to sleep (must always evenly divisible by 5)
 	int s1_remask_time = 500;     // time, in milliseconds, we change the mask for stage 1
 	bool loop = true;
 	while (loop) {
@@ -162,13 +164,13 @@ void nmsexec(char *src) {
 		while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
 			if (list_pointer->s1_time > 0) {
 				loop = true;
-				list_pointer->s1_time -= ms;
+				list_pointer->s1_time -= REVEAL_LOOP_SPEED;
 				if (list_pointer->s1_time % s1_remask_time == 0) {
 					list_pointer->mask = getMaskChar();
 				}
 			} else if (list_pointer->s2_time > 0) {
 				loop = true;
-				list_pointer->s2_time -= ms;
+				list_pointer->s2_time -= REVEAL_LOOP_SPEED;
 				list_pointer->mask = getMaskChar();
 			} else {
 				list_pointer->mask = list_pointer->source;
@@ -184,7 +186,7 @@ void nmsexec(char *src) {
 			if (has_colors())
 				attroff(COLOR_PAIR(1));
 		}
-		usleep(ms * 1000);
+		usleep(REVEAL_LOOP_SPEED * 1000);
 	}
 
 	// Printing remaining characters from list if we stopped short due to 
