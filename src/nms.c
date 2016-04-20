@@ -131,6 +131,9 @@ char nmsexec(char *src) {
 		usleep(TYPE_EFFECT_SPEED * 1000);
 	}
 
+	// Flush any input up to this point
+	flushinp();
+
 	// Reopen stdin for interactive input (keyboard), then require user
 	// to press a key to continue.
 	if (!isatty(STDIN_FILENO))
@@ -214,6 +217,9 @@ char nmsexec(char *src) {
 		if (has_colors())
 			attroff(COLOR_PAIR(1));
 	}
+
+	// Flush any input up to this point
+	flushinp();
 
 	// If stdin is set to the keyboard, user must press a key to continue
 	if (isatty(STDIN_FILENO))
