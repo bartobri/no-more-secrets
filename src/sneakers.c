@@ -6,6 +6,7 @@
 
 int main(void) {
 	int l, termLines, termCols, spaces = 0;
+	char input;
 	char display[2000];
 	char *head1Left      = "DATANET PROC RECORD:  45-3456-W-3452";
 	char *head1Right     = "Transnet on/xc-3";
@@ -153,7 +154,28 @@ int main(void) {
 	strcat(display, foot2Center);
 
 	// Display characters
-	nmsexec(display);
+	input = nmsexec(display);
+
+	switch (input) {
+		case '1':
+			printf("User chose 1\n");
+			break;
+		case '2':
+			printf("User chose 2\n");
+			break;
+		case '3':
+			printf("User chose 3\n");
+			break;
+		case '4':
+			printf("User chose 4\n");
+			break;
+		case '5':
+			printf("User chose 5\n");
+			break;
+		case '6':
+			printf("User chose 6\n");
+			break;
+	}
 
 	return 0;
 }

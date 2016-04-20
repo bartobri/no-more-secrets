@@ -47,7 +47,7 @@ char getMaskChar(void);
  * Displays the characters stored in the / char * / parameter
  *
  */
-void nmsexec(char *src) {
+char nmsexec(char *src) {
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
 	struct winpos *temp;                    // Used for free()ing the list
@@ -56,6 +56,7 @@ void nmsexec(char *src) {
 	int r_time, r_time_l, r_time_s;
 	int ms, ls;
 	bool first = true;
+	char ret = 0;
 
 	// Start and initialize curses mode
 	initscr();
@@ -216,7 +217,7 @@ void nmsexec(char *src) {
 
 	// If stdin is set to the keyboard, user must press a key to continue
 	if (isatty(STDIN_FILENO))
-		getch();
+		ret = getch();
 	else
 		sleep(2);
 
@@ -230,6 +231,8 @@ void nmsexec(char *src) {
 		list_pointer = list_pointer->next;
 		free(temp);
 	}
+
+	return ret;
 }
 
 /*
