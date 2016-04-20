@@ -175,6 +175,9 @@ int main(void) {
 		case '6':
 			printf("User chose 6\n");
 			break;
+		default:
+			printf("Unrecognized selection: %c\n", input);
+			break;
 	}
 
 	return 0;
