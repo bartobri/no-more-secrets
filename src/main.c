@@ -4,7 +4,7 @@
 
 int main(void) {
 	char *input;
-	NMSArgs args = INIT_NMSARGS;
+	NmsArgs args = INIT_NMSARGS;
 
 	// Geting input
 	int c, inSize = 0;

@@ -6,11 +6,11 @@
 typedef struct {
 	char *src;
 	char *return_opts;
-} NMSArgs;
+} NmsArgs;
 
 // Function prototypes
 
 // Display the characters stored in the display queue
-char nmsexec(NMSArgs *);
+char nmsexec(NmsArgs *);
 
 #endif

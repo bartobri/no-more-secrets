@@ -54,7 +54,7 @@ char getMaskChar(void);
  *                       displaying a menu.
  *
  */
-char nmsexec(NMSArgs *args) {
+char nmsexec(NmsArgs *args) {
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
 	struct winpos *temp;                    // Used for free()ing the list

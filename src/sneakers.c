@@ -22,7 +22,7 @@ int main(void) {
 	char *menu6          = "[6] Remote Operator Logon/Logoff";
 	char *foot1Center    = "================================================================";
 	char *foot2Center    = "[ ] Select Option or ESC to Abort";
-	NMSArgs args = INIT_NMSARGS;
+	NmsArgs args = INIT_NMSARGS;
 
 	// Get terminal dimentions (needed for centering)
 	struct winsize w;
