@@ -157,6 +157,8 @@ int main(void) {
 	// Set needed args
 	args.src = display;
 	args.return_opts = "123456";
+	args.input_cursor_y = 18;
+	args.input_cursor_x = ((termCols - strlen(foot2Center)) / 2) + 1;
 
 	// Display characters
 	input = nmsexec(&args);

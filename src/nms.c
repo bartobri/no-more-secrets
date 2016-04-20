@@ -228,6 +228,10 @@ char nmsexec(NmsArgs *args) {
 	// Flush any input up to this point
 	flushinp();
 
+	// Position cursor
+	if (args->input_cursor_y >= 0 && args->input_cursor_x >= 0)
+		move(args->input_cursor_y, args->input_cursor_x);
+
 	// If stdin is set to the keyboard, user must press a key to continue
 	if (isatty(STDIN_FILENO)) {
 		ret = getch();
