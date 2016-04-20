@@ -4,6 +4,7 @@
 
 int main(void) {
 	char *input;
+	NMSArgs args = INIT_NMSARGS;
 
 	// Geting input
 	int c, inSize = 0;
@@ -14,8 +15,11 @@ int main(void) {
 		input[inSize] = '\0';
 	}
 
+	// Set needed args
+	args.src = input;
+
 	// Display characters
-	nmsexec(input, NULL);
+	nmsexec(&args);
 
 	// Don't forget to free the allocated memory!
 	free(input);

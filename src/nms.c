@@ -54,7 +54,7 @@ char getMaskChar(void);
  *                       displaying a menu.
  *
  */
-char nmsexec(char *src, char *returnOptions) {
+char nmsexec(NMSArgs *args) {
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
 	struct winpos *temp;                    // Used for free()ing the list
@@ -85,7 +85,7 @@ char nmsexec(char *src, char *returnOptions) {
 
 	// Geting input
 	n = 0;
-	while ((c = src[n++]) != '\0') {
+	while ((c = args->src[n++]) != '\0') {
 		if (c == NEWLINE) {
 			++y;
 			x = 0;
@@ -231,8 +231,8 @@ char nmsexec(char *src, char *returnOptions) {
 	// If stdin is set to the keyboard, user must press a key to continue
 	if (isatty(STDIN_FILENO)) {
 		ret = getch();
-		if (returnOptions != NULL && strlen(returnOptions) > 0)
-			while (index(returnOptions, ret) == NULL)
+		if (args->return_opts != NULL && strlen(args->return_opts) > 0)
+			while (index(args->return_opts, ret) == NULL)
 				ret = getch();
 	} else
 		sleep(2);

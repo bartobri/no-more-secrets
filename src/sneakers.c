@@ -22,6 +22,7 @@ int main(void) {
 	char *menu6          = "[6] Remote Operator Logon/Logoff";
 	char *foot1Center    = "================================================================";
 	char *foot2Center    = "[ ] Select Option or ESC to Abort";
+	NMSArgs args = INIT_NMSARGS;
 
 	// Get terminal dimentions (needed for centering)
 	struct winsize w;
@@ -153,8 +154,12 @@ int main(void) {
 	}
 	strcat(display, foot2Center);
 
+	// Set needed args
+	args.src = display;
+	args.return_opts = "123456";
+
 	// Display characters
-	input = nmsexec(display, "123456");
+	input = nmsexec(&args);
 
 	switch (input) {
 		case '1':
