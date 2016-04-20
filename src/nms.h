@@ -4,6 +4,6 @@
 // Function prototypes
 
 // Display the characters stored in the display queue
-char nmsexec(char *);
+char nmsexec(char *, char *);
 
 #endif

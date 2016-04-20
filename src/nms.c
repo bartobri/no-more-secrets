@@ -44,10 +44,17 @@ char getMaskChar(void);
  * void nmsexec(char *)
  *
  * DESCR:
- * Displays the characters stored in the / char * / parameter
+ * Displays the characters stored in the / char * / parameter.
+ *
+ * ARGS:
+ * char *src - characters to display
+ * char *returnOptions - user must press key in one of the characters contained in this array
+ *                       before execution will continue after /char *src/ is revealed. All 
+ *                       other keyboard selections will be ignored. Most commonly used when
+ *                       displaying a menu.
  *
  */
-char nmsexec(char *src) {
+char nmsexec(char *src, char *returnOptions) {
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
 	struct winpos *temp;                    // Used for free()ing the list
@@ -222,10 +229,14 @@ char nmsexec(char *src) {
 	flushinp();
 
 	// If stdin is set to the keyboard, user must press a key to continue
-	if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO)) {
 		ret = getch();
-	else
+		if (returnOptions != NULL && strlen(returnOptions) > 0)
+			while (index(returnOptions, ret) == NULL)
+				ret = getch();
+	} else
 		sleep(2);
+
 
 	// End curses mode
 	endwin();

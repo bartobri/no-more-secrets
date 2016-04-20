@@ -154,7 +154,7 @@ int main(void) {
 	strcat(display, foot2Center);
 
 	// Display characters
-	input = nmsexec(display);
+	input = nmsexec(display, "123456");
 
 	switch (input) {
 		case '1':

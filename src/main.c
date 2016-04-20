@@ -15,7 +15,7 @@ int main(void) {
 	}
 
 	// Display characters
-	nmsexec(input);
+	nmsexec(input, NULL);
 
 	// Don't forget to free the allocated memory!
 	free(input);
