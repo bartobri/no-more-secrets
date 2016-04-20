@@ -233,8 +233,10 @@ char nms_exec(NmsArgs *args) {
 	if (isatty(STDIN_FILENO)) {
 		ret = getch();
 		if (args->return_opts != NULL && strlen(args->return_opts) > 0)
-			while (index(args->return_opts, ret) == NULL)
+			while (index(args->return_opts, ret) == NULL) {
+				beep();
 				ret = getch();
+			}
 	} else
 		sleep(2);
 
