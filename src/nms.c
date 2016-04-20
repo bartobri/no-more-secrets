@@ -63,6 +63,8 @@ char nms_exec(NmsArgs *args) {
 	cbreak();
 	noecho();
 	scrollok(stdscr, true);
+	if (args->show_cursor == false)
+		curs_set(0);
 
 	// Setting up and starting colors if terminal supports them
 	if (has_colors()) {
@@ -222,8 +224,10 @@ char nms_exec(NmsArgs *args) {
 	flushinp();
 
 	// Position cursor
-	if (args->input_cursor_y >= 0 && args->input_cursor_x >= 0)
+	if (args->input_cursor_y >= 0 && args->input_cursor_x >= 0) {
 		move(args->input_cursor_y, args->input_cursor_x);
+		curs_set(1);
+	}
 
 	// If stdin is set to the keyboard, user must press a key to continue
 	if (isatty(STDIN_FILENO)) {

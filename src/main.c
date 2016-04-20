@@ -17,6 +17,7 @@ int main(void) {
 
 	// Set needed args
 	args.src = input;
+	args.show_cursor = true;
 
 	// Display characters
 	nms_exec(&args);

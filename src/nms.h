@@ -1,13 +1,16 @@
 #ifndef NMS_H
 #define NMS_H 1
 
-#define INIT_NMSARGS { .src = NULL, .return_opts = NULL, .input_cursor_x = -1, .input_cursor_y = -1 }
+#include <stdbool.h>
+
+#define INIT_NMSARGS { NULL, NULL, -1, -1, false }
 
 typedef struct {
 	char *src;
 	char *return_opts;
 	int input_cursor_x;
 	int input_cursor_y;
+	bool show_cursor;
 } NmsArgs;
 
 // Function prototypes
