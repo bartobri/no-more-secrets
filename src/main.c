@@ -19,7 +19,7 @@ int main(void) {
 	args.src = input;
 
 	// Display characters
-	nmsexec(&args);
+	nms_exec(&args);
 
 	// Don't forget to free the allocated memory!
 	free(input);

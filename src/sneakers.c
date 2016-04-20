@@ -161,7 +161,7 @@ int main(void) {
 	args.input_cursor_x = ((termCols - strlen(foot2Center)) / 2) + 1;
 
 	// Display characters
-	input = nmsexec(&args);
+	input = nms_exec(&args);
 
 	switch (input) {
 		case '1':

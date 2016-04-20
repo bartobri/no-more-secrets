@@ -41,20 +41,13 @@ struct winpos {
 char getMaskChar(void);
 
 /*
- * void nmsexec(char *)
+ * void nms_exec(NmsArgs *)
  *
  * DESCR:
- * Displays the characters stored in the / char * / parameter.
- *
- * ARGS:
- * char *src - characters to display
- * char *returnOptions - user must press key in one of the characters contained in this array
- *                       before execution will continue after /char *src/ is revealed. All 
- *                       other keyboard selections will be ignored. Most commonly used when
- *                       displaying a menu.
+ * Coming Soon...
  *
  */
-char nmsexec(NmsArgs *args) {
+char nms_exec(NmsArgs *args) {
 	struct winpos *list_pointer = NULL;
 	struct winpos *start;                   // Always points to start of list
 	struct winpos *temp;                    // Used for free()ing the list

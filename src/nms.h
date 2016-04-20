@@ -13,6 +13,6 @@ typedef struct {
 // Function prototypes
 
 // Display the characters stored in the display queue
-char nmsexec(NmsArgs *);
+char nms_exec(NmsArgs *);
 
 #endif
