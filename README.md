@@ -11,7 +11,8 @@ movie "Sneakers". If You are unfamiliar with the scene, the specific effect in q
 This project provides 2 tools for you to recreate this effect:
 
 1. A standalone executable file named `nms`.
-... This file accepts data via a shell pipe and displays it in a maner that nearly identically mimicks the effect we see in the movie.
+
+...This file accepts data via a shell pipe and displays it in a maner that nearly identically mimicks the effect we see in the movie.
 
 2. A module for incorporating this effect in to other programs.
 
