@@ -1,6 +1,8 @@
 No More Secrets
 ===============
 
+![Screenshot](http://www.tackboard.world/no_more_secrets.gif)
+
 What is "No More Secrets"?
 --------------------------
 
