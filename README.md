@@ -74,9 +74,9 @@ Compile myprog.c (must include `nms.c` and `-lncurses`):
 gcc nms.c myprog.c -o myprog -lncurses
 ```
 
-#### The Details
+#### Module Details
 
-You will need to copy two files to your project:
+Copy these two files to your project:
 
 ```
 nms.h
@@ -87,26 +87,20 @@ Include `nms.h` in your program file:
 ```
 #include <nms.h>
 ```
-Add `nms.c` to your source file list, and link the ncurses library `-lncurses` when compiling:
-```
-gcc nms.c myprog.c -o myprog -lncurses
-```
 You only need to call one function from inside your program to create this effect. It is defined as
 such:
 ```
 char nms_exec(NmsArgs *);
 ```
-This function only takes one argument: a pointer to a structure containing 5 members. One of these
-members is a character pointer to a string on which you want to perform this effect. The other
-members are explained below.
-
-First, declare the structure like so (substitute 'args' with whatever name you desire):
+This function only takes one argument: a pointer to a structure that contains arguments for
+nms_exec(). So next, declare the structure (substitute 'args' with whatever name you desire):
 ```
 NmsArgs args = INIT_NMSARGS;
 ```
-The defined name INIT_NMSARGS represents a default set of values for all 5 members. This way, you can
-ignore the members you don't want to use and only program for those that you do. Below is the
-definition for the NmsArgs structure:
+INIT_NMSARGS substitutes a default set of values for all 5 structure members. As you see in the
+synopsis above, only the member that contains the text is needed. The others can be left with
+their default setting, and are only useful if the text you are "decrypting" reveals a menu from
+which the user must choose an option. here is the structure definition:
 ```
 typedef struct {
     char *src;
@@ -116,10 +110,20 @@ typedef struct {
     bool show_cursor;
 } NmsArgs;
 ```
-* `char *src` should contain a pointer to the string of character you wish to perform the effect on. This is the only member that you need to set prior to calling `nms_exec()`.
-* `char *return_opts` shuold contain a string of characters, of which one is required by the user to press before nms_exec will return execution back to the calling function. Only use this if the user must choose an option from a menu that is presented after the text "decrypts". See the included program 'sneakers' as an example.
-* `int input_cursor_x` and `int input_cursor_y` - These should contain the x/y coordinates for the cursor if you wish it to be placed at a specific location on screen after the text "decrypts".
-* `bool show_cursor` - Set to `true` if you want the cursor to be visible during the text decryption effect.
+* `char *src` - Pointer to the string of character to perform the effect on.
+
+Useful for displaying menus only:
+
+* `char *return_opts` - String pointer containg only the character options that the user must choose from. For example, if you are showing six menu options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`;
+* `int input_cursor_x` and `int input_cursor_y` - If your menu has a specific location that you'd like to place the cursor for user input, use these to set the x and y screen corrdinates for the position.
+* `bool show_cursor` - Set to `true` if you want the cursor to be visible during the text decryption effect. It is set to `false` by default.
+
+#### Compiling
+
+Add `nms.c` to your source file list, and link the ncurses library `-lncurses` when compiling:
+```
+gcc nms.c myprog.c -o myprog -lncurses
+```
 
 License
 -------
