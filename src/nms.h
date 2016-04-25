@@ -1,6 +1,7 @@
 #ifndef NMS_H
 #define NMS_H 1
 
+#include <stddef.h>
 #include <stdbool.h>
 
 // Default arguments for nms_exec()

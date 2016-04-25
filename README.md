@@ -51,6 +51,30 @@ you press a key, at which point the program will terminate.
 Using the Modules in Your Program
 ---------------------------------
 
+##### Synopsis
+
+File: synopsis.c
+```
+#include "nms.h"
+
+int main() {
+    NmsArgs args = INIT_NMSARGS;
+
+    args.src = "This is a simple test";
+
+    nms_exec(&args);
+
+    return 0;
+}
+
+```
+Compile synopsis.c (must include `nms.c` and `-lncurses`):
+```
+gcc nms.c synopsis.c -o synopsis -lncurses
+```
+
+##### The Details
+
 You will need to copy two files to your project:
 
 ```
@@ -92,9 +116,9 @@ typedef struct {
 } NmsArgs;
 ```
 * `char *src` should contain a pointer to the string of character you wish to perform the effect on. This is the only member that you need to set prior to calling `nms_exec()`.
-* `char *return_opts` shuold contain a string of characters, of which one is required by the user to press before nms_exec will return execution back to the calling function. Only use this if the user must choose an option from a menu that is presented after the text "descrypts". See the included program 'sneakers' as an example.
-* int input_cursor_x and int input_cursor_y - These should contain the x/y coordinates for the cursor if you wish it to be places at a specific location on screen after the text "decrypts".
-* bool show_cursor - set to `true` if you want the cursor to be visible during the text decryption effect.
+* `char *return_opts` shuold contain a string of characters, of which one is required by the user to press before nms_exec will return execution back to the calling function. Only use this if the user must choose an option from a menu that is presented after the text "decrypts". See the included program 'sneakers' as an example.
+* `int input_cursor_x` and `int input_cursor_y` - These should contain the x/y coordinates for the cursor if you wish it to be placed at a specific location on screen after the text "decrypts".
+* `bool show_cursor` - Set to `true` if you want the cursor to be visible during the text decryption effect.
 
 License
 -------
