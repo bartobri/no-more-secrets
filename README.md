@@ -53,8 +53,9 @@ Using the Modules in Your Program
 
 #### Synopsis
 
-File: synopsis.c
 ```
+// myprog.c
+
 #include "nms.h"
 
 int main() {
@@ -68,9 +69,9 @@ int main() {
 }
 
 ```
-Compile synopsis.c (must include `nms.c` and `-lncurses`):
+Compile myprog.c (must include `nms.c` and `-lncurses`):
 ```
-gcc nms.c synopsis.c -o synopsis -lncurses
+gcc nms.c myprog.c -o myprog -lncurses
 ```
 
 #### The Details
@@ -86,9 +87,9 @@ Include `nms.h` in your program file:
 ```
 #include <nms.h>
 ```
-Add nms.c to your source file list when compiling:
+Add `nms.c` to your source file list, and link the ncurses library `-lncurses` when compiling:
 ```
-gcc nms.c myprog.c -o myprog
+gcc nms.c myprog.c -o myprog -lncurses
 ```
 You only need to call one function from inside your program to create this effect. It is defined as
 such:
