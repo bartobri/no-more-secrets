@@ -1,14 +1,18 @@
 No More Secrets
 ===============
 
-![Screenshot](http://www.tackboard.world/no_more_secrets.gif)
-
 What is "No More Secrets"?
 --------------------------
 
-This project seeks to recreate the infamous "decrypting text effect" seen on screen in the 1992 hacker
-movie "Sneakers". If You are unfamiliar with the scene, the specific effect in question appears at
-0:35 in [this youtube video](https://www.youtube.com/watch?v=F5bAa6gFvLs).
+"No More Secrets" is the name I've lovingly given to the infamous "decrypting text effect" seen on
+screen in the 1992 hacker movie "Sneakers". If you are unfamiliar with the effect, the specific scene 
+that first shows it is at 0:35 in [this youtube video](https://www.youtube.com/watch?v=F5bAa6gFvLs).
+
+This project seeks to provide tools to recreate this effect in your projects. As a quick
+example, I've included a program (called "sneakers"; type `make sneakers` when installing.) that
+utilizes the provided code to recreate, almost identically, what we see in the above movie clip.
+
+![Screenshot](http://www.tackboard.world/no_more_secrets.gif)
 
 What's Provided
 ---------------
