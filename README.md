@@ -5,11 +5,15 @@ No More Secrets
 screen in the 1992 hacker movie "Sneakers". If you are unfamiliar with the effect, it can be seen
 at 0:35 in [this youtube video](https://www.youtube.com/watch?v=F5bAa6gFvLs).
 
-This project seeks to provide tools to recreate this effect in your projects. As a demonstration, 
-I've included a program (called "sneakers"; type `make sneakers` when installing.) that
-utilizes the provided code to recreate, almost identically, what we see in the above movie clip.
+This project seeks to provide tools to recreate this effect in your projects.
 
-Here is a screencap of that program:
+Here is a standalone executable (provided in this project) that uses the provided tools to perform this
+effect on piped data:
+
+![Screenshot](http://i.imgur.com/ezF3xkN.gif)
+
+Here is another example program called "sneakers" (type `make sneakers` when installing.) that
+utilizes these tools to recreate, almost identically, what we see in the above movie clip.
 
 ![Screenshot](http://www.tackboard.world/no_more_secrets.gif)
 
