@@ -51,7 +51,7 @@ you press a key, at which point the program will terminate.
 Using the Modules in Your Program
 ---------------------------------
 
-##### Synopsis
+#### Synopsis
 
 File: synopsis.c
 ```
@@ -73,7 +73,7 @@ Compile synopsis.c (must include `nms.c` and `-lncurses`):
 gcc nms.c synopsis.c -o synopsis -lncurses
 ```
 
-##### The Details
+#### The Details
 
 You will need to copy two files to your project:
 
