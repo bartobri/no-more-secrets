@@ -12,6 +12,8 @@ This project seeks to provide tools to recreate this effect in your projects. As
 example, I've included a program (called "sneakers"; type `make sneakers` when installing.) that
 utilizes the provided code to recreate, almost identically, what we see in the above movie clip.
 
+Here is a screencap of that program:
+
 ![Screenshot](http://www.tackboard.world/no_more_secrets.gif)
 
 What's Provided
