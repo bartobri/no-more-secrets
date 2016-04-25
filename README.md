@@ -23,7 +23,7 @@ Two tools are provided for you to recreate this effect:
 
 1. A standalone executable file named `nms`. This file accepts data from a shell pipe and displays it in a manner that is nearly identical to the effect we see in the movie.
 
-2. A module, written in C, that can be included in programs and used to recreate this effect in a custonized way. In fact, the standalone executable `nms` is really just an example showing how to use this module on piped data.
+2. A module, written in C, that can be included in programs and used to recreate this effect in a custonized way. In fact, the standalone executable `nms` is really just an example that shows how to use this module on piped data.
 
 Installing the Standalone Executable
 ------------------------------------
