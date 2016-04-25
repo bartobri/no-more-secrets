@@ -48,7 +48,7 @@ Once the "encrypted" data is displayed, the program will pause until you press a
 decryption effect will start. After that is completed, it will again pause until
 you press a key, at which point the program will terminate.
 
-Using the Modules in Your Program
+Using the Module in Your Program
 ---------------------------------
 
 #### Synopsis
