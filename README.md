@@ -66,8 +66,35 @@ Add nms.c to your source file list when compiling:
 ```
 gcc nms.c myprog.c -o myprog
 ```
+You only need to call one function from inside your program to create this effect. It is defined as
+such:
+```
+char nms_exec(NmsArgs *);
+```
+This function only takes one argument: a pointer to a structure containing 5 members. One of these
+members is a character pointer to a string on which you want to perform this effect. The other
+members are explained below.
 
-
+First, declare the structure like so (substitute 'args' with whatever name you desire):
+```
+NmsArgs args = INIT_NMSARGS;
+```
+The defined name INIT_NMSARGS represents a default set of values for all 5 members. This way, you can
+ignore the members you don't want to use and only program for those that you do. Below is the
+definition for the NmsArgs structure:
+```
+typedef struct {
+    char *src;
+    char *return_opts;
+    int input_cursor_x;
+    int input_cursor_y;
+    bool show_cursor;
+} NmsArgs;
+```
+* `char *src` should contain a pointer to the string of character you wish to perform the effect on. This is the only member that you need to set prior to calling `nms_exec()`.
+* `char *return_opts` shuold contain a string of characters, of which one is required by the user to press before nms_exec will return execution back to the calling function. Only use this if the user must choose an option from a menu that is presented after the text "descrypts". See the included program 'sneakers' as an example.
+* int input_cursor_x and int input_cursor_y - These should contain the x/y coordinates for the cursor if you wish it to be places at a specific location on screen after the text "decrypts".
+* bool show_cursor - set to `true` if you want the cursor to be visible during the text decryption effect.
 
 License
 -------

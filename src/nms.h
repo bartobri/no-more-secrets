@@ -3,8 +3,10 @@
 
 #include <stdbool.h>
 
+// Default arguments for nms_exec()
 #define INIT_NMSARGS { NULL, NULL, -1, -1, false }
 
+// Argument structure for nms_exec()
 typedef struct {
 	char *src;
 	char *return_opts;
@@ -12,8 +14,6 @@ typedef struct {
 	int input_cursor_y;
 	bool show_cursor;
 } NmsArgs;
-
-// Function prototypes
 
 // Display the characters stored in the display queue
 char nms_exec(NmsArgs *);
