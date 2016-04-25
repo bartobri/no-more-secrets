@@ -22,9 +22,9 @@ What's Provided
 
 Two tools are provided for you to recreate this effect:
 
-1. A standalone executable file named `nms`. This file accepts data from a shell pipe and displays it in a manner that is nearly identical to the effect we see in the movie.
+1. A standalone executable file named `nms` (shown above). This file accepts data from a shell pipe and displays it in a manner that is nearly identical to the effect we see in the movie.
 
-2. A module, written in C, that can be included in programs and used to recreate this effect in a custonized way. In fact, the standalone executable `nms` is really just an example that shows how to use this module on piped data.
+2. A module and header file, written in C, that can be included in programs and used to recreate this effect in a custonized way. In fact, the standalone executable `nms` is really just an example that shows how to use this module on piped data.
 
 Installing the Standalone Executable
 ------------------------------------
@@ -47,6 +47,27 @@ ls -l | bin/nms
 Once the "encrypted" data is displayed, the program will pause until you press a key. Then the
 decryption effect will start. After that is completed, it will again pause until
 you press a key, at which point the program will terminate.
+
+Using the Modules in Your Program
+---------------------------------
+
+You will need to copy two files to your project:
+
+```
+nms.h
+nms.c
+```
+Include `nms.h` in your program file:
+
+```
+#include <nms.h>
+```
+Add nms.c to your source file list when compiling:
+```
+gcc nms.c myprog.c -o myprog
+```
+
+
 
 License
 -------
