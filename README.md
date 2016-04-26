@@ -35,7 +35,7 @@ make
 ```
 
 This will create an executable file named `nms` and place it in the `no-more-secrets/bin/` directory.
-You may manually copy it in to your preferred bin directory.
+You may manually copy it into your preferred bin directory.
 
 Using the Standalone Executable
 -------------------------------
@@ -95,7 +95,7 @@ INIT_NMSARGS is a defined name that assigns a default set of values to all of th
 is recommended that you use it. If you don't,  you will have to manually assign a value to each
 structure member.
 
-Here is how the structre is defined:
+Here is how the structure is defined:
 ```
 typedef struct {
     char *src;
@@ -111,9 +111,9 @@ typedef struct {
 Useful for displaying menus:
 
 * `char *return_opts`
-  * String pointer containg only the character options that the user must choose from once the src characters are revealed. For example, if you are showing a menu with six options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`;
+  * String pointer containing only the character options that the user must choose from once the src characters are revealed. For example, if you are showing a menu with six options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`;
 * `int input_cursor_x` and `int input_cursor_y`
-  * If your menu has a specific location that you'd like to place the cursor for user input, use these to set the x and y screen corrdinates for the position.
+  * If your menu has a specific location that you'd like to place the cursor for user input, use these to set the x and y screen coordinates for the position.
 * `bool show_cursor`
   * Set to `true` if you want the cursor to be visible during the text decryption effect. It is set to `false` by default.
 
