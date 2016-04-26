@@ -87,11 +87,11 @@ Include `nms.h` in your program file:
 ```
 #include "nms.h"
 ```
-Next you will need to declare and initialize the structure that needs to be passed to nms_exec();
+Next, declare and initialize the structure that needs to be passed to `nms_exec()`:
 ```
 NmsArgs args = INIT_NMSARGS;
 ```
-INIT_NMSARGS is a defined name that sets a default set of values for all of the structure members. It
+INIT_NMSARGS is a defined name that assigns a default set of values to all of the structure members. It
 is recommended that you use it. If you don't,  you will have to manually assign a value to each
 structure member.
 
@@ -105,13 +105,17 @@ typedef struct {
     bool show_cursor;
 } NmsArgs;
 ```
-* `char *src` - Pointer to the string of characters on which to perform the effect.
+* `char *src`
+⋅⋅⋅Pointer to the string of characters on which to perform the effect.
 
-Useful for displaying menus only:
+Useful for displaying menus:
 
-* `char *return_opts` - String pointer containg only the character options that the user must choose from once the src characters are revealed. For example, if you are showing a menu with six options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`;
-* `int input_cursor_x` and `int input_cursor_y` - If your menu has a specific location that you'd like to place the cursor for user input, use these to set the x and y screen corrdinates for the position.
-* `bool show_cursor` - Set to `true` if you want the cursor to be visible during the text decryption effect. It is set to `false` by default.
+* `char *return_opts`
+⋅⋅⋅String pointer containg only the character options that the user must choose from once the src characters are revealed. For example, if you are showing a menu with six options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`;
+* `int input_cursor_x` and `int input_cursor_y`
+⋅⋅⋅If your menu has a specific location that you'd like to place the cursor for user input, use these to set the x and y screen corrdinates for the position.
+* `bool show_cursor`
+⋅⋅⋅Set to `true` if you want the cursor to be visible during the text decryption effect. It is set to `false` by default.
 
 Assign values to the structure members as needed. Then simply pass a pointer to the structure to the
 nms_exec() function:
