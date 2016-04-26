@@ -28,6 +28,19 @@ Two tools are provided for you to recreate this effect:
 
 Installing the Standalone Executable
 ------------------------------------
+First, make sure you have the ncurses library installed:
+```
+ls /usr/include | grep ncurses.h
+```
+If the ncurses.h header file is not present, you may need to install the library. On Ubuntu, type:
+```
+sudo apt-get update
+sudo apt-get install ncurses-dev
+```
+If you are using a different flavor of linux, search your available packages for "ncurses" and install
+it.
+
+Next, download and build the standalone executable:
 ```
 git clone https://github.com/bartobri/no-more-secrets.git
 cd ./no-more-secrets
@@ -50,6 +63,9 @@ you press a key, at which point the program will terminate.
 
 Using the Module in Your Program
 ---------------------------------
+
+NOTE: Be sure that you have the ncurses library installed on your system. See "Installing the
+Standalone Executable" above for more info.
 
 #### Synopsis
 
