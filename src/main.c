@@ -3,7 +3,7 @@
 #include "nms.h"
 
 int main(void) {
-	char *input;
+	char *input = NULL;
 	NmsArgs args = INIT_NMSARGS;
 
 	// Geting input
