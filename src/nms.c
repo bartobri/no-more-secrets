@@ -84,7 +84,7 @@ char nms_exec(NmsArgs *args) {
 		if (c == NEWLINE) {
 			++y;
 			x = 0;
-		} else if (c == TAB && x + 4 <= termSizeCols) {
+		} else if (c == TAB && x + TAB_SIZE <= termSizeCols) {
 			x += TAB_SIZE;
 		} else if (isspace(c)) {
 			if (++x > termSizeCols) {
