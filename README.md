@@ -3,7 +3,7 @@ No More Secrets
 
 "No More Secrets" is the name I've lovingly given to the infamous "decrypting text" effect seen on
 screen in the 1992 hacker movie Sneakers. If you are unfamiliar with the effect, it can be seen
-at 0:35 in [this youtube video](https://www.youtube.com/watch?v=F5bAa6gFvLs).
+at 0:35 in [this youtube video](https://www.youtube.com/watch?v=F5bAa6gFvLs&t=35).
 
 This project provides tools to recreate this effect in your projects.
 
