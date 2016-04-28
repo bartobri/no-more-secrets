@@ -3,23 +3,31 @@ OBJ=obj
 SRC=src
 
 CC = gcc
+CFLAGS = -Wextra -Wall
 LDLIBS = -lncurses
+NCURSES_H=/usr/include/ncurses.h
 
-${BIN}/nms: ${OBJ}/nms.o ${OBJ}/main.o
-	$(CC) -o $@ $^ $(LDLIBS)
+all: nms sneakers
 
-sneakers: ${OBJ}/nms.o ${OBJ}/sneakers.o
-	$(CC) -o ${BIN}/$@ $^ $(LDLIBS)
+nms: $(OBJ)/nms.o $(OBJ)/main.o | $(BIN)
+	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LDLIBS)
 
-${OBJ}/main.o: ${SRC}/main.c ${SRC}/nms.h
-	$(CC) -o $@ -c ${SRC}/main.c
+sneakers: $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
+	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LDLIBS)
 
-${OBJ}/sneakers.o: ${SRC}/sneakers.c ${SRC}/nms.h
-	$(CC) -o $@ -c ${SRC}/sneakers.c
+$(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-${OBJ}/nms.o: ${SRC}/nms.c ${SRC}/nms.h
-	$(CC) -o $@ -c ${SRC}/nms.c
+$(BIN):
+	mkdir $(BIN)
+
+$(OBJ):
+	mkdir $(OBJ)
+
+$(NCURSES_H):
+	sudo apt-get update
+	sudo apt-get install ncurses-dev
 
 clean:
-	rm -f ${BIN}/*
-	rm -f $(OBJ)/*
+	rm -rf $(BIN)
+	rm -rf $(OBJ)
