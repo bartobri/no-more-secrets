@@ -44,7 +44,8 @@ char getMaskChar(void);
  * void nms_exec(NmsArgs *)
  *
  * DESCR:
- * Performs "decryption" effect,
+ * Performs "decryption" effect, Returns the character pressed at the last pause, or
+ * '\0' (null character) if there are any problems.
  *
  * ARGS:
  * NmsArgs *args - Pointer to argument structure
@@ -67,6 +68,13 @@ char nms_exec(NmsArgs *args) {
 	int ms, ls;
 	bool first = true;
 	char ret = 0;
+
+	// Lets check args.src and make sure we have text. If not, return
+	// with an error message.
+	if (args->src == NULL) {
+		fprintf(stderr, "Error. No data found in args.src\n");
+		return 0;
+	}
 
 	// Start and initialize curses mode
 	initscr();
