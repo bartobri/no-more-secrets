@@ -5,7 +5,7 @@ SRC=src
 CC = gcc
 CFLAGS = -Wextra -Wall
 LDLIBS = -lncurses
-NCURSES_H=/usr/include/ncurses.h
+NCURSES_H = /usr/include/ncurses.h
 
 all: nms sneakers
 
@@ -15,7 +15,7 @@ nms: $(OBJ)/nms.o $(OBJ)/main.o | $(BIN)
 sneakers: $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LDLIBS)
 
-$(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
+$(OBJ)/%.o: $(SRC)/%.c | $(OBJ) $(NCURSES_H)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(BIN):
