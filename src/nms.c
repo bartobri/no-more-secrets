@@ -44,7 +44,17 @@ char getMaskChar(void);
  * void nms_exec(NmsArgs *)
  *
  * DESCR:
- * Coming Soon...
+ * Performs "decryption" effect,
+ *
+ * ARGS:
+ * NmsArgs *args - Pointer to argument structure
+ *
+ *      STRUCTURE MEMBERS:
+ *      args.src - Pointer to string on which to perform the effect
+ *      args.return_opts - Pointer to string containing character options for menu
+ *      args.input_cursor_x - X screen coordinate to place cursor after "decryption"
+ *      args.input_cursor_y - Y screen coordinate to place cursor after "decryption"
+ *      args.show_cursor - 'true' to display cursor, 'false' to hide cursor.
  *
  */
 char nms_exec(NmsArgs *args) {
@@ -256,7 +266,7 @@ char nms_exec(NmsArgs *args) {
 }
 
 /*
- * void getMaskChar(void)
+ * char getMaskChar(void)
  *
  * DESCR:
  * Returns a random character from the maskChars string. 
