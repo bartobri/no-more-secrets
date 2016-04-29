@@ -65,7 +65,6 @@ char nms_exec(NmsArgs *args) {
 	int termSizeRows, termSizeCols;
 	int c, n, x = 0, y = 0;
 	int r_time, r_time_l, r_time_s;
-	int ms, ls;
 	bool first = true;
 	char ret = 0;
 

@@ -1,0 +1,29 @@
+#!/bin/bash
+# Install ncurses if necessary
+NCURSES=ncurses-dev
+NCURSES_H=/usr/include/ncurses.h
+[ -f "$NCURSES_H" ] && exit 0
+
+PKG_MGR=""
+declare -A pkgmgrs
+pkgmgrs[/etc/redhat-release]=yum
+pkgmgrs[/etc/arch-release]=pacman
+pkgmgrs[/etc/gentoo-release]=emerge
+pkgmgrs[/etc/SuSE-release]=zypp
+pkgmgrs[/etc/debian_version]=apt-get
+
+for f in ${!pkgmgrs[@]}; do
+    if [[ -f $f ]]; then
+        export PKG_MGR="${pkgmgrs[$f]}"
+    fi
+done
+
+if [ "$PKG_MGR" != "" ]; then
+    $PKG_MGR update
+    $PKG_MGR install $NCURSES
+else
+    echo "Failed to install ncurses; couldn't locate a " \
+         "package manager for your system."
+    exit 1
+fi
+exit 0

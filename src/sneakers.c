@@ -5,7 +5,7 @@
 #include "nms.h"
 
 int main(void) {
-	int l, termLines, termCols, spaces = 0;
+	int termCols, spaces = 0;
 	char input;
 	char display[2000];
 	char *head1Left      = "DATANET PROC RECORD:  45-3456-W-3452";
@@ -27,7 +27,6 @@ int main(void) {
 	// Get terminal dimentions (needed for centering)
 	struct winsize w;
 	ioctl(0, TIOCGWINSZ, &w);
-	termLines =  w.ws_row;
 	termCols = w.ws_col;
 
 	// Start building the display string
