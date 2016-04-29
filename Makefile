@@ -5,6 +5,10 @@ SRC=src
 CC = gcc
 LDLIBS = -lncurses
 
+MKDIR     ?= $(INSTALL) -d
+BINDIR    ?= $(PREFIX)/bin
+DESTDIR   ?=
+
 ${BIN}/nms: ${OBJ}/nms.o ${OBJ}/main.o
 	$(CC) -o $@ $^ $(LDLIBS)
 
@@ -20,6 +24,12 @@ ${OBJ}/sneakers.o: ${SRC}/sneakers.c ${SRC}/nms.h
 ${OBJ}/nms.o: ${SRC}/nms.c ${SRC}/nms.h
 	$(CC) -o $@ -c ${SRC}/nms.c
 
+.PHONY: clean
+
 clean:
 	rm -f ${BIN}/*
 	rm -f $(OBJ)/*
+
+install:
+	$(MKDIR) $(DESTDIR)$(BINDIR)
+	install ${BIN}/nms$(EXE) $(DESTDIR)$(BINDIR)/
