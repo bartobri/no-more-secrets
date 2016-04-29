@@ -6,6 +6,7 @@ CC = gcc
 CFLAGS = -Wextra -Wall
 LDLIBS = -lncurses
 NCURSES_H = /usr/include/ncurses.h
+UNAME = $(shell uname)
 
 all: nms sneakers
 
@@ -25,8 +26,18 @@ $(OBJ):
 	mkdir $(OBJ)
 
 $(NCURSES_H):
+ifeq ($(UNAME), Linux)
 	sudo apt-get update
 	sudo apt-get install ncurses-dev
+endif
+ifeq ($(UNAME), CentOS)
+	sudo yum update
+	sudo yum install ncurses-dev
+endif
+ifeq ($(UNAME), Fedora)
+	sudo dnf update --refresh
+	sudo dnf install ncurses-dev
+endif
 
 clean:
 	rm -rf $(BIN)
