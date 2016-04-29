@@ -25,8 +25,7 @@ $(OBJ):
 	mkdir $(OBJ)
 
 $(NCURSES_H):
-	sudo apt-get update
-	sudo apt-get install ncurses-dev
+	./configure
 
 clean:
 	rm -rf $(BIN)
