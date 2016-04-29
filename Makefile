@@ -5,7 +5,7 @@ SRC=src
 CC = gcc
 LDLIBS = -lncurses
 
-MKDIR     ?= $(INSTALL) -d
+MKDIR     ?= install -d
 BINDIR    ?= $(PREFIX)/bin
 DESTDIR   ?=
 
