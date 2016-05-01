@@ -12,8 +12,8 @@ perform this effect on piped data:
 
 ![Screenshot](http://i.imgur.com/ezF3xkN.gif)
 
-Here is another example program called "sneakers" (type `make sneakers` to build) that
-utilizes these tools to recreate, almost identically, what we see in the above movie clip.
+Also included in this project is a program called "sneakers" that utilizes these tools to recreate,
+almost identically, what we see in the above movie clip.
 
 ![Screenshot](http://www.tackboard.world/no_more_secrets.gif)
 
@@ -45,17 +45,18 @@ Next, download and build the standalone executable:
 git clone https://github.com/bartobri/no-more-secrets.git
 cd ./no-more-secrets
 make
+sudo make install
 ```
 
-This will create an executable file named `nms` and place it in the `no-more-secrets/bin/` directory.
-You may manually copy it into your preferred bin directory.
+This will create and install an executable file `nms`. (Note that this also installs another
+executable file named `sneakers` which is shown above.)
 
 Using the Standalone Executable
 -------------------------------
 
 `nms` accepts data from a shell pipe. Simply pipe some data to it and enjoy the magic!
 ```
-ls -l | bin/nms
+ls -l / | nms
 ```
 Once the "encrypted" data is displayed, the program will pause until you press a key. Then the
 decryption effect will start. After that is completed, it will again pause until
