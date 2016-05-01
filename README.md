@@ -12,8 +12,8 @@ perform this effect on piped data:
 
 ![Screenshot](http://i.imgur.com/ezF3xkN.gif)
 
-Also included in this project is a program called "sneakers" that utilizes these tools to recreate,
-almost identically, what we see in the above movie clip.
+Also included in this project is a program called `sneakers` that utilizes these tools to recreate,
+almost identically, what we see in the above movie clip. 
 
 ![Screenshot](http://www.tackboard.world/no_more_secrets.gif)
 
