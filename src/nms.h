@@ -5,7 +5,7 @@
 #include <stdbool.h>
 
 // Default arguments for nms_exec()
-#define INIT_NMSARGS { NULL, NULL, -1, -1, false }
+#define INIT_NMSARGS { NULL, NULL, -1, -1, false, false }
 
 // Argument structure for nms_exec()
 typedef struct {
@@ -14,6 +14,7 @@ typedef struct {
 	int input_cursor_x;
 	int input_cursor_y;
 	bool show_cursor;
+	bool auto_decrypt;
 } NmsArgs;
 
 // Display the characters stored in the display queue

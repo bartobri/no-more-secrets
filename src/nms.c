@@ -153,13 +153,10 @@ char nms_exec(NmsArgs *args) {
 	// Flush any input up to this point
 	flushinp();
 
-	// Reopen stdin for interactive input (keyboard), then require user
-	// to press a key to continue.
-	if (!isatty(STDIN_FILENO))
-		if (!freopen ("/dev/tty", "r", stdin))
-			sleep(1);
-		else
-			getch();
+	// If auto_decrypt flag is set, we sleep. Otherwise, reopen stdin for interactive
+	// input (keyboard), then require user to press a key to continue.
+	if (args->auto_decrypt == true || (!isatty(STDIN_FILENO) && !freopen ("/dev/tty", "r", stdin)))
+		sleep(1);
 	else
 		getch();
 

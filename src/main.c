@@ -1,13 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
 #include "nms.h"
 
-int main(void) {
+int main(int argc, char *argv[]) {
+	int c, o, inSize = 0;
 	char *input = NULL;
 	NmsArgs args = INIT_NMSARGS;
 
+	// Processing command arguments
+	while ((o = getopt(argc, argv, "a")) != -1) {
+		switch (o) {
+			case 'a':
+                args.auto_decrypt = true;
+                break;
+			case '?':
+				if (isprint(optopt))
+					fprintf (stderr, "Unknown option '-%c'.\n", optopt);
+				else
+					fprintf (stderr, "Unknown option character '\\x%x'.\n", optopt);
+                return 1;
+        }
+    }
+
 	// Geting input
-	int c, inSize = 0;
 	while ((c = getchar()) != EOF) {
 		++inSize;
 		input = realloc(input, inSize + 1);

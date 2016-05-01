@@ -62,6 +62,14 @@ Once the "encrypted" data is displayed, the program will pause until you press a
 decryption effect will start. After that is completed, it will again pause until
 you press a key, at which point the program will terminate.
 
+#### Command Line Options
+
+Use the `-a` option to set the auto_decrypt flag. This will automatically start the decryption effect,
+eliminating the need for the user to press a key to start it.
+```
+ls -l / | nms -a
+```
+
 Using the Module in Your Program
 ---------------------------------
 
@@ -120,6 +128,7 @@ typedef struct {
     int input_cursor_x;
     int input_cursor_y;
     bool show_cursor;
+    bool auto_decrypt;
 } NmsArgs;
 ```
 * `char *src`
@@ -133,6 +142,8 @@ Useful for displaying menus:
   * If your menu has a specific location that you'd like to place the cursor for user input, use these to set the x and y screen coordinates for the position.
 * `bool show_cursor`
   * Set to `true` if you want the cursor to be visible during the text decryption effect. It is set to `false` by default.
+* `bool auto_decrypt`
+  * Set to `true` to automatically start the decryption effect, eliminating the need for the user to press a key to start it.
 
 Assign values to the structure members as needed. Then simply pass a pointer to the structure to the
 nms_exec() function:
