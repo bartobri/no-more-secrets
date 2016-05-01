@@ -4,17 +4,22 @@
 #include <ctype.h>
 #include "nms.h"
 
+#define VERSION   "0.1.0"
+
 int main(int argc, char *argv[]) {
 	int c, o, inSize = 0;
 	char *input = NULL;
 	NmsArgs args = INIT_NMSARGS;
 
 	// Processing command arguments
-	while ((o = getopt(argc, argv, "a")) != -1) {
+	while ((o = getopt(argc, argv, "av")) != -1) {
 		switch (o) {
 			case 'a':
                 args.auto_decrypt = true;
                 break;
+			case 'v':
+				printf("nms version " VERSION "\n");
+				return 0;
 			case '?':
 				if (isprint(optopt))
 					fprintf (stderr, "Unknown option '-%c'.\n", optopt);
