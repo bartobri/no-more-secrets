@@ -70,6 +70,11 @@ eliminating the need for the user to press a key to start it.
 ls -l / | nms -a
 ```
 
+Use the `-f` option to set foreground color to either white, yellow, black, magenta, blue, green, or red - this is blue by default.
+```
+ls -l / | nms -f green
+```
+
 Using the Module in Your Program
 ---------------------------------
 
