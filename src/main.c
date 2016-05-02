@@ -4,10 +4,11 @@
 #include <ctype.h>
 #include "nms.h"
 
-#define VERSION   "0.1.0"
+#define VERSION                "0.1.0"
+#define INPUT_GROWTH_FACTOR    2
 
 int main(int argc, char *argv[]) {
-	int c, o, inSize = 0;
+	int c, o, inSize = 0, inCapacity = 0;
 	char *input = NULL;
 	NmsArgs args = INIT_NMSARGS;
 
@@ -32,7 +33,10 @@ int main(int argc, char *argv[]) {
 	// Geting input
 	while ((c = getchar()) != EOF) {
 		++inSize;
-		input = realloc(input, inSize + 1);
+		if (inSize > inCapacity) {
+			inCapacity = inCapacity == 0 ? INPUT_GROWTH_FACTOR : inCapacity * INPUT_GROWTH_FACTOR;
+			input = realloc(input, inCapacity + 1);
+		}
 		input[inSize - 1] = c;
 		input[inSize] = '\0';
 	}
