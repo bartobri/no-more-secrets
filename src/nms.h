@@ -5,11 +5,12 @@
 #include <stdbool.h>
 
 // Default arguments for nms_exec()
-#define INIT_NMSARGS { NULL, NULL, -1, -1, false, false }
+#define INIT_NMSARGS { NULL, NULL, NULL, -1, -1, false, false }
 
 // Argument structure for nms_exec()
 typedef struct {
 	char *src;
+	char* foreground_color;
 	char *return_opts;
 	int input_cursor_x;
 	int input_cursor_y;
