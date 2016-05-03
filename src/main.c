@@ -13,8 +13,11 @@ int main(int argc, char *argv[]) {
 	NmsArgs args = INIT_NMSARGS;
 
 	// Processing command arguments
-	while ((o = getopt(argc, argv, "av")) != -1) {
+	while ((o = getopt(argc, argv, "f:av")) != -1) {
 		switch (o) {
+			case 'f':
+                args.foreground_color = getColorByName(optarg, args.foreground_color);
+                break;
 			case 'a':
                 args.auto_decrypt = true;
                 break;
