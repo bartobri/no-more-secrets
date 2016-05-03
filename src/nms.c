@@ -39,6 +39,7 @@ struct winpos {
 
 // Function prototypes (internal)
 char getMaskChar(void);
+int getColorByName(char *);
 
 /*
  * void nms_exec(NmsArgs *)
@@ -86,7 +87,7 @@ char nms_exec(NmsArgs *args) {
 	// Setting up and starting colors if terminal supports them
 	if (has_colors()) {
 		start_color();
-		init_pair(1, args->foreground_color, COLOR_BLACK);
+		init_pair(1, getColorByName(args->foreground_color), COLOR_BLACK);
 	}
 
 	// Get terminal window size
@@ -288,11 +289,19 @@ char getMaskChar(void) {
 /*
  * char getColorByName(char *string, int fallback)
  *
+ * ARGS:
+ *
+ * char *string - new color setting (white, yellow, black, magenta, blue, green, red)
+ *
  * DESCR:
  * Returns an ncurses color by its name.
  *
  */
-int getColorByName(char *string, int fallback) {
+int getColorByName(char *string) {
+
+	if(string == NULL) {
+		return COLOR_BLUE;
+	}
 
 	if(strcmp("white", string) == 0) {
 		return COLOR_WHITE;
@@ -322,5 +331,5 @@ int getColorByName(char *string, int fallback) {
 		return COLOR_RED;
 	}
 
-	return fallback;
+	return COLOR_BLUE;
 }

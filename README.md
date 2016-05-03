@@ -70,7 +70,8 @@ eliminating the need for the user to press a key to start it.
 ls -l / | nms -a
 ```
 
-Use the `-f` option to set foreground color to either white, yellow, black, magenta, blue, green, or red - this is blue by default.
+Use the `-f` option to set foreground color to either white, yellow, black, magenta, blue, green, or
+red - this is blue by default.
 ```
 ls -l / | nms -f green
 ```
@@ -129,19 +130,18 @@ Here is how the structure is defined:
 ```
 typedef struct {
     char *src;
+    char *foreground_color;
     char *return_opts;
     int input_cursor_x;
     int input_cursor_y;
     bool show_cursor;
     bool auto_decrypt;
-    int foreground_color;
 } NmsArgs;
 ```
 * `char *src`
   * Pointer to the string of characters on which to perform the effect.
-
-Useful for displaying menus:
-
+* `char *foreground_color`
+   * Pointer to a string containing the desired foreground color: white, yellow, black, magenta, blue, green, red.
 * `char *return_opts`
   * String pointer containing only the character options that the user must choose from once the src characters are revealed. For example, if you are showing a menu with six options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`;
 * `int input_cursor_x` and `int input_cursor_y`
@@ -150,8 +150,6 @@ Useful for displaying menus:
   * Set to `true` if you want the cursor to be visible during the text decryption effect. It is set to `false` by default.
 * `bool auto_decrypt`
   * Set to `true` to automatically start the decryption effect, eliminating the need for the user to press a key to start it.
- * `int foreground_color`
-   * Use this to assign a default (ncurses) color to the foreground
 
 Assign values to the structure members as needed. Then simply pass a pointer to the structure to the
 nms_exec() function:

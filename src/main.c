@@ -16,8 +16,8 @@ int main(int argc, char *argv[]) {
 	while ((o = getopt(argc, argv, "f:av")) != -1) {
 		switch (o) {
 			case 'f':
-                args.foreground_color = getColorByName(optarg, args.foreground_color);
-                break;
+				args.foreground_color = optarg;
+				break;
 			case 'a':
                 args.auto_decrypt = true;
                 break;
