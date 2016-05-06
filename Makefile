@@ -16,7 +16,6 @@ CC = gcc
 CFLAGS = -Wextra -Wall
 LDLIBS = -lncurses
 NCURSES_H = /usr/include/ncurses.h
-UNAME = $(shell uname)
 
 .PHONY: all install uninstall clean
 
@@ -39,18 +38,18 @@ $(OBJ):
 	mkdir $(OBJ)
 
 $(NCURSES_H):
-ifeq ($(UNAME), Linux)
-	sudo apt-get update
-	sudo apt-get install ncurses-dev
-endif
-ifeq ($(UNAME), CentOS)
-	sudo yum update
-	sudo yum install ncurses-dev
-endif
-ifeq ($(UNAME), Fedora)
-	sudo dnf update --refresh
-	sudo dnf install ncurses-dev
-endif
+	if [ -a /etc/fedora-release ] ; \
+	then \
+		sudo dnf update --refresh ; \
+		sudo dnf install ncurses-devel ; \
+	elif [ -a /etc/redhat-release ] ; \
+	then \
+		sudo yum update ; \
+		sudo yum install ncurses-devel ; \
+	else \
+		sudo apt-get update ; \
+		sudo apt-get install ncurses-dev ; \
+	fi
 
 clean:
 	rm -rf $(BIN)
