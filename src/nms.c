@@ -42,6 +42,57 @@ char getMaskChar(void);
 int getColorByName(char *);
 
 /*
+ * void nms_getopt(int, char **)
+ *
+ * DESCR:
+ * Parses command-line arguments using getopt. Returns an NmsArgs struct
+ * containing the parsed options.
+ *
+ * ARGS:
+ * int argc - Count of command-line arguments
+ * char *argv[] - The command-line arguments given to main()
+ *
+ *      STRUCTURE MEMBERS:
+ *      args.src - Pointer to string on which to perform the effect
+ *      args.return_opts - Pointer to string containing character options for menu
+ *      args.input_cursor_x - X screen coordinate to place cursor after "decryption"
+ *      args.input_cursor_y - Y screen coordinate to place cursor after "decryption"
+ *      args.show_cursor - 'true' to display cursor, 'false' to hide cursor.
+ *
+ */
+NmsArgs nms_getopt(int argc, char *argv[]) {
+	int o;
+	NmsArgs args = INIT_NMSARGS;
+
+	// Processing command arguments
+	while ((o = getopt(argc, argv, "f:av")) != -1) {
+		switch (o) {
+		case 'f':
+			args.foreground_color = optarg;
+			break;
+		case 'a':
+			args.auto_decrypt = true;
+			break;
+		case 'v':
+			printf("nms version " VERSION "\n");
+			exit(0);
+		case '?':
+			if (isprint(optopt))
+				fprintf (stderr,
+                                         "Unknown option '-%c'.\n",
+                                         optopt);
+			else
+				fprintf (stderr,
+				         "Unknown option character '\\x%x'.\n",
+				         optopt);
+			exit(1);
+		}
+	}
+
+	return args;
+}
+
+/*
  * void nms_exec(NmsArgs *)
  *
  * DESCR:
