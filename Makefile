@@ -46,6 +46,10 @@ $(NCURSES_H):
 	then \
 		sudo yum update ; \
 		sudo yum install ncurses-devel ; \
+	elif [ -a /etc/arch-release ] ; \
+	then \
+		sudo pacman -Sy ; \
+		sudo pacman -S ncurses ; \
 	else \
 		sudo apt-get update ; \
 		sudo apt-get install ncurses-dev ; \
