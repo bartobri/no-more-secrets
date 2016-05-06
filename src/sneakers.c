@@ -4,7 +4,7 @@
 #include <sys/ioctl.h>
 #include "nms.h"
 
-int main(void) {
+void sneakers(NmsArgs args) {
 	int termCols, spaces = 0;
 	char input;
 	char display[2000];
@@ -22,7 +22,6 @@ int main(void) {
 	char *menu6          = "[6] Remote Operator Logon/Logoff";
 	char *foot1Center    = "================================================================";
 	char *foot2Center    = "[ ] Select Option or ESC to Abort";
-	NmsArgs args = INIT_NMSARGS;
 
 	// Get terminal dimentions (needed for centering)
 	struct winsize w;
@@ -185,6 +184,9 @@ int main(void) {
 			printf("Unrecognized selection: %c\n", input);
 			break;
 	}
+}
 
-	return 0;
+int main(int argc, char *argv[]) {
+	NmsArgs args = nms_getopt(argc, argv);
+	sneakers(args);
 }
