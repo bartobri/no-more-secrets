@@ -171,10 +171,10 @@ char nms_exec(NmsArgs *args) {
 		list_pointer = start;
 		while (list_pointer != NULL && list_pointer->row <= termSizeRows) {
 			mvaddstr(list_pointer->row, list_pointer->col, list_pointer->mask);
-			refresh();
 			list_pointer->mask = getMaskChar();
 			list_pointer = list_pointer->next;
 		}
+		refresh();
 		usleep(JUMBLE_LOOP_SPEED * 1000);
 		++x;
 	}
