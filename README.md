@@ -44,6 +44,7 @@ Next, download and build the standalone executable:
 ```
 git clone https://github.com/bartobri/no-more-secrets.git
 cd ./no-more-secrets
+git checkout tags/v0.1.0
 make
 sudo make install
 ```
