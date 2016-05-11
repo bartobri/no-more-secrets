@@ -15,7 +15,14 @@ SRC=src
 CC = gcc
 CFLAGS = -Wextra -Wall
 LDLIBS = -lncurses
+
+UNAME := $(shell uname)
+
 NCURSES_H = /usr/include/ncurses.h
+
+ifeq ($(UNAME), Darwin)
+	NCURSES_H := /usr/local/Cellar/ncurses/6.0_1/include/ncurses.h
+endif
 
 .PHONY: all install uninstall clean
 
@@ -50,6 +57,9 @@ $(NCURSES_H):
 	then \
 		sudo pacman -Sy ; \
 		sudo pacman -S ncurses ; \
+	elif [ -a /usr/local/bin/brew ] ; \
+	then \
+		brew install homebrew/dupes/ncurses ; \
 	else \
 		sudo apt-get update ; \
 		sudo apt-get install ncurses-dev ; \
