@@ -29,7 +29,7 @@
 // Window position structure, linked list. Keeps track of every
 // character's position on the terminal, as well as other attributes.
 struct winpos {
-	char source;
+	char *source;
 	char *mask;
 	int row;
 	int col;
@@ -130,7 +130,38 @@ char nms_exec(NmsArgs *args) {
 			r_time_s *= 100;
 			r_time_l *= 100;
 
-			list_pointer->source = c;
+			if ((c & 0x80) == 0x00) {
+				// c is an ascii character
+				list_pointer->source = malloc(2);
+				list_pointer->source[0] = c;
+				list_pointer->source[1] = '\0';
+			} else if ((c & 0xE0) == 0xC0) {
+				// 2 byte char
+				list_pointer->source = malloc(3);
+				list_pointer->source[0] = c;
+				list_pointer->source[1] = args->src[n++];
+				list_pointer->source[2] = '\0';
+			} else if ((c & 0xF0) == 0xE0) {
+				// 3 byte char
+				list_pointer->source = malloc(4);
+				list_pointer->source[0] = c;
+				list_pointer->source[1] = args->src[n++];
+				list_pointer->source[2] = args->src[n++];
+				list_pointer->source[3] = '\0';
+			} else if ((c & 0xF8) == 0xF0) {
+				// 4 byte char
+				list_pointer->source = malloc(5);
+				list_pointer->source[0] = c;
+				list_pointer->source[1] = args->src[n++];
+				list_pointer->source[2] = args->src[n++];
+				list_pointer->source[3] = args->src[n++];
+				list_pointer->source[4] = '\0';
+			} else {
+				// Unrecognized char, treat it as a single-byte char
+				list_pointer->source = malloc(2);
+				list_pointer->source[0] = c;
+				list_pointer->source[1] = '\0';
+			}
 			list_pointer->mask = getMaskChar();
 			list_pointer->row = y;
 			list_pointer->col = x;
@@ -198,9 +229,7 @@ char nms_exec(NmsArgs *args) {
 				list_pointer->s2_time -= REVEAL_LOOP_SPEED;
 				list_pointer->mask = getMaskChar();
 			} else {
-				list_pointer->mask = NULL;
-				list_pointer->mask = malloc(sizeof(list_pointer->source) + 1);
-				sprintf(list_pointer->mask, "%c", list_pointer->source);
+				list_pointer->mask = list_pointer->source;
 				attron(A_BOLD);
 				if (has_colors())
 					attron(COLOR_PAIR(1));
@@ -232,9 +261,8 @@ char nms_exec(NmsArgs *args) {
 				scroll(stdscr);
 				++prevRow;
 			}
-			mvaddch(termSizeRows -1, list_pointer->col, list_pointer->source);
+			mvaddstr(termSizeRows -1, list_pointer->col, list_pointer->source);
 			refresh();
-			//mvaddch(0, 0, list_pointer->source);
 			list_pointer = list_pointer->next;
 		}
 		attroff(A_BOLD);
