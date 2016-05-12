@@ -131,7 +131,7 @@ char nms_exec(NmsArgs *args) {
 			r_time_l *= 100;
 
 			if ((c & 0x80) == 0x00) {
-				// c is an ascii character
+				// ascii char
 				list_pointer->source = malloc(2);
 				list_pointer->source[0] = c;
 				list_pointer->source[1] = '\0';
@@ -299,7 +299,7 @@ char nms_exec(NmsArgs *args) {
 	while (list_pointer != NULL) {
 		temp = list_pointer;
 		list_pointer = list_pointer->next;
-		free(temp->mask);
+		free(temp->source);
 		free(temp);
 	}
 
