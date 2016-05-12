@@ -322,7 +322,6 @@ char *getMaskChar(void) {
 		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
 		"n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
 		"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-		/*
 		"\xc3\x87", "\xc3\xbc", "\xc3\xa9", "\xc3\xa2", "\xc3\xa4", "\xc3\xa0",
 		"\xc3\xa5", "\xc3\xa7", "\xc3\xaa", "\xc3\xab", "\xc3\xa8", "\xc3\xaf",
 		"\xc3\xae", "\xc3\xac", "\xc3\x84", "\xc3\x85", "\xc3\x89", "\xc3\xa6",
@@ -350,11 +349,9 @@ char *getMaskChar(void) {
 		"\xe2\x89\xa1", "\xe2\x89\xa5", "\xe2\x89\xa4", "\xe2\x8c\xa0",
 		"\xe2\x8c\xa1", "\xe2\x89\x88", "\xe2\x88\x99", "\xe2\x88\x9a",
 		"\xe2\x81\xbf", "\xe2\x96\xa0"
-		*/
 	};
 
-	//return maskChars[rand() % 218];
-	return maskChars[rand() % 90];
+	return maskChars[rand() % 218];
 }
 
 /*

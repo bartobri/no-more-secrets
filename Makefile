@@ -14,7 +14,7 @@ SRC=src
 
 CC = gcc
 CFLAGS = -Wextra -Wall
-LDLIBS = -lncurses
+LDLIBS = -lncursesw
 NCURSES_H = /usr/include/ncurses.h
 
 .PHONY: all install uninstall clean
@@ -52,7 +52,7 @@ $(NCURSES_H):
 		sudo pacman -S ncurses ; \
 	else \
 		sudo apt-get update ; \
-		sudo apt-get install ncurses-dev ; \
+		sudo apt-get install lib32ncurses5-dev lib32ncursesw5-dev ; \
 	fi
 
 clean:

@@ -35,16 +35,16 @@ ls /usr/include | grep ncurses.h
 If the ncurses.h header file is not present, you may need to install the library. On Ubuntu, type:
 ```
 sudo apt-get update
-sudo apt-get install ncurses-dev
+sudo apt-get install lib32ncurses5-dev lib32ncursesw5-dev
 ```
 If you are using a different flavor of linux, search your available packages for "ncurses" and install
-it.
+it. If you see two different packages for "ncurses" and "ncursesw", install them both (as shown above
+in the Ubuntu example).
 
 Next, download and build the standalone executable:
 ```
 git clone https://github.com/bartobri/no-more-secrets.git
 cd ./no-more-secrets
-git checkout tags/v0.1.0
 make
 sudo make install
 ```
