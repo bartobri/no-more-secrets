@@ -106,10 +106,15 @@ char nms_exec(NmsArgs *args) {
 		if (c == NEWLINE) {
 			++y;
 			x = 0;
-		} else if (c == TAB && x + TAB_SIZE <= termSizeCols) {
-			x += TAB_SIZE;
+		} else if (c == TAB) {
+			if (x + TAB_SIZE < termSizeCols)
+				x += TAB_SIZE;
+			else {
+				++y;
+				x = 0;
+			}
 		} else if (isspace(c)) {
-			if (++x > termSizeCols) {
+			if (++x >= termSizeCols) {
 				++y;
 				x = 0;
 			}
@@ -169,7 +174,7 @@ char nms_exec(NmsArgs *args) {
 			list_pointer->s2_time = r_time > 1000 ? r_time_s : 0;
 			list_pointer->next = NULL;
 
-			if (++x > termSizeCols) {
+			if (++x >= termSizeCols) {
 				++y;
 				x = 0;
 			}
