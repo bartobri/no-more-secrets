@@ -259,7 +259,7 @@ char nms_exec(NmsArgs *args) {
 		attron(A_BOLD);
 		if (has_colors())
 			attron(COLOR_PAIR(1));
-		prevRow = list_pointer->row;
+		prevRow = list_pointer->row - 1;
 		scroll(stdscr);
 		while (list_pointer != NULL) {
 			while (list_pointer->row > prevRow) {
