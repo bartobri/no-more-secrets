@@ -40,7 +40,6 @@ int main(void) {
 	strcat(display, head1Right);
 
 	strcat(display, "\n");
-	strcat(display, "\n");
 
 	spaces = (termCols - strlen(head2Center)) / 2;
 	while (spaces > 0) {
