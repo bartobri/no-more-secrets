@@ -6,7 +6,7 @@ best applies to you. If your operating system is missing from the list, see 'Gen
 at the bottom for help.
 
 If you can supply instructions for an operating system that is not listed here, please email me or
-sibmit a pull request updating this document.
+submit a pull request updating this document.
 
 #### Ubuntu/Debian/Mint Linux
 
@@ -58,7 +58,9 @@ Install the Homebrew package manager by following the instructiosn on the websit
 
 Once Homebrew is installed, you can install no-more-secrets:
 
+```
 brew install no-more-secrets
+```
 
 #### Generic Instructions
 
@@ -84,3 +86,4 @@ make
 sudo make install
 ```
 
+[Back to README](README.md)
