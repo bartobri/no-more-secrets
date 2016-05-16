@@ -28,29 +28,8 @@ Two tools are provided for you to recreate this effect:
 
 Installing the Standalone Executable
 ------------------------------------
-First, make sure you have the ncurses library installed:
-```
-ls /usr/include | grep ncurses.h
-```
-If the ncurses.h header file is not present, you may need to install the library. On Ubuntu, type:
-```
-sudo apt-get update
-sudo apt-get install lib32ncurses5-dev lib32ncursesw5-dev
-```
-If you are using a different flavor of linux, search your available packages for "ncurses" and install
-it. If you see two different packages for "ncurses" and "ncursesw", install them both (as shown above
-in the Ubuntu example).
 
-Next, download and build the standalone executable:
-```
-git clone https://github.com/bartobri/no-more-secrets.git
-cd ./no-more-secrets
-make
-sudo make install
-```
-
-This will create and install an executable file `nms`. (Note that this also installs another
-executable file named `sneakers` which is shown above.)
+See the [INSTALL](INSTALL.md) file for a list of instructions for various operating systems.
 
 Using the Standalone Executable
 -------------------------------
