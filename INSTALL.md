@@ -54,7 +54,7 @@ sudo make install
 
 #### Mac OSX
 
-Install the Homebrew package manager by following the instructiosn on the website: http://brew.sh/
+Install the Homebrew package manager by following the instructions on the website: http://brew.sh/
 
 Once Homebrew is installed, you can install no-more-secrets:
 
