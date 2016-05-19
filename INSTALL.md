@@ -64,17 +64,23 @@ brew install no-more-secrets
 
 #### Generic Instructions
 
-First, make sure you have the ncurses library installed:
+First, make sure you have the ncurses header installed:
 ```
 ls /usr/include | grep ncurses.h
 ```
-If the ncurses.h header file is not present, you may need to install the library. For example, on
-Ubuntu you would type:
+Also make sure you have the ncurses library for wide character support:
+```
+ls /usr/lib | grep libncursesw.so
+```
+If either file is missing, you may need to install the ncurses and/or ncursesw library. All linux
+distributions should have these available from their package manager. Usually they are both included
+in a single package named something along the lines of 'ncurses'. However, on some distrubutions, such
+as Ubuntu, you need to install them as separate packages. For example:
 ```
 sudo apt-get update
 sudo apt-get install lib32ncurses5-dev lib32ncursesw5-dev
 ```
-For other flavors of Linux/Unix, use your package manager to search for the "ncurses" package. Install
+Use your package manager to search for the "ncurses" package. Install
 it. If you see two different packages for "ncurses" and "ncursesw", install them both (as shown above
 in the Ubuntu example).
 
