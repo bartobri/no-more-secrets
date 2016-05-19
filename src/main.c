@@ -4,7 +4,7 @@
 #include <ctype.h>
 #include "nms.h"
 
-#define VERSION                "0.1.0"
+#define VERSION                "0.2.0"
 #define INPUT_GROWTH_FACTOR    2
 
 int main(int argc, char *argv[]) {
