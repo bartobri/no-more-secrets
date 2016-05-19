@@ -1,11 +1,11 @@
 # Installation directories following GNU conventions
 prefix = /usr/local
-exec_prefix = $(prefix)
+exec_prefix = $(DESTDIR)$(prefix)
 bindir = $(exec_prefix)/bin
 sbindir = $(exec_prefix)/sbin
-datarootdir = $(prefix)/share
+datarootdir = $(DESTDIR)$(prefix)/share
 datadir = $(datarootdir)
-includedir = $(prefix)/include
+includedir = $(DESTDIR)$(prefix)/include
 mandir = $(datarootdir)/man
 
 BIN=bin
