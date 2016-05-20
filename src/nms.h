@@ -10,7 +10,7 @@
 // Argument structure for nms_exec()
 typedef struct {
 	char *src;
-	char* foreground_color;
+	char *foreground_color;
 	char *return_opts;
 	int input_cursor_x;
 	int input_cursor_y;
