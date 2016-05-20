@@ -60,9 +60,9 @@ clean:
 	rm -rf $(OBJ)
 
 install:
-	install -d $(bindir)
-	cd $(BIN) && install $(EXES) $(bindir)
+	install -d $(DESTDIR)$(bindir)
+	cd $(BIN) && install $(EXES) $(DESTDIR)$(bindir)
 
 uninstall:
-	for exe in $(EXES); do rm $(bindir)/$$exe; done
+	for exe in $(EXES); do rm $(DESTDIR)$(bindir)/$$exe; done
 
