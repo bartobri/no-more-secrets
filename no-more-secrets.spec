@@ -1,7 +1,7 @@
 Name:           no-more-secrets
 Version:        0.2.0
 Release:        1%{?dist}
-Summary:        Infamous "decrypting text" effect 
+Summary:        A recreation of the "decrypting text" effect from the 1992 movie Sneakers
 Group:          Amusements/Games
 License:        GPLv3
 URL:            https://github.com/bartobri/no-more-secrets
@@ -10,7 +10,7 @@ BuildRoot:      %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 BuildRequires:  ncurses-devel
 
 %description
-"No More Secrets" is the name I've lovingly given to the infamous "decrypting text" effect seen on screen in the 1992 hacker movie Sneakers.
+A tool set to recreate the famous "decrypting text" effect as seen in the 1992 movie Sneakers.
 
 %prep
 %setup -q -n %{name}-%{version}
