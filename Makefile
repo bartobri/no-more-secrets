@@ -1,3 +1,5 @@
+UNAME := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+
 # Installation directories following GNU conventions
 prefix = /usr/local
 exec_prefix = $(prefix)
@@ -15,6 +17,7 @@ SRC=src
 CC = gcc
 CFLAGS = -Wextra -Wall
 LDLIBS = -lncursesw
+DARWIN_LDLIBS = -lncurses
 NCURSES_H = /usr/include/ncurses.h
 
 .PHONY: all install uninstall clean
@@ -23,10 +26,18 @@ EXES = nms sneakers
 all: $(EXES)
 
 nms: $(OBJ)/nms.o $(OBJ)/main.o | $(BIN)
+ifeq ($(UNAME),Darwin)
+	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(DARWIN_LDLIBS)
+else
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LDLIBS)
+endif
 
 sneakers: $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
+ifeq ($(UNAME),Darwin)
+	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(DARWIN_LDLIBS)
+else
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LDLIBS)
+endif
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ) $(NCURSES_H)
 	$(CC) $(CFLAGS) -o $@ -c $<
