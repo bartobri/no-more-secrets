@@ -19,8 +19,8 @@ int main(int argc, char *argv[]) {
 				args.foreground_color = optarg;
 				break;
 			case 'a':
-                args.auto_decrypt = true;
-                break;
+				args.auto_decrypt = true;
+				break;
 			case 'v':
 				printf("nms version " VERSION "\n");
 				return 0;
@@ -29,9 +29,9 @@ int main(int argc, char *argv[]) {
 					fprintf (stderr, "Unknown option '-%c'.\n", optopt);
 				else
 					fprintf (stderr, "Unknown option character '\\x%x'.\n", optopt);
-                return 1;
-        }
-    }
+				return 1;
+		}
+	}
 
 	// Geting input
 	while ((c = getchar()) != EOF) {
