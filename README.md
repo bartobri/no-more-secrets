@@ -129,6 +129,7 @@ typedef struct {
 
 Assign values to the structure members as needed.
 
+| --- | --- |
 | char *src                          | Pointer to the string of characters on which to perform the effect. |
 | char *foreground_color             | Pointer to a string containing the desired foreground color: white, yellow, black, magenta, blue, green, red. |
 | char *return_opts                  | String pointer containing only the character options that the user must choose from once the `src` characters are revealed. For example, if you are showing a menu with six options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`. |
