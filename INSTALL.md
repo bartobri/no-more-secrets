@@ -52,6 +52,26 @@ make
 sudo make install
 ```
 
+#### openSUSE
+
+Via package manager:
+
+```
+sudo zypper ar http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/ games
+sudo zypper ref
+sudo zypper in no-more-secrets
+```
+
+From source:
+```
+sudo zypper ref
+sudo zypper in ncurses-devel
+git clone https://github.com/bartobri/no-more-secrets.git
+cd ./no-more-secrets
+make
+sudo make install
+```
+
 #### Mac OSX
 
 Install the Homebrew package manager by following the instructions on the website: http://brew.sh/
