@@ -54,6 +54,15 @@ sudo make install
 
 #### openSUSE
 
+Via package manager:
+
+```
+sudo zypper ar http://download.opensuse.org/repositories/games/openSUSE_Tumbleweed/ games
+sudo zypper ref
+sudo zypper in no-more-secrets
+```
+
+From source:
 ```
 sudo zypper ref
 sudo zypper in ncurses-devel
