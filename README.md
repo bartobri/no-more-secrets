@@ -26,18 +26,20 @@ Two tools are provided for you to recreate this effect:
 
 2. A module and header file, written in C, that can be used to recreate this effect in other projects. In fact, the standalone executable `nms` is really just an example that shows how to use this module with piped data.
 
-Installing the Standalone Executable
-------------------------------------
+Installing nms (The Standalone Executable)
+------------------------------------------
 
 See the [INSTALL](INSTALL.md) file for a list of instructions for various operating systems.
 
-Using the Standalone Executable
--------------------------------
+Using nms
+---------
 
 `nms` accepts data from a shell pipe. Simply pipe some data to it and enjoy the magic!
+
 ```
 ls -l / | nms
 ```
+
 Once the "encrypted" data is displayed, the program will pause until you press a key. Then the
 decryption effect will start. After that is completed, it will again pause until
 you press a key, at which point the program will terminate.
@@ -56,11 +58,10 @@ red - this is blue by default.
 ls -l / | nms -f green
 ```
 
-Using the Module in Your Program
----------------------------------
+Using the nms Module in Your Project
+------------------------------------
 
-NOTE: Be sure that you have the ncurses library installed on your system. See "Installing the
-Standalone Executable" above for more info.
+NOTE: Be sure that you have the ncurses library installed on your system. See "Installing nms" above for more info.
 
 #### Synopsis
 
@@ -80,12 +81,14 @@ int main() {
 }
 
 ```
+
 Compile myprog.c (must include `nms.c` and `-lncurses`):
+
 ```
 gcc nms.c myprog.c -o myprog -lncurses
 ```
 
-#### How-To
+#### How To Use the nms Module
 
 Copy these two files to your project:
 
@@ -93,17 +96,22 @@ Copy these two files to your project:
 nms.h
 nms.c
 ```
+
 Include `nms.h` in your program file:
 
 ```
 #include "nms.h"
 ```
-Next, declare and initialize the structure that needs to be passed to `nms_exec()`:
+
+Next, declare and initialize the nms structure:
+
 ```
 NmsArgs args = INIT_NMSARGS;
 ```
-INIT_NMSARGS is a defined name that assigns a default set of values to all of the structure members. It
-is recommended that you use it. If you don't,  you will have to manually assign a value to each
+
+INIT_NMSARGS is a symbolic constant that should be used to assign a default
+set of values to all of the structure members. If you don't use it,  you
+will have to manually assign a value to each
 structure member.
 
 Here is how the structure is defined:
@@ -118,24 +126,22 @@ typedef struct {
     bool auto_decrypt;
 } NmsArgs;
 ```
-* `char *src`
-  * Pointer to the string of characters on which to perform the effect.
-* `char *foreground_color`
-   * Pointer to a string containing the desired foreground color: white, yellow, black, magenta, blue, green, red.
-* `char *return_opts`
-  * String pointer containing only the character options that the user must choose from once the src characters are revealed. For example, if you are showing a menu with six options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`;
-* `int input_cursor_x` and `int input_cursor_y`
-  * If your menu has a specific location that you'd like to place the cursor for user input, use these to set the x and y screen coordinates for the position.
-* `bool show_cursor`
-  * Set to `true` if you want the cursor to be visible during the text decryption effect. It is set to `false` by default.
-* `bool auto_decrypt`
-  * Set to `true` to automatically start the decryption effect, eliminating the need for the user to press a key to start it.
 
-Assign values to the structure members as needed. Then simply pass a pointer to the structure to the
-nms_exec() function:
+Assign values to the structure members as needed.
+
+* `char *src` - Pointer to the string of characters on which to perform the effect.
+* `char *foreground_color` - Pointer to a string containing the desired foreground color: white, yellow, black, magenta, blue, green, red.
+* `char *return_opts` - String pointer containing only the character options that the user must choose from once the `src` characters are revealed. For example, if you are showing a menu with six options, this string might be "123456". The user will have to choose one of these characters before execution is handed back to the calling function. Note that the character selected is returned by `nms_exec()`;
+* `int input_cursor_x` and `int input_cursor_y` - If your menu has a specific location that you'd like to place the cursor for user input, use these to set the x and y screen coordinates for the position.
+* `bool show_cursor` - Set to `true` if you want the cursor to be visible during the text decryption effect. It is set to `false` by default.
+* `bool auto_decrypt` - Set to `true` to automatically start the decryption effect, eliminating the need for the user to press a key to start it.
+
+Once you set the structure members as desired, simply pass a pointer to the structure to the nms_exec() function:
+
 ```
 nms_exec(&args);
 ```
+
 Note that nms_exec() prompts the user to press a key to start the "decrypting text" effect, and again
 once the text has been fully revealed. The key that is pressed at the second prompt is returned to the
 calling function so that it can be used as input after displaying a menu. 
@@ -143,6 +149,7 @@ calling function so that it can be used as input after displaying a menu.
 #### Compiling
 
 Add `nms.c` to your source file list, and link the ncurses library `-lncurses` when compiling:
+
 ```
 gcc nms.c myprog.c -o myprog -lncurses
 ```
