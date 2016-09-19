@@ -1,7 +1,7 @@
 UNAME := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
 # Installation directories following GNU conventions
-prefix = /usr/local
+prefix ?= /usr/local
 exec_prefix = $(prefix)
 bindir = $(exec_prefix)/bin
 sbindir = $(exec_prefix)/sbin
@@ -14,8 +14,8 @@ BIN=bin
 OBJ=obj
 SRC=src
 
-CC = gcc
-CFLAGS = -Wextra -Wall
+CC ?= gcc
+CFLAGS ?= -Wextra -Wall
 LDLIBS = -lncursesw
 DARWIN_LDLIBS = -lncurses
 NCURSES_H = /usr/include/ncurses.h
