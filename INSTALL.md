@@ -82,6 +82,21 @@ Once Homebrew is installed, you can install no-more-secrets:
 brew install no-more-secrets
 ```
 
+#### Docker Container
+
+Run 
+
+```
+docker build -t bartobri/no-more-secrets .
+```
+to build the container.
+
+Run with
+```
+ls -l | docker run --rm -i -e TERM=$TERM bartobri/no-more-secrets 
+```
+
+
 #### Generic Instructions
 
 First, make sure you have the ncurses header installed:
