@@ -112,4 +112,11 @@ make
 sudo make install
 ```
 
+#### Other - Docker
+
+@freiit has created a docker image for those interested:
+
+https://github.com/freiit/no-more-secrets-docker
+
+
 [Back to README](README.md)
