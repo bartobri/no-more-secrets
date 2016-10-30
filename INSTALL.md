@@ -82,6 +82,19 @@ Once Homebrew is installed, you can install no-more-secrets:
 brew install no-more-secrets
 ```
 
+#### FreeBSD
+
+To install the port:
+```
+cd /usr/ports/misc/nms/
+make install clean
+```
+
+To add the package:
+```
+pkg install nms
+```
+
 #### Generic Instructions
 
 First, make sure you have the ncurses header installed:
