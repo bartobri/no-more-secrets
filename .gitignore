@@ -1,2 +1,7 @@
 bin/*
 obj/*
+*.snap
+/snap/parts
+/snap/prime
+/snap/stage
+
