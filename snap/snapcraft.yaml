@@ -17,6 +17,7 @@ parts:
                 build-packages:
                         - libncurses5-dev
                         - libncursesw5-dev
+                        - build-essential
                 stage-packages:
                         - libncurses5
                         - libncursesw5
