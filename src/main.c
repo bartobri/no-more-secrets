@@ -2,24 +2,23 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
-#include "nms.h"
+#include "libnms.h"
 
-#define VERSION                "0.2.1"
+#define VERSION                "0.3.0"
 #define INPUT_GROWTH_FACTOR    2
 
 int main(int argc, char *argv[]) {
 	int c, o, inSize = 0, inCapacity = 0;
 	char *input = NULL;
-	NmsArgs args = INIT_NMSARGS;
 
 	// Processing command arguments
 	while ((o = getopt(argc, argv, "f:av")) != -1) {
 		switch (o) {
 			case 'f':
-				args.foreground_color = optarg;
+				nms_set_foreground_color(optarg);
 				break;
 			case 'a':
-				args.auto_decrypt = true;
+				nms_set_auto_decrypt(1);
 				break;
 			case 'v':
 				printf("nms version " VERSION "\n");
@@ -43,13 +42,14 @@ int main(int argc, char *argv[]) {
 		input[inSize - 1] = c;
 		input[inSize] = '\0';
 	}
-
-	// Set needed args
-	args.src = input;
-	args.show_cursor = true;
+	
+	//nms_set_input_position(5,5);
+	//nms_set_return_opts("123456");
+	//nms_set_clear_scr(0);
+	//nms_set_color(0);
 
 	// Display characters
-	nms_exec(&args);
+	nms_exec(input);
 
 	// Don't forget to free the allocated memory!
 	free(input);

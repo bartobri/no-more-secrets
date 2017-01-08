@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include "nms.h"
+#include "libnms.h"
 
 int main(void) {
 	int termCols, spaces = 0;
@@ -22,7 +22,6 @@ int main(void) {
 	char *menu6          = "[6] Remote Operator Logon/Logoff";
 	char *foot1Center    = "================================================================";
 	char *foot2Center    = "[ ] Select Option or ESC to Abort";
-	NmsArgs args = INIT_NMSARGS;
 
 	// Get terminal dimentions (needed for centering)
 	struct winsize w;
@@ -152,38 +151,16 @@ int main(void) {
 	}
 	strcat(display, foot2Center);
 
-	// Set needed args
-	args.src = display;
-	args.return_opts = "123456";
-	args.input_cursor_y = 18;
-	args.input_cursor_x = ((termCols - strlen(foot2Center)) / 2) + 1;
+	// Settings
+	nms_set_input_position(((termCols - strlen(foot2Center)) / 2) + 2, 18);
+	nms_set_return_opts("123456");
+	nms_set_clear_scr(1);
 
-	// Display characters
-	input = nms_exec(&args);
-
-	switch (input) {
-		case '1':
-			printf("User chose 1\n");
-			break;
-		case '2':
-			printf("User chose 2\n");
-			break;
-		case '3':
-			printf("User chose 3\n");
-			break;
-		case '4':
-			printf("User chose 4\n");
-			break;
-		case '5':
-			printf("User chose 5\n");
-			break;
-		case '6':
-			printf("User chose 6\n");
-			break;
-		default:
-			printf("Unrecognized selection: %c\n", input);
-			break;
-	}
+	// Execut effect
+	input = nms_exec(display);
+	
+	// Print user choice
+	printf("You chose %c\n", input);
 
 	return 0;
 }

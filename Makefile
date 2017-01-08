@@ -1,5 +1,3 @@
-UNAME := $(shell sh -c 'uname -s 2>/dev/null || echo not')
-
 # Installation directories following GNU conventions
 prefix ?= /usr/local
 exec_prefix = $(prefix)
@@ -16,30 +14,19 @@ SRC=src
 
 CC ?= gcc
 CFLAGS ?= -Wextra -Wall
-LDLIBS = -lncursesw
-DARWIN_LDLIBS = -lncurses
-NCURSES_H = /usr/include/ncurses.h
 
 .PHONY: all install uninstall clean
 
 EXES = nms sneakers
 all: $(EXES)
 
-nms: $(OBJ)/nms.o $(OBJ)/main.o | $(BIN)
-ifeq ($(UNAME),Darwin)
-	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(DARWIN_LDLIBS)
-else
-	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LDLIBS)
-endif
+nms: $(OBJ)/libnms.o $(OBJ)/main.o | $(BIN)
+	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
 
-sneakers: $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
-ifeq ($(UNAME),Darwin)
-	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(DARWIN_LDLIBS)
-else
-	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ $(LDLIBS)
-endif
+sneakers: $(OBJ)/libnms.o $(OBJ)/sneakers.o | $(BIN)
+	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
 
-$(OBJ)/%.o: $(SRC)/%.c | $(OBJ) $(NCURSES_H)
+$(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	$(CC) $(CFLAGS) -o $@ -c $<
 
 $(BIN):
@@ -47,24 +34,6 @@ $(BIN):
 
 $(OBJ):
 	mkdir $(OBJ)
-
-$(NCURSES_H):
-	if [ -a /etc/fedora-release ] ; \
-	then \
-		sudo dnf update --refresh ; \
-		sudo dnf install ncurses-devel ; \
-	elif [ -a /etc/redhat-release ] ; \
-	then \
-		sudo yum update ; \
-		sudo yum install ncurses-devel ; \
-	elif [ -a /etc/arch-release ] ; \
-	then \
-		sudo pacman -Sy ; \
-		sudo pacman -S ncurses ; \
-	else \
-		sudo apt-get update ; \
-		sudo apt-get install lib32ncurses5-dev lib32ncursesw5-dev ; \
-	fi
 
 clean:
 	rm -rf $(BIN)
