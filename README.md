@@ -10,12 +10,12 @@ This project provides tools to recreate this effect in your projects.
 Here is a standalone executable called `nms` (provided in this project) that uses these tools to
 perform this effect on piped data:
 
-![Screenshot](http://i.imgur.com/6gk6J4I.gif)
+![Screenshot](http://www.brianbarto.info/extern/images/nms/nms.gif)
 
 Also included in this project is a program called `sneakers` that utilizes these tools to recreate,
 almost identically, what we see in the above movie clip. 
 
-![Screenshot](http://i.imgur.com/4V3wIjJ.gif)
+![Screenshot](http://www.brianbarto.info/extern/images/nms/sneakers.gif)
 
 What's Provided
 ---------------
