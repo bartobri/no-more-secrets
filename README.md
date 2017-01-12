@@ -37,28 +37,20 @@ package manager collection. If you're using one of the following systems,
 you can install it from the package manager.
 
 * openSUSE
-* Homebrew (Mac OS X, see http://brew.sh/)
+* Mac OS X (Via homebrew package manager: http://brew.sh/)
 * FreeBSD
 
-If your system is not on the list, you can easily install this project from
-source. You will need to have `git`, `gcc`, and `make` installed to download
-and build it. Install them from your package manager if they are not available.
+If you install form a package manager, please check that you have the
+latest version (`nms -v`). If not, I suggest installing from source (see
+below).
 
-To check if you have them installed:
+To install this project from source, you will need to have the tools `git`,
+`gcc`, and `make` to download and build it. Install them from your package
+manager if they are not available.
 
-```
-$ which make
-/usr/bin/make
+Once you have the necessary tools installed, follow these instructions:
 
-$ which gcc
-/usr/bin/gcc
-
-$ which git
-/usr/bin/git
-```
-
-Once those are installed, follow these instructions to download and install `nms`.
-
+#### Install:
 ```
 git clone https://github.com/bartobri/no-more-secrets.git
 cd ./no-more-secrets
@@ -66,7 +58,7 @@ make
 sudo make install
 ```
 
-Uninstall:
+#### Uninstall:
 
 ```
 $ sudo make uninstall
@@ -86,6 +78,7 @@ ls -l / | nms
 ls -l / | nms -a           // Set auto-decrypt flag
 ls -l / | nms -f green     // Set foreground color to green
 ls -l / | nms -c           // Clear screen
+ls -l / | nms -v           // Display version
 ```
 
 #### Command Line Options
@@ -107,6 +100,10 @@ This option clears the screen prior to printing any output. Specifically,
 it saves the state of the terminal (all current output), and restores it
 once the effect is comlpeted. Note that when using this option, `nms` requires
 the user to press a key before restoring the terminal.
+
+`-v`
+
+Display version info.
 
 License
 -------
