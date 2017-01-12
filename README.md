@@ -85,6 +85,7 @@ for the user to press a key before it starts the decryption sequence.
 ls -l / | nms
 ls -l / | nms -a           // Set auto-decrypt flag
 ls -l / | nms -f green     // Set foreground color to green
+ls -l / | nms -c           // Clear screen
 ```
 
 #### Command Line Options
@@ -99,6 +100,13 @@ decryption sequence without a key press.
 This option sets the foreground color of the decrypted text to the color
 specified. Valid options are white, yellow, black, magenta, blue, green,
 or red. This is blue by default.
+
+`-c`
+
+This option clears the screen prior to printing any output. Specifically,
+it saves the state of the terminal (all current output), and restores it
+once the effect is comlpeted. Note that when using this option, `nms` requires
+the user to press a key before restoring the terminal.
 
 License
 -------
