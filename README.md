@@ -27,9 +27,19 @@ Table of Contents
 Download and Install
 --------------------
 
-In order to download and build this project, you will need to have `git`,
-`gcc`, and `make` installed. Install them from your package manager if not
-already installed.
+I am flattered that few *NIX platforms have added this project to their
+package manager collection. If you're using one of the following systems,
+you can install it from the package manager.
+
+* openSUSE
+* Homebrew (Mac OS X, see http://brew.sh/)
+* FreeBSD
+
+If your system is not on the list, you can easily install this project from
+source. You will need to have `git`, `gcc`, and `make` installed to download
+and build it. Install them from your package manager if they are not available.
+
+To check if you have them installed:
 
 ```
 $ which make
@@ -42,8 +52,20 @@ $ which git
 /usr/bin/git
 ```
 
-See the [INSTALL](INSTALL.md) file for a list of instructions for various
-operating systems.
+Once those are installed, follow these instructions to download and install `nms`.
+
+```
+git clone https://github.com/bartobri/no-more-secrets.git
+cd ./no-more-secrets
+make
+sudo make install
+```
+
+Uninstall:
+
+```
+$ sudo make uninstall
+```
 
 Usage
 -----
