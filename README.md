@@ -17,6 +17,11 @@ user to select one of the menu options before it terminates.
 
 ![Screenshot](http://www.brianbarto.info/extern/images/nms/sneakers.gif)
 
+This project has no dependencies, but it does rely on ANSI/VT100 escape
+sequences to recreate the effect. Most modern terminal programs support
+these sequences so this should not be an issue for most users. If yours
+does not, you may need to use an alternate terminal program like xTerm.
+
 Table of Contents
 -----------------
 
