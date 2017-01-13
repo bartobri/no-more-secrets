@@ -78,7 +78,7 @@ ls -l / | nms
 ls -l / | nms -a           // Set auto-decrypt flag
 ls -l / | nms -f green     // Set foreground color to green
 ls -l / | nms -c           // Clear screen
-ls -l / | nms -v           // Display version
+nms -v                     // Display version
 ```
 
 #### Command Line Options
