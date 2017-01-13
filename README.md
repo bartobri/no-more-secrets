@@ -67,36 +67,37 @@ $ sudo make uninstall
 Usage
 -----
 
-`nms` works on piped data. All ASCII and UTF-8 character sets should be
-supported.
-
-After the initial "encrypted" characters are displayed, `nms` will wait
-for the user to press a key before it starts the decryption sequence.
+`nms` works on piped data. Pipe any ASCII or UTF-8 characters to it and
+enjoy the magic. In the below examples, I use a simple directory listing.
 
 ```
-ls -l / | nms
-ls -l / | nms -a           // Set auto-decrypt flag
-ls -l / | nms -f green     // Set foreground color to green
-ls -l / | nms -c           // Clear screen
-nms -v                     // Display version
+ls -l | nms
+ls -l | nms -a           // Set auto-decrypt flag
+ls -l | nms -f green     // Set foreground color to green
+ls -l | nms -c           // Clear screen
+nms -v                   // Display version
 ```
+
+Note that by default, after the initial encrypted characters are displayed,
+`nms` will wait for the user to press a key before initiating the decryption
+sequence. This is how the decryption functionality is depicted in the movie.
 
 #### Command Line Options
 
 `-a`
 
-This option sets the auto-decrypt flag. This will automatically start the
-decryption sequence without a key press.
+Set the auto-decrypt flag. This will automatically start the
+decryption sequence without requiring a key press.
 
 `-f color`
 
-This option sets the foreground color of the decrypted text to the color
+Set the foreground color of the decrypted text to the color
 specified. Valid options are white, yellow, black, magenta, blue, green,
 or red. This is blue by default.
 
 `-c`
 
-This option clears the screen prior to printing any output. Specifically,
+Clear the screen prior to printing any output. Specifically,
 it saves the state of the terminal (all current output), and restores it
 once the effect is comlpeted. Note that when using this option, `nms` requires
 the user to press a key before restoring the terminal.
