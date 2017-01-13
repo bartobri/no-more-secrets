@@ -5,11 +5,11 @@ No More Secrets
 
 This project provides a command line tool called `nms` that recreates the
 famous data decryption effect seen on screen in the 1992 hacker movie Sneakers.
-For reference, you can see this effect at 0:35 in [this youtube video](https://www.youtube.com/watch?v=F5bAa6gFvLs&t=35).
+For reference, you can see this effect at 0:35 in [this movie clip](https://www.youtube.com/watch?v=F5bAa6gFvLs&t=35).
 
 This command works on piped data. Pipe any ASCII or UTF-8 text to `nms`,
-and it will apply the effect to it, initially showing "encrypted" data,
-then starting a decryption sequence to reveal the original plaintext data.
+and it will apply the hollywood effect, initially showing encrypted data,
+then starting a decryption sequence to reveal the original plaintext characters.
 
 ![Screenshot](http://www.brianbarto.info/extern/images/nms/nms.gif)
 
@@ -34,21 +34,15 @@ Table of Contents
 Download and Install
 --------------------
 
-I am flattered that few *NIX platforms have added this project to their
-package manager collection. If you're using one of the following systems,
-you can install it from the package manager.
-
-* openSUSE
-* Mac OS X (Via homebrew package manager: http://brew.sh/)
-* FreeBSD
-
-If you install form a package manager, please check that you have the
-latest version (`nms -v`). If not, I suggest installing from source (see
-below).
+More and more unix/linux platforms are including this project in their
+package manager. You may wish to search your package manager to see if it
+is an installation option. If you install form a package manager, please
+check that you have the latest version (`nms -v`). If not, I suggest
+installing from source (see below).
 
 To install this project from source, you will need to have the tools `git`,
 `gcc`, and `make` to download and build it. Install them from your package
-manager if they are not available.
+manager if they are not already installed.
 
 Once you have the necessary tools installed, follow these instructions:
 
