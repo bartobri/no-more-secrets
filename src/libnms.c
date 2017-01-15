@@ -377,24 +377,31 @@ char nms_exec(char *string) {
 	// Flush any input up to this point
 	nms_clear_input();
 
-	if (clearScr) {
-
-		// Position cursor
+	// Check if user must select from a set of options
+	if (returnOpts != NULL && strlen(returnOpts) > 0) {
+		
+		// Position cursor if necessary
 		if (inputPositionY >= 0 && inputPositionX >= 0) {
 			CURSOR_MOVE(inputPositionY, inputPositionX);
-			CURSOR_SHOW();
 		}
-	
-		// User must press a key to continue
-		ret = nms_get_char();
-		if (returnOpts != NULL && strlen(returnOpts) > 0) {
-			while (strchr(returnOpts, ret) == NULL) {
-				BEEP();
-				ret = nms_get_char();
-			}
+		
+		CURSOR_SHOW();
+		
+		// Get and validate user selection
+		while (strchr(returnOpts, ret = nms_get_char()) == NULL) {
+			BEEP();
 		}
+
+	}
 	
-		// Restore screen and cursor
+	// User must press a key to continue when clearSrc is set
+	// without returnOpts
+	else if (clearScr) {
+		nms_get_char();
+	}
+	
+	// Restore screen and cursor is clearSrc is set
+	if (clearScr) {
 		SCREEN_RESTORE();
 		CURSOR_SHOW();
 		CURSOR_RESTORE();
