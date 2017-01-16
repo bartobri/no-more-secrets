@@ -70,6 +70,7 @@ enjoy the magic. In the below examples, I use a simple directory listing.
 ls -l | nms
 ls -l | nms -a           // Set auto-decrypt flag
 ls -l | nms -f green     // Set foreground color to green
+ls -l | nms -r 123456    // Set return options
 ls -l | nms -c           // Clear screen
 nms -v                   // Display version
 ```
@@ -85,11 +86,18 @@ sequence. This is how the decryption functionality is depicted in the movie.
 Set the auto-decrypt flag. This will automatically start the
 decryption sequence without requiring a key press.
 
-`-f color`
+`-f <color>`
 
 Set the foreground color of the decrypted text to the color
 specified. Valid options are white, yellow, black, magenta, blue, green,
 or red. This is blue by default.
+
+`-r <options>`
+
+Sets the character options that `nms` requires the user to choose from
+before it terminates execution. This is intended to be used for cases
+where the data piped to `nms` contains a menu with a set of options. Note
+that `nms` will print the selection to stdout before terminating.
 
 `-c`
 

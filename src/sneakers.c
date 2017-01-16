@@ -1,8 +1,15 @@
+/*
+ * Copyright (c) 2017 Brian Barto
+ * 
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the MIT License. See LICENSE for more details.
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include "libnms.h"
+#include "nms.h"
 
 int main(void) {
 	int termCols, spaces = 0;

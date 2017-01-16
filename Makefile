@@ -20,10 +20,10 @@ CFLAGS ?= -Wextra -Wall
 EXES = nms sneakers
 all: $(EXES)
 
-nms: $(OBJ)/libnms.o $(OBJ)/nms.o | $(BIN)
+nms: $(OBJ)/nms.o $(OBJ)/main.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
 
-sneakers: $(OBJ)/libnms.o $(OBJ)/sneakers.o | $(BIN)
+sneakers: $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)

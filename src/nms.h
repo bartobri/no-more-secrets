@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2016 Brian Barto
+ * Copyright (c) 2017 Brian Barto
  * 
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the MIT License. See LICENSE for more details.
  */
 
-#ifndef LIBNMS_H
-#define LIBNMS_H 1
+#ifndef NMS_H
+#define NMS_H 1
 
 // Function prototypes
 char nms_exec(char *);
