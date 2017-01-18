@@ -10,6 +10,7 @@
 #include <string.h>
 #include <sys/ioctl.h>
 #include "nms.h"
+#include "nmsterm.h"
 
 int main(void) {
 	int termCols, spaces = 0;
