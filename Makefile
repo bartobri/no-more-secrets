@@ -17,14 +17,13 @@ CFLAGS ?= -Wextra -Wall
 
 .PHONY: all install uninstall clean
 
-EXES = nms sneakers
-all: $(EXES)
-
 nms: $(OBJ)/nms.o $(OBJ)/main.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
 
 sneakers: $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
+
+all: nms sneakers
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	$(CC) $(CFLAGS) -o $@ -c $<
@@ -41,8 +40,8 @@ clean:
 
 install:
 	install -d $(DESTDIR)$(bindir)
-	cd $(BIN) && install $(EXES) $(DESTDIR)$(bindir)
+	cd $(BIN) && install * $(DESTDIR)$(bindir)
 
 uninstall:
-	for exe in $(EXES); do rm $(DESTDIR)$(bindir)/$$exe; done
-
+	if [ -f $(DESTDIR)$(bindir)/nms ]; then rm $(DESTDIR)$(bindir)/nms; fi;
+	if [ -f $(DESTDIR)$(bindir)/sneakers ]; then rm $(DESTDIR)$(bindir)/sneakers; fi;
