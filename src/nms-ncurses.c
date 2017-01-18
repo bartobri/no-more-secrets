@@ -417,6 +417,15 @@ void nms_set_foreground_color(char *color) {
 }
 
 /*
+ * nms_set_return_opts() takes a character sting and copies it to the
+ * returnOpts setting used by nms_exec().
+ */
+void nms_set_return_opts(char *opts) {
+	returnOpts = realloc(returnOpts, strlen(opts) + 1);
+	strcpy(returnOpts, opts);
+}
+
+/*
  * nms_set_auto_decrypt() sets the autoDecrypt flag according to the
  * true/false value of the 'setting' argument.
  */
