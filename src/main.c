@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 	char *input = NULL;
 
 	// Processing command arguments
-	while ((o = getopt(argc, argv, "f:ac:v")) != -1) {
+	while ((o = getopt(argc, argv, "f:acv")) != -1) {
 		switch (o) {
 			case 'f':
 				nms_set_foreground_color(optarg);
