@@ -43,5 +43,5 @@ install:
 	cd $(BIN) && install * $(DESTDIR)$(bindir)
 
 uninstall:
-	if [ -f $(DESTDIR)$(bindir)/nms ]; then rm $(DESTDIR)$(bindir)/nms; fi;
-	if [ -f $(DESTDIR)$(bindir)/sneakers ]; then rm $(DESTDIR)$(bindir)/sneakers; fi;
+	rm -f $(DESTDIR)$(bindir)/nms;
+	rm -f $(DESTDIR)$(bindir)/sneakers;
