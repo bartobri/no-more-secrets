@@ -26,7 +26,7 @@ sneakers: $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
 all: nms sneakers
 
 nms-ncurses: $(OBJ)/nms-ncurses.o $(OBJ)/main.o | $(BIN)
-	$(CC) $(CFLAGS) -o $(BIN)/$@ $^ -lncurses
+	$(CC) $(CFLAGS) -o $(BIN)/nms $^ -lncurses
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	$(CC) $(CFLAGS) -o $@ -c $<
