@@ -28,35 +28,6 @@
 #include <ncurses.h>
 #include "nms.h"
 
-// Color identifiers
-/*
-#define COLOR_BLACK   0
-#define COLOR_RED     1
-#define COLOR_GREEN   2
-#define COLOR_YELLOW  3
-#define COLOR_BLUE    4
-#define COLOR_MAGENTA 5
-#define COLOR_CYAN    6
-#define COLOR_WHITE   7
-*/
-
-// Macros for VT100 codes
-/*
-#define CLEAR_SCR()          printf("\033[2J")           // Clear Screen
-#define CURSOR_HOME()        printf("\033[H")            // Move cursor to home position (0,0)
-#define CURSOR_MOVE(x,y)     printf("\033[%i;%iH", x, y) // Move cursor to x,y
-#define BEEP()               printf("\a");               // terminal bell
-#define BOLD()               printf("\033[1m")           // Cursor bold
-#define FOREGROUND_COLOR(x)  printf("\033[3%im", x)      // Set foreground color
-#define CLEAR_ATTR()         printf("\033[0m")           // Clear bold/color attributes
-#define SCREEN_SAVE()        printf("\033[?47h")         // Save screen display
-#define SCREEN_RESTORE()     printf("\033[?47l")         // Restore screen to previously saved state
-#define CURSOR_SAVE()        printf("\033[s")            // Save cursor position
-#define CURSOR_RESTORE()     printf("\033[u")            // Restore cursor position
-#define CURSOR_HIDE()        printf("\033[?25l")         // Hide cursor
-#define CURSOR_SHOW()        printf("\033[?25h")         // Unhide cursor
-*/
-
 // Program settings
 #define TYPE_EFFECT_SPEED    4     // miliseconds per char
 #define JUMBLE_SECONDS       2     // number of seconds for jumble effect
