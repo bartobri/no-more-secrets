@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 				nmseffect_set_foregroundcolor(optarg);
 				break;
 			case 'a':
-				nmseffect_set_auto_decrypt(1);
+				nmseffect_set_autodecrypt(1);
 				break;
 			case 'c':
 				nmseffect_set_clearscr(1);

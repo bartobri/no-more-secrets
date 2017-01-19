@@ -12,7 +12,7 @@
 char nmseffect_exec(char *);
 void nmseffect_set_foregroundcolor(char *);
 void nmseffect_set_return_opts(char *);
-void nmseffect_set_auto_decrypt(int);
+void nmseffect_set_autodecrypt(int);
 void nmseffect_set_clearscr(int);
 void nmseffect_use_color(int);
 void nmseffect_set_input_position(int, int);

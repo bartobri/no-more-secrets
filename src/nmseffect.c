@@ -367,10 +367,10 @@ void nmseffect_set_return_opts(char *opts) {
 }
 
 /*
- * nmseffect_set_auto_decrypt() sets the autoDecrypt flag according to the
+ * nmseffect_set_autodecrypt() sets the autoDecrypt flag according to the
  * true/false value of the 'setting' argument.
  */
-void nmseffect_set_auto_decrypt(int setting) {
+void nmseffect_set_autodecrypt(int setting) {
 	if (setting)
 		autoDecrypt = 1;
 	else
