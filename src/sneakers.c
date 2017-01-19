@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/ioctl.h>
-#include "nms.h"
+#include "nmseffect.h"
 #include "nmsterm.h"
 
 int main(void) {
@@ -160,12 +160,12 @@ int main(void) {
 	strcat(display, foot2Center);
 
 	// Settings
-	nms_set_input_position(((termCols - strlen(foot2Center)) / 2) + 2, 18);
-	nms_set_return_opts("123456");
-	nms_set_clearscr(1);
+	nmseffect_set_input_position(((termCols - strlen(foot2Center)) / 2) + 2, 18);
+	nmseffect_set_return_opts("123456");
+	nmseffect_set_clearscr(1);
 
 	// Execut effect
-	input = nms_exec(display);
+	input = nmseffect_exec(display);
 	
 	// Print user choice
 	printf("You chose %c\n", input);

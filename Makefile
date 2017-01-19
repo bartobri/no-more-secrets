@@ -17,20 +17,20 @@ CFLAGS ?= -Wextra -Wall
 
 .PHONY: all install uninstall clean
 
-nms: $(OBJ)/nmsterm.o $(OBJ)/nms.o $(OBJ)/main.o | $(BIN)
+nms: $(OBJ)/nmsterm.o $(OBJ)/nmseffect.o $(OBJ)/nms.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
 
-sneakers: $(OBJ)/nmsterm.o $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
+sneakers: $(OBJ)/nmsterm.o $(OBJ)/nmseffect.o $(OBJ)/sneakers.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
 
 all: nms sneakers
 
 all-ncurses: nms-ncurses sneakers-ncurses
 
-nms-ncurses: $(OBJ)/nmsterm_ncurses.o $(OBJ)/nms.o $(OBJ)/main.o | $(BIN)
+nms-ncurses: $(OBJ)/nmsterm_ncurses.o $(OBJ)/nmseffect.o $(OBJ)/nms.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/nms $^ -lncurses
 
-sneakers-ncurses: $(OBJ)/nmsterm_ncurses.o $(OBJ)/nms.o $(OBJ)/sneakers.o | $(BIN)
+sneakers-ncurses: $(OBJ)/nmsterm_ncurses.o $(OBJ)/nmseffect.o $(OBJ)/sneakers.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/sneakers $^ -lncurses
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
