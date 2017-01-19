@@ -47,10 +47,9 @@ static int inputPositionX   = -1;           // X coordinate for input position
 static int inputPositionY   = -1;           // Y coordinate for input position
 
 /*
- * nmseffect_exec() - This function is passed a pointer to a character string
- * and displays the contents of the string in a way that mimicks the
- * "decrypting text" effect in the 1992 movie Sneakers. It returns the
- * last character pressed by the user.
+ * This function applies the data decryption effect to the character
+ * string that is provided as an argument. It returns the last character
+ * pressed by the user.
  */
 char nmseffect_exec(char *string) {
 	struct charAttr *list_pointer = NULL;
@@ -308,19 +307,21 @@ char nmseffect_exec(char *string) {
 }
 
 /*
- * nmseffect_set_foreground_color() sets the foreground color of the unencrypted
- * characters as they are revealed to the color indicated by the 'color'
- * argument. Valid arguments are "white", "yellow", "magenta", "blue",
- * "green", "red", and "cyan". This function will default to blue if
- * passed an invalid color. No value is returned.
+ * Pass the 'color' argument to the nmstermio module where it will set the
+ * foreground color of the unencrypted characters as they are
+ * revealed. Valid arguments are "white", "yellow", "magenta", "blue",
+ * "green", "red", and "cyan".
  */
 void nmseffect_set_foregroundcolor(char *color) {
 	nmstermio_set_foregroundcolor(color);
 }
 
 /*
- * nmseffect_set_returnopts() takes a character sting and copies it to the
- * returnOpts setting used by nms_exec().
+ * Copy the string argument to the 'returnOpts' variable. This string is
+ * used to determine what character the user must choose from before
+ * nmseffect_exec() returns execution to the calling function. Normally
+ * this is left NULL. Use only when you want to present a menu with
+ * selection choices to the user.
  */
 void nmseffect_set_returnopts(char *opts) {
 	returnOpts = realloc(returnOpts, strlen(opts) + 1);
@@ -328,8 +329,9 @@ void nmseffect_set_returnopts(char *opts) {
 }
 
 /*
- * nmseffect_set_autodecrypt() sets the autoDecrypt flag according to the
- * true/false value of the 'setting' argument.
+ * Set the autoDecrypt flag according to the true/false value of the
+ * 'setting' argument. When set to true, nmseffect_exec() will not
+ * require a key press to start the decryption effect.
  */
 void nmseffect_set_autodecrypt(int setting) {
 	if (setting)
@@ -339,16 +341,20 @@ void nmseffect_set_autodecrypt(int setting) {
 }
 
 /*
- * nmseffect_set_clearscr() sets the clearScr flag according to the
- * true/false value of the 'setting' argument.
+ * Pass the 'setting' argument to the nmstermio module where it will set
+ * the clearScr flag according to the true/false value. When set to true,
+ * nmseffect_exec() will clear the screen before displaying any characters.
  */
-void nmseffect_set_clearscr(int s) {
-	nmstermio_set_clearscr(s);
+void nmseffect_set_clearscr(int setting) {
+	nmstermio_set_clearscr(setting);
 }
 
 /*
- * nmseffect_set_color() sets the colorOn flag according to the
- * true/false value of the 'setting' argument.
+ * Set the 'colorOn' flag according to the true/false value of the 'setting'
+ * argument. This flag tells nmseffect_exec() to use colors in it's output.
+ * This is true by default, and meant to be used only for terminals that
+ * do not support color. Though, compiling with ncurses support is perhaps
+ * a better option, as it will detect color capabilities automatically.
  */
 void nmseffect_set_color(int setting) {
 	if (setting)
@@ -358,9 +364,9 @@ void nmseffect_set_color(int setting) {
 }
 
 /*
- * nmseffect_set_input_position() sets the desired coordinate of the cursor in
- * the terminal when accepting user input after nms_exec() reveals the
- * unencrypted characters.
+ * Set the desired coordinates of the cursor in the terminal window when
+ * nmseffect_exec() gets the character selection from the user that is set
+ * with nmseffect_set_returnopts().
  */
 void nmseffect_set_input_position(int x, int y) {
 	if (x >= 0 && y >= 0) {
@@ -370,7 +376,7 @@ void nmseffect_set_input_position(int x, int y) {
 }
 
 /*
- * nmseffect_sleep() sleeps for the number of miliseconds indicated by 't'.
+ * Sleep for the number of milliseconds indicated by argument 't'.
  */
 static void nmseffect_sleep(int t) {
 	struct timespec ts;
