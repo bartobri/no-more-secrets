@@ -43,11 +43,9 @@ static int foregroundColor   = COLOR_BLUE;            // Foreground color settin
 
 // Function prototypes
 static void nmsterm_set_terminal(int);
-static int nmsterm_get_cursor_row(void);
 
 // Initialize terminal window
-int nmsterm_init_terminal(void) {
-	int origRow = 0;
+void nmsterm_init_terminal(void) {
 
 	// Turn off line buffering and echo
 	nmsterm_set_terminal(0);
@@ -59,18 +57,7 @@ int nmsterm_init_terminal(void) {
 		CLEAR_SCR();
 		CURSOR_HOME();
 		CURSOR_HIDE();
-	} else {
-		
-		// Get current row position
-		origRow = nmsterm_get_cursor_row();
-		
-		// nms_get_cursor_row() may display output in some terminals. So
-		// we need to reposition the cursor to the start of the row.
-		CURSOR_MOVE(origRow, 0);
 	}
-	
-	// Return cursor row position
-	return origRow;
 }
 
 void nmsterm_restore_terminal(void) {
@@ -213,6 +200,39 @@ void nmsterm_set_foregroundcolor(char *c) {
 }
 
 /*
+ * nms_get_cursor_row() returns the row position of the cursor as reported
+ * by the terminal program via the ANSI escape code
+ */
+int nmsterm_get_cursor_row(void) {
+	int i, r = 0;
+	int row = 0;
+	char buf[10];
+	char *cmd = "\033[6n";
+
+	memset(buf, 0, sizeof(buf));
+
+	write(STDOUT_FILENO, cmd, sizeof(cmd));
+
+	r = read(STDIN_FILENO, buf, sizeof(buf));
+
+	for (i = 0; i < r; ++i) {
+		if (buf[i] == 27 || buf[i] == '[') {
+			continue;
+		}
+
+		if (buf[i] >= '0' && buf[i] <= '9') {
+			row = (row * 10) + (buf[i] - '0');
+		}
+		
+		if (buf[i] == ';' || buf[i] == 'R' || buf[i] == 0) {
+			break;
+		}
+	}
+	
+	return row;
+}
+
+/*
  * nmsterm_set_terminal() turns off terminal echo and line buffering when
  * passed an integer value that evaluates to true. It restores the
  * original terminal values when passed an integer value that evaluates
@@ -241,36 +261,4 @@ static void nmsterm_set_terminal(int s) {
 	}
 	
 	state = s;
-}
-/*
- * nms_get_cursor_row() returns the row position of the cursor as reported
- * by the terminal program via the ANSI escape code
- */
-static int nmsterm_get_cursor_row(void) {
-	int i, r = 0;
-	int row = 0;
-	char buf[10];
-	char *cmd = "\033[6n";
-
-	memset(buf, 0, sizeof(buf));
-
-	write(STDOUT_FILENO, cmd, sizeof(cmd));
-
-	r = read(STDIN_FILENO, buf, sizeof(buf));
-
-	for (i = 0; i < r; ++i) {
-		if (buf[i] == 27 || buf[i] == '[') {
-			continue;
-		}
-
-		if (buf[i] >= '0' && buf[i] <= '9') {
-			row = (row * 10) + (buf[i] - '0');
-		}
-		
-		if (buf[i] == ';' || buf[i] == 'R' || buf[i] == 0) {
-			break;
-		}
-	}
-	
-	return row;
 }

@@ -5,6 +5,7 @@
  * under the terms of the MIT License. See LICENSE for more details.
  */
 
+#include <string.h>
 #include <ncurses.h>
 
 // Static settings
@@ -13,7 +14,7 @@ static int clearScr          = 1;                     // clearScr flag
 static int foregroundColor   = COLOR_BLUE;            // Foreground color setting
 
 // Initialize terminal window
-int nmsterm_init_terminal(void) {
+void nmsterm_init_terminal(void) {
 	initscr();
 	cbreak();
 	noecho();
@@ -23,9 +24,6 @@ int nmsterm_init_terminal(void) {
 		start_color();
 		init_pair(1, foregroundColor, COLOR_BLACK);
 	}
-	
-	// Since ncurses always clears the screen, we always return zero.
-	return 0;
 }
 
 void nmsterm_restore_terminal(void) {

@@ -9,7 +9,7 @@
 #define NMSTERM_H 1
 
 // Function prototypes
-int nmsterm_init_terminal(void);
+void nmsterm_init_terminal(void);
 void nmsterm_restore_terminal(void);
 int nmsterm_get_rows(void);
 int nmsterm_get_cols(void);
@@ -25,6 +25,7 @@ void nmsterm_beep(void);
 int nmsterm_get_clearscr(void);
 void nmsterm_set_clearscr(int);
 void nmsterm_set_foregroundcolor(char *);
+int nmsterm_get_cursor_row(void);
 
 
 #endif

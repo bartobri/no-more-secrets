@@ -122,7 +122,16 @@ char nms_exec(char *string) {
 	setlocale(LC_ALL, "");
 	
 	// Initialize terminal
-	origRow = nmsterm_init_terminal();
+	nmsterm_init_terminal();
+	
+	if (!nmsterm_get_clearscr()) {
+		// Get current row position
+		origRow = nmsterm_get_cursor_row();
+		
+		// nms_get_cursor_row() may display output in some terminals. So
+		// we need to reposition the cursor to the start of the row.
+		nmsterm_move_cursor(origRow, 0);
+	}
 
 	// Get terminal window rows/cols
 	maxRows = nmsterm_get_rows();
