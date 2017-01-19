@@ -17,13 +17,13 @@
 #include <wchar.h>
 #include "nmseffect.h"
 #include "nmstermio.h"
+#include "nmscharset.h"
 
 // Program settings
 #define TYPE_EFFECT_SPEED    4     // miliseconds per char
 #define JUMBLE_SECONDS       2     // number of seconds for jumble effect
 #define JUMBLE_LOOP_SPEED    35    // miliseconds between each jumble
 #define REVEAL_LOOP_SPEED    50    // miliseconds between each reveal loop
-#define MASK_CHAR_COUNT      218   // Total characters in maskCharTable[] array.
 
 // Character attribute structure, linked list. Keeps track of every
 // character's attributes required for rendering and decryption effect.
@@ -45,45 +45,6 @@ static int autoDecrypt      = 0;            // Auto-decrypt flag
 static int colorOn          = 1;            // Terminal color flag
 static int inputPositionX   = -1;           // X coordinate for input position
 static int inputPositionY   = -1;           // Y coordinate for input position
-
-// Character table representing the character set know as CP437 used by
-// the original IBM PC - https://en.wikipedia.org/wiki/Code_page_437
-static char *maskCharTable[] = {
-	"!", "\"", "#", "$", "%", "&", "'", "(", ")", "*", "+", ",", "-", "~",
-	".", "/", ":", ";", "<", "=", ">", "?", "[", "\\", "]", "_", "{", "}",
-	"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-	"N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-	"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-	"n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
-	"0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
-	"\xc3\x87", "\xc3\xbc", "\xc3\xa9", "\xc3\xa2", "\xc3\xa4", "\xc3\xa0",
-	"\xc3\xa5", "\xc3\xa7", "\xc3\xaa", "\xc3\xab", "\xc3\xa8", "\xc3\xaf",
-	"\xc3\xae", "\xc3\xac", "\xc3\x84", "\xc3\x85", "\xc3\x89", "\xc3\xa6",
-	"\xc3\x86", "\xc3\xb4", "\xc3\xb6", "\xc3\xb2", "\xc3\xbb", "\xc3\xb9",
-	"\xc3\xbf", "\xc3\x96", "\xc3\x9c", "\xc2\xa2", "\xc2\xa3", "\xc2\xa5",
-	"\xc6\x92", "\xc3\xa1", "\xc3\xad", "\xc3\xb3", "\xc3\xba", "\xc3\xb1",
-	"\xc3\x91", "\xc2\xaa", "\xc2\xba", "\xc2\xbf", "\xc2\xac", "\xc2\xbd",
-	"\xc2\xbc", "\xc2\xa1", "\xc2\xab", "\xc2\xbb", "\xce\xb1", "\xc3\x9f",
-	"\xce\x93", "\xcf\x80", "\xce\xa3", "\xcf\x83", "\xc2\xb5", "\xcf\x84",
-	"\xce\xa6", "\xce\x98", "\xce\xa9", "\xce\xb4", "\xcf\x86", "\xce\xb5",
-	"\xc2\xb1", "\xc3\xb7", "\xc2\xb0", "\xc2\xb7", "\xc2\xb2", "\xc2\xb6",
-	"\xe2\x8c\x90", "\xe2\x82\xa7", "\xe2\x96\x91", "\xe2\x96\x92",
-	"\xe2\x96\x93", "\xe2\x94\x82", "\xe2\x94\xa4", "\xe2\x95\xa1",
-	"\xe2\x95\xa2", "\xe2\x95\x96", "\xe2\x95\x95", "\xe2\x95\xa3",
-	"\xe2\x95\x91", "\xe2\x95\x97", "\xe2\x95\x9d", "\xe2\x95\x9c",
-	"\xe2\x95\x9b", "\xe2\x94\x90", "\xe2\x94\x94", "\xe2\x94\xb4",
-	"\xe2\x94\xac", "\xe2\x94\x9c", "\xe2\x94\x80", "\xe2\x94\xbc",
-	"\xe2\x95\x9e", "\xe2\x95\x9f", "\xe2\x95\x9a", "\xe2\x95\x94",
-	"\xe2\x95\xa9", "\xe2\x95\xa6", "\xe2\x95\xa0", "\xe2\x95\x90",
-	"\xe2\x95\xac", "\xe2\x95\xa7", "\xe2\x95\xa8", "\xe2\x95\xa4",
-	"\xe2\x95\xa7", "\xe2\x95\x99", "\xe2\x95\x98", "\xe2\x95\x92",
-	"\xe2\x95\x93", "\xe2\x95\xab", "\xe2\x95\xaa", "\xe2\x94\x98",
-	"\xe2\x94\x8c", "\xe2\x96\x88", "\xe2\x96\x84", "\xe2\x96\x8c",
-	"\xe2\x96\x90", "\xe2\x96\x80", "\xe2\x88\x9e", "\xe2\x88\xa9",
-	"\xe2\x89\xa1", "\xe2\x89\xa5", "\xe2\x89\xa4", "\xe2\x8c\xa0",
-	"\xe2\x8c\xa1", "\xe2\x89\x88", "\xe2\x88\x99", "\xe2\x88\x9a",
-	"\xe2\x81\xbf", "\xe2\x96\xa0"
-};
 
 /*
  * nmseffect_exec() - This function is passed a pointer to a character string
@@ -114,6 +75,9 @@ char nmseffect_exec(char *string) {
 	// Needed for UTF-8 support
 	setlocale(LC_ALL, "");
 	
+	// Seed my random number generator with the current time
+	srand(time(NULL));
+	
 	// Initialize terminal
 	nmstermio_init_terminal();
 	
@@ -129,9 +93,6 @@ char nmseffect_exec(char *string) {
 	// Get terminal window rows/cols
 	maxRows = nmstermio_get_rows();
 	maxCols = nmstermio_get_cols();
-
-	// Seed my random number generator with the current time
-	srand(time(NULL));
 
 	// Assign current row/col positions
 	curRow = origRow;
@@ -173,7 +134,7 @@ char nmseffect_exec(char *string) {
 			list_pointer->is_space = 0;
 
 		// Set initial mask chharacter
-		list_pointer->mask = maskCharTable[rand() % MASK_CHAR_COUNT];
+		list_pointer->mask = nmscharset_get_random();
 
 		// Set reveal time
 		list_pointer->time = rand() % 5000;
@@ -209,7 +170,7 @@ char nmseffect_exec(char *string) {
 		// print mask character
 		nmstermio_print_string(list_pointer->mask);
 		if (list_pointer->width == 2) {
-			nmstermio_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
+			nmstermio_print_string(nmscharset_get_random());
 		}
 		
 		// flush output and sleep
@@ -243,9 +204,9 @@ char nmseffect_exec(char *string) {
 			}
 			
 			// print new mask character
-			nmstermio_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
+			nmstermio_print_string(nmscharset_get_random());
 			if (list_pointer->width == 2) {
-				nmstermio_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
+				nmstermio_print_string(nmscharset_get_random());
 			}
 		}
 		
@@ -277,11 +238,11 @@ char nmseffect_exec(char *string) {
 				// Change the mask randomly
 				if (list_pointer->time < 500) {
 					if (rand() % 3 == 0) {
-						list_pointer->mask = maskCharTable[rand() % MASK_CHAR_COUNT];
+						list_pointer->mask = nmscharset_get_random();
 					}
 				} else {
 					if (rand() % 10 == 0) {
-						list_pointer->mask = maskCharTable[rand() % MASK_CHAR_COUNT];
+						list_pointer->mask = nmscharset_get_random();
 					}
 				}
 				
