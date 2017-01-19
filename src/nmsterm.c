@@ -12,9 +12,6 @@
 #include <unistd.h>
 #include <sys/ioctl.h>
 
-// Static settings
-static int clearScr = 0;                                 // clearScr flag
-
 // Macros for VT100 codes
 #define CLEAR_SCR()          printf("\033[2J")           // Clear Screen
 #define CURSOR_HOME()        printf("\033[H")            // Move cursor to home position (0,0)
@@ -30,17 +27,27 @@ static int clearScr = 0;                                 // clearScr flag
 #define CURSOR_HIDE()        printf("\033[?25l")         // Hide cursor
 #define CURSOR_SHOW()        printf("\033[?25h")         // Unhide cursor
 
+// Color identifiers
+#define COLOR_BLACK   0
+#define COLOR_RED     1
+#define COLOR_GREEN   2
+#define COLOR_YELLOW  3
+#define COLOR_BLUE    4
+#define COLOR_MAGENTA 5
+#define COLOR_CYAN    6
+#define COLOR_WHITE   7
+
+// Static settings
+static int clearScr          = 0;                     // clearScr flag
+static int foregroundColor   = COLOR_BLUE;            // Foreground color setting
+
 // Function prototypes
 static void nmsterm_set_terminal(int);
 static int nmsterm_get_cursor_row(void);
 
 // Initialize terminal window
-int nmsterm_init_terminal(int foregroundColor, int c) {
-	(void) foregroundColor;
+int nmsterm_init_terminal(void) {
 	int origRow = 0;
-	
-	// Set clearScr flag
-	clearScr = c;
 
 	// Turn off line buffering and echo
 	nmsterm_set_terminal(0);
@@ -138,7 +145,7 @@ char nmsterm_get_char(void) {
 	return c;
 }
 
-void nmsterm_print_reveal_string(char *s, int foregroundColor, int colorOn) {
+void nmsterm_print_reveal_string(char *s, int colorOn) {
 	
 	// Set bold and foreground color
 	BOLD();
@@ -163,6 +170,46 @@ void nmsterm_beep(void) {
 
 int nmsterm_get_clearscr(void) {
 	return clearScr;
+}
+
+/*
+ * nmsterm_set_clearscr() sets the clearScr flag according to the
+ * true/false value of the 's' argument.
+ */
+void nmsterm_set_clearscr(int s) {
+	if (s)
+		clearScr = 1;
+	else
+		clearScr = 0;
+}
+
+/*
+ * nms_set_foreground_color() sets the foreground color of the unencrypted
+ * characters as they are revealed to the color indicated by the 'color'
+ * argument. Valid arguments are "white", "yellow", "magenta", "blue",
+ * "green", "red", and "cyan". This function will default to blue if
+ * passed an invalid color. No value is returned.
+ */
+void nmsterm_set_foregroundcolor(char *c) {
+
+	if(strcmp("white", c) == 0)
+		foregroundColor =  COLOR_WHITE;
+	else if(strcmp("yellow", c) == 0)
+		foregroundColor = COLOR_YELLOW;
+	else if(strcmp("black", c) == 0)
+		foregroundColor = COLOR_BLACK;
+	else if(strcmp("magenta", c) == 0)
+		foregroundColor = COLOR_MAGENTA;
+	else if(strcmp("blue", c) == 0)
+		foregroundColor = COLOR_BLUE;
+	else if(strcmp("green", c) == 0)
+		foregroundColor = COLOR_GREEN;
+	else if(strcmp("red", c) == 0)
+		foregroundColor = COLOR_RED;
+	else if(strcmp("cyan", c) == 0)
+		foregroundColor = COLOR_CYAN;
+	else
+		foregroundColor = COLOR_BLUE;
 }
 
 /*

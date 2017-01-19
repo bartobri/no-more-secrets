@@ -162,7 +162,7 @@ int main(void) {
 	// Settings
 	nms_set_input_position(((termCols - strlen(foot2Center)) / 2) + 2, 18);
 	nms_set_return_opts("123456");
-	nms_set_clear_scr(1);
+	nms_set_clearscr(1);
 
 	// Execut effect
 	input = nms_exec(display);

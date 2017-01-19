@@ -10,10 +10,10 @@
 
 // Function prototypes
 char nms_exec(char *);
-void nms_set_foreground_color(char *);
+void nms_set_foregroundcolor(char *);
 void nms_set_return_opts(char *);
 void nms_set_auto_decrypt(int);
-void nms_set_clear_scr(int);
+void nms_set_clearscr(int);
 void nms_use_color(int);
 void nms_set_input_position(int, int);
 

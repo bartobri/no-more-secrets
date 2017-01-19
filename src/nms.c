@@ -25,16 +25,6 @@
 #include "nms.h"
 #include "nmsterm.h"
 
-// Color identifiers
-#define COLOR_BLACK   0
-#define COLOR_RED     1
-#define COLOR_GREEN   2
-#define COLOR_YELLOW  3
-#define COLOR_BLUE    4
-#define COLOR_MAGENTA 5
-#define COLOR_CYAN    6
-#define COLOR_WHITE   7
-
 // Program settings
 #define TYPE_EFFECT_SPEED    4     // miliseconds per char
 #define JUMBLE_SECONDS       2     // number of seconds for jumble effect
@@ -57,10 +47,8 @@ struct charAttr {
 static void nms_sleep(int);
 
 // NMS settings
-static int foregroundColor  = COLOR_BLUE;   // Foreground color setting
 static char *returnOpts     = NULL;         // Return option setting
 static int autoDecrypt      = 0;            // Auto-decrypt flag
-static int clearScr         = 0;            // clearScr flag
 static int colorOn          = 1;            // Terminal color flag
 static int inputPositionX   = -1;           // X coordinate for input position
 static int inputPositionY   = -1;           // Y coordinate for input position
@@ -134,7 +122,7 @@ char nms_exec(char *string) {
 	setlocale(LC_ALL, "");
 	
 	// Initialize terminal
-	origRow = nmsterm_init_terminal(foregroundColor, clearScr);
+	origRow = nmsterm_init_terminal();
 
 	// Get terminal window rows/cols
 	maxRows = nmsterm_get_rows();
@@ -306,7 +294,7 @@ char nms_exec(char *string) {
 			} else {
 				
 				// print source character
-				nmsterm_print_reveal_string(list_pointer->source, foregroundColor, colorOn);
+				nmsterm_print_reveal_string(list_pointer->source, colorOn);
 			}
 		}
 
@@ -363,26 +351,8 @@ char nms_exec(char *string) {
  * "green", "red", and "cyan". This function will default to blue if
  * passed an invalid color. No value is returned.
  */
-void nms_set_foreground_color(char *color) {
-
-	if(strcmp("white", color) == 0)
-		foregroundColor =  COLOR_WHITE;
-	else if(strcmp("yellow", color) == 0)
-		foregroundColor = COLOR_YELLOW;
-	else if(strcmp("black", color) == 0)
-		foregroundColor = COLOR_BLACK;
-	else if(strcmp("magenta", color) == 0)
-		foregroundColor = COLOR_MAGENTA;
-	else if(strcmp("blue", color) == 0)
-		foregroundColor = COLOR_BLUE;
-	else if(strcmp("green", color) == 0)
-		foregroundColor = COLOR_GREEN;
-	else if(strcmp("red", color) == 0)
-		foregroundColor = COLOR_RED;
-	else if(strcmp("cyan", color) == 0)
-		foregroundColor = COLOR_CYAN;
-	else
-		foregroundColor = COLOR_BLUE;
+void nms_set_foregroundcolor(char *color) {
+	nmsterm_set_foregroundcolor(color);
 }
 
 /*
@@ -409,11 +379,8 @@ void nms_set_auto_decrypt(int setting) {
  * nms_set_clear_scr() sets the clearScr flag according to the
  * true/false value of the 'setting' argument.
  */
-void nms_set_clear_scr(int setting) {
-	if (setting)
-		clearScr = 1;
-	else
-		clearScr = 0;
+void nms_set_clearscr(int s) {
+	nmsterm_set_clearscr(s);
 }
 
 /*

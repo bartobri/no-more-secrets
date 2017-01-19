@@ -22,13 +22,13 @@ int main(int argc, char *argv[]) {
 	while ((o = getopt(argc, argv, "f:acv")) != -1) {
 		switch (o) {
 			case 'f':
-				nms_set_foreground_color(optarg);
+				nms_set_foregroundcolor(optarg);
 				break;
 			case 'a':
 				nms_set_auto_decrypt(1);
 				break;
 			case 'c':
-				nms_set_clear_scr(1);
+				nms_set_clearscr(1);
 				break;
 			case 'v':
 				printf("nms version " VERSION "\n");
