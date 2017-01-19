@@ -358,10 +358,10 @@ void nmseffect_set_foregroundcolor(char *color) {
 }
 
 /*
- * nmseffect_set_return_opts() takes a character sting and copies it to the
+ * nmseffect_set_returnopts() takes a character sting and copies it to the
  * returnOpts setting used by nms_exec().
  */
-void nmseffect_set_return_opts(char *opts) {
+void nmseffect_set_returnopts(char *opts) {
 	returnOpts = realloc(returnOpts, strlen(opts) + 1);
 	strcpy(returnOpts, opts);
 }

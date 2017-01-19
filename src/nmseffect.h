@@ -11,7 +11,7 @@
 // Function prototypes
 char nmseffect_exec(char *);
 void nmseffect_set_foregroundcolor(char *);
-void nmseffect_set_return_opts(char *);
+void nmseffect_set_returnopts(char *);
 void nmseffect_set_autodecrypt(int);
 void nmseffect_set_clearscr(int);
 void nmseffect_use_color(int);

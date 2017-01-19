@@ -161,7 +161,7 @@ int main(void) {
 
 	// Settings
 	nmseffect_set_input_position(((termCols - strlen(foot2Center)) / 2) + 2, 18);
-	nmseffect_set_return_opts("123456");
+	nmseffect_set_returnopts("123456");
 	nmseffect_set_clearscr(1);
 
 	// Execut effect
