@@ -55,13 +55,8 @@ int main(int argc, char *argv[]) {
 
 	// Execute effect
 	c = nmseffect_exec(input);
-	
-	// Print out from nms_exec if it is not null
-	if (c) {
-		printf("%c", c);
-	}
 
-	// Don't forget to free the allocated memory!
+	// Free allocated memory (not necessary here, but good practice)
 	free(input);
 
 	return 0;
