@@ -42,13 +42,13 @@ static int clearScr          = 0;                     // clearScr flag
 static int foregroundColor   = COLOR_BLUE;            // Foreground color setting
 
 // Function prototypes
-static void nmsterm_set_terminal(int);
+static void nmstermio_set_terminal(int);
 
 // Initialize terminal window
-void nmsterm_init_terminal(void) {
+void nmstermio_init_terminal(void) {
 
 	// Turn off line buffering and echo
-	nmsterm_set_terminal(0);
+	nmstermio_set_terminal(0);
 	
 	// Save terminal state, clear screen, and home/hide the cursor
 	if (clearScr) {
@@ -60,7 +60,7 @@ void nmsterm_init_terminal(void) {
 	}
 }
 
-void nmsterm_restore_terminal(void) {
+void nmstermio_restore_terminal(void) {
 	
 	// Restore screen and cursor is clearSrc is set
 	if (clearScr) {
@@ -70,14 +70,14 @@ void nmsterm_restore_terminal(void) {
 	}
 	
 	// Turn on line buffering and echo
-	nmsterm_set_terminal(1);
+	nmstermio_set_terminal(1);
 }
 
 /*
- * nms_term_rows() gets and returns the number of rows in the current
+ * Gets and returns the number of rows in the current
  * terminal window.
  */
-int nmsterm_get_rows(void) {
+int nmstermio_get_rows(void) {
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     
@@ -85,29 +85,29 @@ int nmsterm_get_rows(void) {
 }
 
 /*
- * nms_term_cols() gets and returns the number of cols in the current
+ * Gets and returns the number of cols in the current
  * terminal window.
  */
-int nmsterm_get_cols(void) {
+int nmstermio_get_cols(void) {
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
     
 	return w.ws_col;
 }
 
-void nmsterm_move_cursor(int y, int x) {
+void nmstermio_move_cursor(int y, int x) {
 	CURSOR_MOVE(y, x);
 }
 
-void nmsterm_print_string(char *s) {
+void nmstermio_print_string(char *s) {
 	printf("%s", s);
 }
 
-void nmsterm_refresh(void) {
+void nmstermio_refresh(void) {
 	fflush(stdout);
 }
 
-void nmsterm_clear_input(void) {
+void nmstermio_clear_input(void) {
 	int i;
 	
 	ioctl(STDIN_FILENO, FIONREAD, &i);
@@ -117,7 +117,7 @@ void nmsterm_clear_input(void) {
 	}
 }
 
-char nmsterm_get_char(void) {
+char nmstermio_get_char(void) {
 	struct timespec ts;
 	int t = 50;
 	char c;
@@ -132,7 +132,7 @@ char nmsterm_get_char(void) {
 	return c;
 }
 
-void nmsterm_print_reveal_string(char *s, int colorOn) {
+void nmstermio_print_reveal_string(char *s, int colorOn) {
 	
 	// Set bold and foreground color
 	BOLD();
@@ -147,23 +147,23 @@ void nmsterm_print_reveal_string(char *s, int colorOn) {
 	CLEAR_ATTR();
 }
 
-void nmsterm_show_cursor(void) {
+void nmstermio_show_cursor(void) {
 	CURSOR_SHOW();
 }
 
-void nmsterm_beep(void) {
+void nmstermio_beep(void) {
 	BEEP();
 }
 
-int nmsterm_get_clearscr(void) {
+int nmstermio_get_clearscr(void) {
 	return clearScr;
 }
 
 /*
- * nmsterm_set_clearscr() sets the clearScr flag according to the
+ * Sets the clearScr flag according to the
  * true/false value of the 's' argument.
  */
-void nmsterm_set_clearscr(int s) {
+void nmstermio_set_clearscr(int s) {
 	if (s)
 		clearScr = 1;
 	else
@@ -171,13 +171,13 @@ void nmsterm_set_clearscr(int s) {
 }
 
 /*
- * nms_set_foreground_color() sets the foreground color of the unencrypted
+ * Sets the foreground color of the unencrypted
  * characters as they are revealed to the color indicated by the 'color'
  * argument. Valid arguments are "white", "yellow", "magenta", "blue",
  * "green", "red", and "cyan". This function will default to blue if
  * passed an invalid color. No value is returned.
  */
-void nmsterm_set_foregroundcolor(char *c) {
+void nmstermio_set_foregroundcolor(char *c) {
 
 	if(strcmp("white", c) == 0)
 		foregroundColor =  COLOR_WHITE;
@@ -200,10 +200,10 @@ void nmsterm_set_foregroundcolor(char *c) {
 }
 
 /*
- * nms_get_cursor_row() returns the row position of the cursor as reported
+ * Returns the row position of the cursor as reported
  * by the terminal program via the ANSI escape code
  */
-int nmsterm_get_cursor_row(void) {
+int nmstermio_get_cursor_row(void) {
 	int i, r = 0;
 	int row = 0;
 	char buf[10];
@@ -233,12 +233,12 @@ int nmsterm_get_cursor_row(void) {
 }
 
 /*
- * nmsterm_set_terminal() turns off terminal echo and line buffering when
+ * Turns off terminal echo and line buffering when
  * passed an integer value that evaluates to true. It restores the
  * original terminal values when passed an integer value that evaluates
  * to false.
  */
-static void nmsterm_set_terminal(int s) {
+static void nmstermio_set_terminal(int s) {
 	struct termios tp;
 	static struct termios save;
 	static int state = 1;

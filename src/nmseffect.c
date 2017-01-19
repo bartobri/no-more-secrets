@@ -16,7 +16,7 @@
 #include <locale.h>
 #include <wchar.h>
 #include "nmseffect.h"
-#include "nmsterm.h"
+#include "nmstermio.h"
 
 // Program settings
 #define TYPE_EFFECT_SPEED    4     // miliseconds per char
@@ -115,20 +115,20 @@ char nmseffect_exec(char *string) {
 	setlocale(LC_ALL, "");
 	
 	// Initialize terminal
-	nmsterm_init_terminal();
+	nmstermio_init_terminal();
 	
-	if (!nmsterm_get_clearscr()) {
+	if (!nmstermio_get_clearscr()) {
 		// Get current row position
-		origRow = nmsterm_get_cursor_row();
+		origRow = nmstermio_get_cursor_row();
 		
 		// nms_get_cursor_row() may display output in some terminals. So
 		// we need to reposition the cursor to the start of the row.
-		nmsterm_move_cursor(origRow, 0);
+		nmstermio_move_cursor(origRow, 0);
 	}
 
 	// Get terminal window rows/cols
-	maxRows = nmsterm_get_rows();
-	maxCols = nmsterm_get_cols();
+	maxRows = nmstermio_get_rows();
+	maxCols = nmstermio_get_cols();
 
 	// Seed my random number generator with the current time
 	srand(time(NULL));
@@ -162,7 +162,7 @@ char nmseffect_exec(char *string) {
 			i += (mblen(&string[i], 4) - 1);
 		} else {
 			fprintf(stderr, "Unknown character encountered. Quitting.\n");
-			nmsterm_restore_terminal();
+			nmstermio_restore_terminal();
 			return 0;
 		}
 
@@ -202,55 +202,55 @@ char nmseffect_exec(char *string) {
 
 		// Print mask character (or space)
 		if (list_pointer->is_space) {
-			nmsterm_print_string(list_pointer->source);
+			nmstermio_print_string(list_pointer->source);
 			continue;
 		}
 		
 		// print mask character
-		nmsterm_print_string(list_pointer->mask);
+		nmstermio_print_string(list_pointer->mask);
 		if (list_pointer->width == 2) {
-			nmsterm_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
+			nmstermio_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
 		}
 		
 		// flush output and sleep
-		nmsterm_refresh();
+		nmstermio_refresh();
 		nmseffect_sleep(TYPE_EFFECT_SPEED);
 	}
 
 	// Flush any input up to this point
-	nmsterm_clear_input();
+	nmstermio_clear_input();
 
 	// If autoDecrypt flag is set, we sleep. Otherwise require user to
 	// press a key to continue.
 	if (autoDecrypt)
 		sleep(1);
 	else
-		nmsterm_get_char();
+		nmstermio_get_char();
 
 	// Jumble loop
 	for (i = 0; i < (JUMBLE_SECONDS * 1000) / JUMBLE_LOOP_SPEED; ++i) {
 		
 		// Move cursor to start position
-		nmsterm_move_cursor(origRow, origCol);
+		nmstermio_move_cursor(origRow, origCol);
 		
 		// Print new mask for all characters
 		for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next) {
 	
 			// Print mask character (or space)
 			if (list_pointer->is_space) {
-				nmsterm_print_string(list_pointer->source);
+				nmstermio_print_string(list_pointer->source);
 				continue;
 			}
 			
 			// print new mask character
-			nmsterm_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
+			nmstermio_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
 			if (list_pointer->width == 2) {
-				nmsterm_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
+				nmstermio_print_string(maskCharTable[rand() % MASK_CHAR_COUNT]);
 			}
 		}
 		
 		// flush output and sleep
-		nmsterm_refresh();
+		nmstermio_refresh();
 		nmseffect_sleep(JUMBLE_LOOP_SPEED);
 	}
 
@@ -258,7 +258,7 @@ char nmseffect_exec(char *string) {
 	while (!revealed) {
 		
 		// Move cursor to start position
-		nmsterm_move_cursor(origRow, origCol);
+		nmstermio_move_cursor(origRow, origCol);
 		
 		// Set revealed flag
 		revealed = 1;
@@ -267,7 +267,7 @@ char nmseffect_exec(char *string) {
 	
 			// Print mask character (or space)
 			if (list_pointer->is_space) {
-				nmsterm_print_string(list_pointer->source);
+				nmstermio_print_string(list_pointer->source);
 				continue;
 			}
 			
@@ -286,7 +286,7 @@ char nmseffect_exec(char *string) {
 				}
 				
 				// Print mask
-				nmsterm_print_string(list_pointer->mask);
+				nmstermio_print_string(list_pointer->mask);
 				
 				// Decrement reveal time
 				list_pointer->time -= REVEAL_LOOP_SPEED;
@@ -296,43 +296,43 @@ char nmseffect_exec(char *string) {
 			} else {
 				
 				// print source character
-				nmsterm_print_reveal_string(list_pointer->source, colorOn);
+				nmstermio_print_reveal_string(list_pointer->source, colorOn);
 			}
 		}
 
 		// flush output and sleep
-		nmsterm_refresh();
+		nmstermio_refresh();
 		nmseffect_sleep(REVEAL_LOOP_SPEED);
 	}
 
 	// Flush any input up to this point
-	nmsterm_clear_input();
+	nmstermio_clear_input();
 
 	// Check if user must select from a set of options
 	if (returnOpts != NULL && strlen(returnOpts) > 0) {
 		
 		// Position cursor if necessary
 		if (inputPositionY >= 0 && inputPositionX >= 0) {
-			nmsterm_move_cursor(inputPositionY, inputPositionX);
+			nmstermio_move_cursor(inputPositionY, inputPositionX);
 		}
 		
-		nmsterm_show_cursor();
+		nmstermio_show_cursor();
 		
 		// Get and validate user selection
-		while (strchr(returnOpts, ret = nmsterm_get_char()) == NULL) {
-			nmsterm_beep();
+		while (strchr(returnOpts, ret = nmstermio_get_char()) == NULL) {
+			nmstermio_beep();
 		}
 
 	}
 	
 	// User must press a key to continue when clearSrc is set
 	// without returnOpts
-	else if (nmsterm_get_clearscr()) {
-		nmsterm_get_char();
+	else if (nmstermio_get_clearscr()) {
+		nmstermio_get_char();
 	}
 	
 	// Restore terminal
-	nmsterm_restore_terminal();
+	nmstermio_restore_terminal();
 
 	// Freeing the list. 
 	list_pointer = list_head;
@@ -354,7 +354,7 @@ char nmseffect_exec(char *string) {
  * passed an invalid color. No value is returned.
  */
 void nmseffect_set_foregroundcolor(char *color) {
-	nmsterm_set_foregroundcolor(color);
+	nmstermio_set_foregroundcolor(color);
 }
 
 /*
@@ -382,7 +382,7 @@ void nmseffect_set_autodecrypt(int setting) {
  * true/false value of the 'setting' argument.
  */
 void nmseffect_set_clearscr(int s) {
-	nmsterm_set_clearscr(s);
+	nmstermio_set_clearscr(s);
 }
 
 /*
