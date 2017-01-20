@@ -31,7 +31,8 @@ Table of Contents
 
 1. [Download and Install](#download-and-install)
 2. [Usage](#usage)
-3. [License](#license)
+3. [The NMS Library](#the-nms-library)
+4. [License](#license)
 
 Download and Install
 --------------------
@@ -126,6 +127,15 @@ the user to press a key before restoring the terminal.
 `-v`
 
 Display version info.
+
+The NMS Library
+---------------
+
+For those who would like to use this effect in their own projects, I have
+created a C library that provides simple interface and can easily be used
+for any program that supports C libraries and runs from the command line.
+
+See [LibNMS](https://github.com/bartobri/libnms) for more info.
 
 License
 -------
