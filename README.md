@@ -19,10 +19,12 @@ user to select one of the menu options before it terminates.
 
 ![Screenshot](http://www.brianbarto.info/extern/images/nms/sneakers.gif)
 
-This project has no dependencies, but it does rely on ANSI/VT100 escape
-sequences to recreate the effect. Most modern terminal programs support
-these sequences so this should not be an issue for most users. If yours
-does not, you may need to use an alternate terminal program like xTerm.
+By default, this project has no dependencies, but it does rely on ANSI/VT100
+terminal escape sequences to recreate the effect. Most modern terminal
+programs support these sequences so this should not be an issue for most
+users. If yours does not, this project also provides a ncurses implementation
+which supports non-ANSI terminals, but at the expense of losing the inline
+functionality (ncurses will always clear the screen prior to displaying output).
 
 Table of Contents
 -----------------
@@ -38,7 +40,7 @@ More and more unix/linux platforms are including this project in their
 package manager. You may wish to search your package manager to see if it
 is an installation option. If you install form a package manager, please
 check that you have the latest version (`nms -v`). If not, I suggest
-installing from source (see below).
+installing from source by following the instructions below.
 
 To install this project from source, you will need to have the tools `git`,
 `gcc`, and `make` to download and build it. Install them from your package
@@ -50,7 +52,8 @@ Once you have the necessary tools installed, follow these instructions:
 ```
 git clone https://github.com/bartobri/no-more-secrets.git
 cd ./no-more-secrets
-make
+make nms
+make sneakers             ## Optional
 sudo make install
 ```
 
@@ -58,6 +61,21 @@ sudo make install
 
 ```
 $ sudo make uninstall
+```
+
+#### Install with Ncurses Support
+
+If your terminal does not support ANSI/VT100 escape sequences, the effect
+may not render properly. This project provides a ncurses implementation
+for such cases. You will need the ncurses library installed. Install this
+library from your package manager. Next, follow these instructions:
+
+```
+git clone https://github.com/bartobri/no-more-secrets.git
+cd ./no-more-secrets
+make nms-ncurses
+make sneakers-ncurses     ## Optional
+sudo make install
 ```
 
 Usage
@@ -70,7 +88,6 @@ enjoy the magic. In the below examples, I use a simple directory listing.
 ls -l | nms
 ls -l | nms -a           // Set auto-decrypt flag
 ls -l | nms -f green     // Set foreground color to green
-ls -l | nms -r 123456    // Set return options
 ls -l | nms -c           // Clear screen
 nms -v                   // Display version
 ```
