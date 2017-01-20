@@ -5,6 +5,12 @@
  * under the terms of the MIT License. See LICENSE for more details.
  */
 
+/*
+ * The nmstermio_ncurses modules implements the terminal interface, with
+ * ncurses support, used by the nmseffect module. All terminal IO
+ * functionality is defined and implemented here.
+ */
+
 #include <string.h>
 #include <ncurses.h>
 
@@ -12,7 +18,12 @@
 static int clearScr          = 1;                     // clearScr flag
 static int foregroundColor   = COLOR_BLUE;            // Foreground color setting
 
-// Initialize terminal window
+/*
+ * Initialize and configure the terminal for output. This usually means
+ * just turning off terminal echo, line buffering, and clearing the screen.
+ * Note that ncurses always clears the screen, so there is no option to do
+ * otherwise.
+ */
 void nmstermio_init_terminal(void) {
 	initscr();
 	cbreak();
@@ -25,53 +36,71 @@ void nmstermio_init_terminal(void) {
 	}
 }
 
+/*
+ * Restore the state of the terminal to the state prior to executing
+ * nmstermio_init_terminal(). This usually means turning on line buffering,
+ * echo, and terminal contents. 
+ */
 void nmstermio_restore_terminal(void) {
 	endwin();
 }
 
 /*
- * Gets and returns the number of rows in the current
- * terminal window.
+ * Get and return the number of rows in the current terminal window.
  */
 int nmstermio_get_rows(void) {
 	return getmaxy(stdscr);
 }
 
 /*
- * Gets and returns the number of cols in the current
- * terminal window.
+ * Get and return the number of cols in the current terminal window.
  */
 int nmstermio_get_cols(void) {
 	return getmaxx(stdscr);
 }
 
 /*
- * Returns the row position of the cursor
+ * Move terminal cursor to the given x/y coordinates.
  */
-int nmstermio_get_cursor_row(void) {
-	return getcury(stdscr);
-}
-
 void nmstermio_move_cursor(int y, int x) {
 	move(y, x);
 }
 
+/*
+ * Print the given character string to the terminal output.
+ */
 void nmstermio_print_string(char *s) {
 	addstr(s);
 }
 
+/*
+ * Refresh the screen. Display all pending output that has not been
+ * displayed yet.
+ */
 void nmstermio_refresh(void) {
 	refresh();
 }
 
+/*
+ * Clear all input pending in STDIN. This is used prior to getting user
+ * input to clear the input queue in case of any prior errant keystrokes.
+ */
 void nmstermio_clear_input(void) {
 	flushinp();
 }
 
+/*
+ * Get a single character of input from the user.
+ */
 void nmstermio_get_char(void) {
 	getch();
 }
 
+/*
+ * Print the character string that represents the decrypted data. We
+ * apply the bold and color attributes (if the terminal supports color)
+ * to this string.
+ */
 void nmstermio_print_reveal_string(char *s, int colorOn) {
 	(void) colorOn;
 	(void) foregroundColor;
@@ -90,22 +119,32 @@ void nmstermio_print_reveal_string(char *s, int colorOn) {
 	attroff(A_BOLD);
 }
 
+/*
+ * Display the cursor that have been turned off by nmstermio_init_terminal().
+ */
 void nmstermio_show_cursor(void) {
 	curs_set(1);
 	refresh();
 }
 
+/*
+ * Make the terminal beep. Used when the returnOpts setting is set in the
+ * nmseffect module.
+ */
 void nmstermio_beep(void) {
 	beep();
 }
 
+/*
+ * Return the status of the clearScr flag. This is used by the nmseffect
+ * module to make certain decisions based on its value.
+ */
 int nmstermio_get_clearscr(void) {
 	return clearScr;
 }
 
 /*
- * Sets the clearScr flag according to the
- * true/false value of the 's' argument.
+ * Sets the clearScr flag according to the true/false value of the 's' argument.
  */
 void nmstermio_set_clearscr(int s) {
 	if (s)
@@ -115,11 +154,9 @@ void nmstermio_set_clearscr(int s) {
 }
 
 /*
- * Sets the foreground color of the unencrypted
- * characters as they are revealed to the color indicated by the 'color'
- * argument. Valid arguments are "white", "yellow", "magenta", "blue",
- * "green", "red", and "cyan". This function will default to blue if
- * passed an invalid color. No value is returned.
+ * Set the desired foreground color of the unencrypted characters as they
+ * are revealed by nmstermio_print_reveal_string(). Valid arguments are
+ * "white", "yellow", "magenta", "blue", "green", "red", and "cyan".
  */
 void nmstermio_set_foregroundcolor(char *c) {
 
@@ -141,4 +178,11 @@ void nmstermio_set_foregroundcolor(char *c) {
 		foregroundColor = COLOR_CYAN;
 	else
 		foregroundColor = COLOR_BLUE;
+}
+
+/*
+ * Get and returns the current row position of the cursor.
+ */
+int nmstermio_get_cursor_row(void) {
+	return getcury(stdscr);
 }

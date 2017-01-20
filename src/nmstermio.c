@@ -5,6 +5,12 @@
  * under the terms of the MIT License. See LICENSE for more details.
  */
 
+/*
+ * The nmstermio modules implements the terminal interface used by the
+ * nmseffect module. All terminal IO functionality is defined and
+ * implemented here.
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -37,14 +43,19 @@
 #define COLOR_CYAN    6
 #define COLOR_WHITE   7
 
-// Static settings
+// Terminal IO settings
 static int clearScr          = 0;                     // clearScr flag
 static int foregroundColor   = COLOR_BLUE;            // Foreground color setting
 
 // Function prototypes
 static void nmstermio_set_terminal(int);
 
-// Initialize terminal window
+/*
+ * Initialize and configure the terminal for output. This usually means
+ * just turning off terminal echo and line buffering. If the clearScr
+ * flag is set, it will also save the state of the cursor and screen (so
+ * it can be restored) and then clear it.
+ */
 void nmstermio_init_terminal(void) {
 
 	// Turn off line buffering and echo
@@ -60,6 +71,12 @@ void nmstermio_init_terminal(void) {
 	}
 }
 
+/*
+ * Restore the state of the terminal to the state prior to executing
+ * nmstermio_init_terminal(). This usually means turning on line buffering
+ * and echo. If the clearScr flag is set, it will also restore the
+ * terminal content and cursor position.
+ */
 void nmstermio_restore_terminal(void) {
 	
 	// Restore screen and cursor is clearSrc is set
@@ -74,8 +91,7 @@ void nmstermio_restore_terminal(void) {
 }
 
 /*
- * Gets and returns the number of rows in the current
- * terminal window.
+ * Get and return the number of rows in the current terminal window.
  */
 int nmstermio_get_rows(void) {
 	struct winsize w;
@@ -85,8 +101,7 @@ int nmstermio_get_rows(void) {
 }
 
 /*
- * Gets and returns the number of cols in the current
- * terminal window.
+ * Get and return the number of cols in the current terminal window.
  */
 int nmstermio_get_cols(void) {
 	struct winsize w;
@@ -95,18 +110,32 @@ int nmstermio_get_cols(void) {
 	return w.ws_col;
 }
 
+/*
+ * Move terminal cursor to the given x/y coordinates.
+ */
 void nmstermio_move_cursor(int y, int x) {
 	CURSOR_MOVE(y, x);
 }
 
+/*
+ * Print the given character string to the terminal output.
+ */
 void nmstermio_print_string(char *s) {
 	printf("%s", s);
 }
 
+/*
+ * Refresh the screen. Display all pending output that has not been
+ * displayed yet.
+ */
 void nmstermio_refresh(void) {
 	fflush(stdout);
 }
 
+/*
+ * Clear all input pending in STDIN. This is used prior to getting user
+ * input to clear the input queue in case of any prior errant keystrokes.
+ */
 void nmstermio_clear_input(void) {
 	int i;
 	
@@ -117,6 +146,11 @@ void nmstermio_clear_input(void) {
 	}
 }
 
+/*
+ * Get a single character of input from the user. Given that line buffering
+ * is turned off, we must constantly loop until we get a character other
+ * than EOF.
+ */
 char nmstermio_get_char(void) {
 	struct timespec ts;
 	int t = 50;
@@ -132,6 +166,11 @@ char nmstermio_get_char(void) {
 	return c;
 }
 
+/*
+ * Print the character string that represents the decrypted data. We
+ * apply the bold and color attributes (if colorOn flag is set) to this
+ * string.
+ */
 void nmstermio_print_reveal_string(char *s, int colorOn) {
 	
 	// Set bold and foreground color
@@ -147,21 +186,31 @@ void nmstermio_print_reveal_string(char *s, int colorOn) {
 	CLEAR_ATTR();
 }
 
+/*
+ * Display the cursor that have been turned off by nmstermio_init_terminal().
+ */
 void nmstermio_show_cursor(void) {
 	CURSOR_SHOW();
 }
 
+/*
+ * Make the terminal beep. Used when the returnOpts setting is set in the
+ * nmseffect module.
+ */
 void nmstermio_beep(void) {
 	BEEP();
 }
 
+/*
+ * Return the status of the clearScr flag. This is used by the nmseffect
+ * module to make certain decisions based on its value.
+ */
 int nmstermio_get_clearscr(void) {
 	return clearScr;
 }
 
 /*
- * Sets the clearScr flag according to the
- * true/false value of the 's' argument.
+ * Sets the clearScr flag according to the true/false value of the 's' argument.
  */
 void nmstermio_set_clearscr(int s) {
 	if (s)
@@ -171,11 +220,9 @@ void nmstermio_set_clearscr(int s) {
 }
 
 /*
- * Sets the foreground color of the unencrypted
- * characters as they are revealed to the color indicated by the 'color'
- * argument. Valid arguments are "white", "yellow", "magenta", "blue",
- * "green", "red", and "cyan". This function will default to blue if
- * passed an invalid color. No value is returned.
+ * Set the desired foreground color of the unencrypted characters as they
+ * are revealed by nmstermio_print_reveal_string(). Valid arguments are
+ * "white", "yellow", "magenta", "blue", "green", "red", and "cyan".
  */
 void nmstermio_set_foregroundcolor(char *c) {
 
@@ -200,8 +247,9 @@ void nmstermio_set_foregroundcolor(char *c) {
 }
 
 /*
- * Returns the row position of the cursor as reported
- * by the terminal program via the ANSI escape code
+ * Get and returns the current row position of the cursor. This involves
+ * sending the appropriate ANSI escape code to the terminal and
+ * reading/parsing its response.
  */
 int nmstermio_get_cursor_row(void) {
 	int i, r = 0;
@@ -233,10 +281,9 @@ int nmstermio_get_cursor_row(void) {
 }
 
 /*
- * Turns off terminal echo and line buffering when
- * passed an integer value that evaluates to true. It restores the
- * original terminal values when passed an integer value that evaluates
- * to false.
+ * Turn off terminal echo and line buffering when passed an integer value
+ * that evaluates to true. Restore the original terminal values when passed
+ * an integer value that evaluates to false.
  */
 static void nmstermio_set_terminal(int s) {
 	struct termios tp;
