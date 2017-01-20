@@ -4,10 +4,16 @@
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the MIT License. See LICENSE for more details.
  */
+
+/*
+ * The nmscharset module defines the character set that is used to
+ * represent encryption.
+ */
  
 #include <stdlib.h>
 
-#define MASK_CHAR_COUNT      218   // Total characters in charTable[] array.
+// Total characters in charTable[] array.
+#define CHAR_COUNT 218
 
 // Character table representing the character set know as CP437 used by
 // the original IBM PC - https://en.wikipedia.org/wiki/Code_page_437
@@ -48,6 +54,9 @@ static char *charTable[] = {
 	"\xe2\x81\xbf", "\xe2\x96\xa0"
 };
 
+/*
+ * Return a random character from charTable[].
+ */
 char *nmscharset_get_random(void) {
-	return charTable[rand() % MASK_CHAR_COUNT];
+	return charTable[rand() % CHAR_COUNT];
 }
