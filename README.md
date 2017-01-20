@@ -133,7 +133,7 @@ The NMS Library
 
 For those who would like to use this effect in their own projects, I have
 created a C library that provides simple interface and can easily be used
-for any program that supports C libraries and runs from the command line.
+for any program that runs from the command line.
 
 See [LibNMS](https://github.com/bartobri/libnms) for more info.
 
