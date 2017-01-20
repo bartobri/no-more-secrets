@@ -4,6 +4,12 @@
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the MIT License. See LICENSE for more details.
  */
+ 
+/*
+ * The nmseffect module is the primary module that drives the effect
+ * execution. Most attributes, settings, and code that define the behavior
+ * is implemented here.
+ */
 
 #define _XOPEN_SOURCE 700
 
@@ -19,11 +25,18 @@
 #include "nmstermio.h"
 #include "nmscharset.h"
 
-// Program settings
+// Speed settings
 #define TYPE_EFFECT_SPEED    4     // miliseconds per char
 #define JUMBLE_SECONDS       2     // number of seconds for jumble effect
 #define JUMBLE_LOOP_SPEED    35    // miliseconds between each jumble
 #define REVEAL_LOOP_SPEED    50    // miliseconds between each reveal loop
+
+// Behavior settings
+static char *returnOpts     = NULL;         // Return option setting
+static int autoDecrypt      = 0;            // Auto-decrypt flag
+static int colorOn          = 1;            // Terminal color flag
+static int inputPositionX   = -1;           // X coordinate for input position
+static int inputPositionY   = -1;           // Y coordinate for input position
 
 // Character attribute structure, linked list. Keeps track of every
 // character's attributes required for rendering and decryption effect.
@@ -38,13 +51,6 @@ struct charAttr {
 
 // Static function prototypes
 static void nmseffect_sleep(int);
-
-// NMS settings
-static char *returnOpts     = NULL;         // Return option setting
-static int autoDecrypt      = 0;            // Auto-decrypt flag
-static int colorOn          = 1;            // Terminal color flag
-static int inputPositionX   = -1;           // X coordinate for input position
-static int inputPositionY   = -1;           // Y coordinate for input position
 
 /*
  * This function applies the data decryption effect to the character
