@@ -68,8 +68,8 @@ $ sudo make uninstall
 
 If your terminal does not support ANSI/VT100 escape sequences, the effect
 may not render properly. This project provides a ncurses implementation
-for such cases. You will need the ncurses library installed. Install this
-library from your package manager. Next, follow these instructions:
+for such cases. You will need the ncurses library installed. [Install this
+library from your package manager](NCURSES.md). Next, follow these instructions:
 
 ```
 git clone https://github.com/bartobri/no-more-secrets.git
