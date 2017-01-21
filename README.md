@@ -95,7 +95,7 @@ nms -v                   // Display version
 
 Note that by default, after the initial encrypted characters are displayed,
 `nms` will wait for the user to press a key before initiating the decryption
-sequence. This is how the decryption functionality is depicted in the movie.
+sequence. This is how the it is depicted in the movie.
 
 #### Command Line Options
 
@@ -109,13 +109,6 @@ decryption sequence without requiring a key press.
 Set the foreground color of the decrypted text to the color
 specified. Valid options are white, yellow, black, magenta, blue, green,
 or red. This is blue by default.
-
-`-r <options>`
-
-Sets the character options that `nms` requires the user to choose from
-before it terminates execution. This is intended to be used for cases
-where the data piped to `nms` contains a menu with a set of options. Note
-that `nms` will print the selection to stdout before terminating.
 
 `-c`
 
