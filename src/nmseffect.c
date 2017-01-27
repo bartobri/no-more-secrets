@@ -71,7 +71,7 @@ char nmseffect_exec(char *string) {
 		return 0;
 	}
 	
-	// Reassociate STDIN to the terminal is needed
+	// Reassociate STDIN to the terminal if needed
 	if (!isatty(STDIN_FILENO) && !freopen ("/dev/tty", "r", stdin)) {
 		fprintf(stderr, "Error. Can't associate STDIN with terminal.\n");
 		return 0;
