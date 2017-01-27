@@ -90,7 +90,7 @@ char nmseffect_exec(char *string) {
 		// Get current row position
 		origRow = nmstermio_get_cursor_row();
 		
-		// nms_get_cursor_row() may display output in some terminals. So
+		// nmstermio_get_cursor_row() may display output in some terminals. So
 		// we need to reposition the cursor to the start of the row.
 		nmstermio_move_cursor(origRow, 0);
 	}
