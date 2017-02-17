@@ -47,9 +47,13 @@ clean:
 	rm -rf $(OBJ)
 
 install:
+	install -d $(DESTDIR)$(mandir)/man6
+	install -m644 -t $(DESTDIR)$(mandir)/man6 nms.6 sneakers.6
 	install -d $(DESTDIR)$(bindir)
 	cd $(BIN) && install * $(DESTDIR)$(bindir)
 
 uninstall:
 	rm -f $(DESTDIR)$(bindir)/nms;
 	rm -f $(DESTDIR)$(bindir)/sneakers;
+	rm -f $(DESTDIR)$(mandir)/man6/nms.6
+	rm -f $(DESTDIR)$(mandir)/man6/sneakers.6
