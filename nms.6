@@ -1,0 +1,36 @@
+.\" Manpage for nms.
+.\" Author of this manpage is Ferdinand Thiessen <rpm@fthiessen>, contact him to correct errors or typos.
+.\" This man page is released into the public domain, see also https://creativecommons.org/publicdomain/zero/1.0/
+.TH nms 6 "17 February 2017" "1.0" "nms User Manual"
+.SH NAME
+nms \- No More Secrets
+.SH SYNOPSIS
+nms [options]
+.SH OPTIONS
+.TP
+.B -a
+sets the auto-decrypt flag, decryption sequence starts without requiring a key press.
+.TP
+.B -c
+clear the screen prior to printing any output
+.TP
+.B -v
+display version info
+.TP
+.BI -f <COLOR>
+set the foreground color of the decrypted text to the color specified.
+Valid options are white, yellow, black, magenta, blue (default), green, or red.
+.SH DESCRIPTION
+This command works on piped data. Pipe any ASCII or UTF-8 text to nms,
+and it will apply the hollywood effect, seen on screen in the 1992 hacker movie Sneakers.
+.PP
+Initially showing encrypted data, then starting a decryption sequence to reveal the original plaintext characters.
+.SH "SEE ALSO"
+sneakers(6)
+.SH AUTHOR
+Brian Barto ( https://github.com/bartobri )
+.SH COPYRIGHT
+nms is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
