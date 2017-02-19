@@ -1,4 +1,4 @@
-![Version](https://img.shields.io/badge/Version-0.3.1-green.svg)
+![Version](https://img.shields.io/badge/Version-0.3.2-green.svg)
 
 No More Secrets
 ===============
