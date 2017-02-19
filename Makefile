@@ -48,7 +48,7 @@ clean:
 
 install:
 	install -d $(DESTDIR)$(mandir)/man6
-	install -m644 -t $(DESTDIR)$(mandir)/man6 nms.6 sneakers.6
+	install -m644 nms.6 sneakers.6 $(DESTDIR)$(mandir)/man6 
 	install -d $(DESTDIR)$(bindir)
 	cd $(BIN) && install * $(DESTDIR)$(bindir)
 
