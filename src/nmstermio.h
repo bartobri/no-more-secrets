@@ -25,6 +25,7 @@ void nmstermio_beep(void);
 int nmstermio_get_clearscr(void);
 void nmstermio_set_clearscr(int);
 void nmstermio_set_foregroundcolor(char *);
+void nmstermio_set_backgroundcolor(char *);
 int nmstermio_get_cursor_row(void);
 
 

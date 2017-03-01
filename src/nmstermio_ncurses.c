@@ -17,6 +17,7 @@
 // Static settings
 static int clearScr          = 1;                     // clearScr flag
 static int foregroundColor   = COLOR_BLUE;            // Foreground color setting
+static int backgroundColor   = COLOR_BLACK;            // Foreground color setting
 
 /*
  * Initialize and configure the terminal for output. This usually means
@@ -32,7 +33,7 @@ void nmstermio_init_terminal(void) {
 	move(0, 0);
 	if (has_colors()) {
 		start_color();
-		init_pair(1, foregroundColor, COLOR_BLACK);
+		init_pair(1, foregroundColor, backgroundColor);
 	}
 }
 
@@ -178,6 +179,33 @@ void nmstermio_set_foregroundcolor(char *c) {
 		foregroundColor = COLOR_CYAN;
 	else
 		foregroundColor = COLOR_BLUE;
+}
+
+/*
+ * Set the desired background color of the unencrypted characters as they
+ * are revealed by nmstermio_print_reveal_string(). Valid arguments are
+ * "white", "yellow", "magenta", "blue", "green", "red", and "cyan".
+ */
+void nmstermio_set_backgroundcolor(char *c) {
+
+	if(strcmp("white", c) == 0)
+		backgroundColor =  COLOR_WHITE;
+	else if(strcmp("yellow", c) == 0)
+		backgroundColor = COLOR_YELLOW;
+	else if(strcmp("black", c) == 0)
+		backgroundColor = COLOR_BLACK;
+	else if(strcmp("magenta", c) == 0)
+		backgroundColor = COLOR_MAGENTA;
+	else if(strcmp("blue", c) == 0)
+		backgroundColor = COLOR_BLUE;
+	else if(strcmp("green", c) == 0)
+		backgroundColor = COLOR_GREEN;
+	else if(strcmp("red", c) == 0)
+		backgroundColor = COLOR_RED;
+	else if(strcmp("cyan", c) == 0)
+		backgroundColor = COLOR_CYAN;
+	else
+		backgroundColor = COLOR_BLACK;
 }
 
 /*

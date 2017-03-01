@@ -19,10 +19,13 @@ int main(int argc, char *argv[]) {
 	char *input = NULL;
 
 	// Processing command arguments
-	while ((o = getopt(argc, argv, "f:acv")) != -1) {
+	while ((o = getopt(argc, argv, "f:b:acv")) != -1) {
 		switch (o) {
 			case 'f':
 				nmseffect_set_foregroundcolor(optarg);
+				break;
+			case 'b':
+				nmseffect_set_backgroundcolor(optarg);
 				break;
 			case 'a':
 				nmseffect_set_autodecrypt(1);
