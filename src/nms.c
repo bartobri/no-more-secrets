@@ -11,7 +11,7 @@
 #include <ctype.h>
 #include "nmseffect.h"
 
-#define VERSION                "0.3.2"
+#define VERSION                "0.3.3"
 #define INPUT_GROWTH_FACTOR    2
 
 int main(int argc, char *argv[]) {
