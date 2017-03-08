@@ -91,7 +91,10 @@ char nmseffect_exec(char *string) {
 		origRow = nmstermio_get_cursor_row();
 		
 		// nmstermio_get_cursor_row() may display output in some terminals. So
-		// we need to reposition the cursor to the start of the row.
+		// we need to reposition the cursor to the start of the row, print
+		// some blank spaces, and the reposition again.
+		nmstermio_move_cursor(origRow, 0);
+		nmstermio_print_string("    ");
 		nmstermio_move_cursor(origRow, 0);
 	}
 
