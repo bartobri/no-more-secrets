@@ -17,6 +17,8 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+
+// Support for MinGW on Windows
 #ifndef FIONREAD
 #include <sys/socket.h>
 #endif
