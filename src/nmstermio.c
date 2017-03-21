@@ -17,6 +17,9 @@
 #include <termios.h>
 #include <unistd.h>
 #include <sys/ioctl.h>
+#ifndef FIONREAD
+#include <sys/socket.h>
+#endif
 
 // Macros for VT100 codes
 #define CLEAR_SCR()          printf("\033[2J")           // Clear Screen
