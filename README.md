@@ -1,5 +1,5 @@
 ![Version](https://img.shields.io/badge/Version-0.3.3-green.svg)
-[![Donate](https://img.shields.io/badge/Donate-PayPal_and_Bitcoin-green.svg)](https://github.com/bartobri/tips)
+[![Donate](https://img.shields.io/badge/Tips-PayPal_and_Bitcoin-green.svg)](https://github.com/bartobri/tips)
 
 No More Secrets
 ===============
