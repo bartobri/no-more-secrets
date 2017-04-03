@@ -30,6 +30,7 @@
 #define BEEP()               printf("\a");               // terminal bell
 #define BOLD()               printf("\033[1m")           // Cursor bold
 #define FOREGROUND_COLOR(x)  printf("\033[3%im", x)      // Set foreground color
+#define BACKGROUND_COLOR(x)  printf("\033[4%im", x)      // Set background color
 #define CLEAR_ATTR()         printf("\033[0m")           // Clear bold/color attributes
 #define SCREEN_SAVE()        printf("\033[?47h")         // Save screen display
 #define SCREEN_RESTORE()     printf("\033[?47l")         // Restore screen to previously saved state
@@ -51,6 +52,7 @@
 // Terminal IO settings
 static int clearScr          = 0;                     // clearScr flag
 static int foregroundColor   = COLOR_BLUE;            // Foreground color setting
+static int backgroundColor   = COLOR_BLACK;           // Background color setting
 
 // Function prototypes
 static void nmstermio_set_terminal(int);
@@ -182,6 +184,7 @@ void nmstermio_print_reveal_string(char *s, int colorOn) {
 	BOLD();
 	if (colorOn) {
 		FOREGROUND_COLOR(foregroundColor);
+		BACKGROUND_COLOR(backgroundColor);
 	}
 	
 	// print string
@@ -249,6 +252,33 @@ void nmstermio_set_foregroundcolor(char *c) {
 		foregroundColor = COLOR_CYAN;
 	else
 		foregroundColor = COLOR_BLUE;
+}
+
+/*
+ * Set the desired background color of the unencrypted characters as they
+ * are revealed by nmstermio_print_reveal_string(). Valid arguments are
+ * "white", "yellow", "magenta", "blue", "green", "red", and "cyan".
+ */
+void nmstermio_set_backgroundcolor(char *c) {
+
+	if(strcmp("white", c) == 0)
+		backgroundColor =  COLOR_WHITE;
+	else if(strcmp("yellow", c) == 0)
+		backgroundColor = COLOR_YELLOW;
+	else if(strcmp("black", c) == 0)
+		backgroundColor = COLOR_BLACK;
+	else if(strcmp("magenta", c) == 0)
+		backgroundColor = COLOR_MAGENTA;
+	else if(strcmp("blue", c) == 0)
+		backgroundColor = COLOR_BLUE;
+	else if(strcmp("green", c) == 0)
+		backgroundColor = COLOR_GREEN;
+	else if(strcmp("red", c) == 0)
+		backgroundColor = COLOR_RED;
+	else if(strcmp("cyan", c) == 0)
+		backgroundColor = COLOR_CYAN;
+	else
+		backgroundColor = COLOR_BLUE;
 }
 
 /*

@@ -111,6 +111,12 @@ Set the foreground color of the decrypted text to the color
 specified. Valid options are white, yellow, black, magenta, blue, green,
 or red. This is blue by default.
 
+`-b <color>`
+
+Set the background color of the decrypted text to the color
+specified. Valid options are white, yellow, black, magenta, blue, green,
+or red. This is black by default.
+
 `-c`
 
 Clear the screen prior to printing any output. Specifically,

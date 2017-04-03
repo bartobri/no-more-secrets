@@ -326,6 +326,16 @@ void nmseffect_set_foregroundcolor(char *color) {
 }
 
 /*
+ * Pass the 'color' argument to the nmstermio module where it will set the
+ * background color of the unencrypted characters as they are
+ * revealed. Valid arguments are "white", "yellow", "magenta", "blue",
+ * "green", "red", and "cyan".
+ */
+void nmseffect_set_backgroundcolor(char *color) {
+	nmstermio_set_backgroundcolor(color);
+}
+
+/*
  * Copy the string argument to the 'returnOpts' variable. This string is
  * used to determine what character the user must choose from before
  * nmseffect_exec() returns execution to the calling function. Normally
