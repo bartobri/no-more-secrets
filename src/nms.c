@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 	char *input = NULL;
 
 	// Processing command arguments
-	while ((o = getopt(argc, argv, "f:acv")) != -1) {
+	while ((o = getopt(argc, argv, "f:ascv")) != -1) {
 		switch (o) {
 			case 'f':
 				nmseffect_set_foregroundcolor(optarg);
@@ -27,6 +27,9 @@ int main(int argc, char *argv[]) {
 			case 'a':
 				nmseffect_set_autodecrypt(1);
 				break;
+            case 's':
+                nmseffect_set_maskblank(1);
+                break;
 			case 'c':
 				nmseffect_set_clearscr(1);
 				break;
