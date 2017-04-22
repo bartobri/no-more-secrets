@@ -52,11 +52,11 @@ Once you have the necessary tools installed, follow these instructions:
 
 #### Install:
 ```
-git clone https://github.com/bartobri/no-more-secrets.git
-cd ./no-more-secrets
-make nms
-make sneakers             ## Optional
-sudo make install
+$ git clone https://github.com/bartobri/no-more-secrets.git
+$ cd ./no-more-secrets
+$ make nms
+$ make sneakers             ## Optional
+$ sudo make install
 ```
 
 #### Uninstall:
@@ -73,11 +73,11 @@ for such cases. You will need the ncurses library installed. [Install this
 library from your package manager](NCURSES.md). Next, follow these instructions:
 
 ```
-git clone https://github.com/bartobri/no-more-secrets.git
-cd ./no-more-secrets
-make nms-ncurses
-make sneakers-ncurses     ## Optional
-sudo make install
+$ git clone https://github.com/bartobri/no-more-secrets.git
+$ cd ./no-more-secrets
+$ make nms-ncurses
+$ make sneakers-ncurses     ## Optional
+$ sudo make install
 ```
 
 Usage
@@ -87,12 +87,12 @@ Usage
 enjoy the magic. In the below examples, I use a simple directory listing.
 
 ```
-ls -l | nms
-ls -l | nms -a           // Set auto-decrypt flag
-ls -l | nms -s           // Set flag to mask space characters
-ls -l | nms -f green     // Set foreground color to green
-ls -l | nms -c           // Clear screen
-nms -v                   // Display version
+$ ls -l | nms
+$ ls -l | nms -a           // Set auto-decrypt flag
+$ ls -l | nms -s           // Set flag to mask space characters
+$ ls -l | nms -f green     // Set foreground color to green
+$ ls -l | nms -c           // Clear screen
+$ nms -v                   // Display version
 ```
 
 Note that by default, after the initial encrypted characters are displayed,
