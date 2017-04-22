@@ -89,7 +89,7 @@ enjoy the magic. In the below examples, I use a simple directory listing.
 ```
 ls -l | nms
 ls -l | nms -a           // Set auto-decrypt flag
-ls -l | nms -s           // Set mask blanks flag
+ls -l | nms -s           // Set flag to mask space characters
 ls -l | nms -f green     // Set foreground color to green
 ls -l | nms -c           // Clear screen
 nms -v                   // Display version
@@ -105,6 +105,11 @@ sequence. This is how the it is depicted in the movie.
 
 Set the auto-decrypt flag. This will automatically start the
 decryption sequence without requiring a key press.
+
+`-s`
+
+Set a flag to mask space characters. This will only mask single blank space
+characters. Other space characters such as tabs and newlines will not be masked.
 
 `-f <color>`
 
