@@ -89,6 +89,7 @@ enjoy the magic. In the below examples, I use a simple directory listing.
 ```
 ls -l | nms
 ls -l | nms -a           // Set auto-decrypt flag
+ls -l | nms -s           // Set mask blanks flag
 ls -l | nms -f green     // Set foreground color to green
 ls -l | nms -c           // Clear screen
 nms -v                   // Display version

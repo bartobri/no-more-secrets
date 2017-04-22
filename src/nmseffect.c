@@ -34,6 +34,7 @@
 // Behavior settings
 static char *returnOpts     = NULL;         // Return option setting
 static int autoDecrypt      = 0;            // Auto-decrypt flag
+static int maskBlank        = 0;            // Mask blank spaces
 static int colorOn          = 1;            // Terminal color flag
 static int inputPositionX   = -1;           // X coordinate for input position
 static int inputPositionY   = -1;           // Y coordinate for input position
@@ -136,10 +137,15 @@ char nmseffect_exec(char *string) {
 		}
 
 		// Set flag if we have a whitespace character
-		if (strlen(list_pointer->source) == 1 && isspace(list_pointer->source[0]))
-			list_pointer->is_space = 1;
-		else
+        if (strlen(list_pointer->source) == 1 && isspace(list_pointer->source[0])) {
+            // If flag is enabled, mask blank spaces as well
+            if (maskBlank && (list_pointer->source[0] == ' '))
+                list_pointer->is_space = 0;
+            else
+                list_pointer->is_space = 1;
+        } else {
 			list_pointer->is_space = 0;
+        }
 
 		// Set initial mask chharacter
 		list_pointer->mask = nmscharset_get_random();
@@ -347,6 +353,18 @@ void nmseffect_set_autodecrypt(int setting) {
 		autoDecrypt = 1;
 	else
 		autoDecrypt = 0;
+}
+
+/*
+ * Set the maskBlank flag according to the true/false value of the
+ * 'setting' argument. When set to true, blank spaces characters
+ * will be masked as well.
+ */
+void nmseffect_set_maskblank(int setting) {
+    if (setting)
+        maskBlank = 1;
+    else
+        maskBlank = 0;
 }
 
 /*
