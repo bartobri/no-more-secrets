@@ -137,15 +137,18 @@ char nmseffect_exec(char *string) {
 		}
 
 		// Set flag if we have a whitespace character
-        if (strlen(list_pointer->source) == 1 && isspace(list_pointer->source[0])) {
-            // If flag is enabled, mask blank spaces as well
-            if (maskBlank && (list_pointer->source[0] == ' '))
-                list_pointer->is_space = 0;
-            else
-                list_pointer->is_space = 1;
-        } else {
+		if (strlen(list_pointer->source) == 1 && isspace(list_pointer->source[0])) {
+
+			// If flag is enabled, mask blank spaces as well
+			if (maskBlank && (list_pointer->source[0] == ' ')) {
+				list_pointer->is_space = 0;
+			} else {
+				list_pointer->is_space = 1;
+			}
+
+		} else {
 			list_pointer->is_space = 0;
-        }
+		}
 
 		// Set initial mask chharacter
 		list_pointer->mask = nmscharset_get_random();
