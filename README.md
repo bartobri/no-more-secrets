@@ -1,5 +1,4 @@
 ![Version](https://img.shields.io/badge/Version-0.3.3-green.svg)
-[![Donate](https://img.shields.io/badge/Tips-PayPal_and_Bitcoin-green.svg)](https://github.com/bartobri/tips)
 
 No More Secrets
 ===============
@@ -34,6 +33,7 @@ Table of Contents
 2. [Usage](#usage)
 3. [The NMS Library](#the-nms-library)
 4. [License](#license)
+5. [Tips](#tips)
 
 Download and Install
 --------------------
@@ -143,3 +143,17 @@ License
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License. See [LICENSE](LICENSE) for
 more details.
+
+Tips
+----
+
+If you've found any of my open source projects helpful to the extent that
+you'd like to repay me in some way, below are a couple methods you can use to
+tip me for my work. I work on open source software full time, and I do not
+get paid for it. Any tips are greatly appreciated.
+
+#### PayPal
+Send tips to bartobrian@gmail.com or [follow this link](https://www.paypal.me/BrianBarto).
+
+#### Bitcoin
+Tip address: 19fy9CsJvN39f3dV6MJy6FfvggP5zunh5j
