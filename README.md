@@ -148,7 +148,7 @@ Tips
 ----
 
 If you've found any of my open source projects helpful to the extent that
-you'd like to repay me in some way, below are a couple methods that you
+you'd like to repay me in some way, below are a few methods that you
 can use to tip me for my work. I work on open source software full time,
 and I do not get paid for it. Any tips are greatly appreciated.
 
@@ -157,3 +157,6 @@ Send tips to bartobrian@gmail.com or [follow this link](https://www.paypal.me/Br
 
 #### Bitcoin
 Tip address: 19fy9CsJvN39f3dV6MJy6FfvggP5zunh5j
+
+#### Litecoin
+Tip Address: LQSWiz3cKGDMLuFZqF7osUaxhSNJXxBtkD
