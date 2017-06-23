@@ -158,5 +158,8 @@ Send tips to bartobrian@gmail.com or [follow this link](https://www.paypal.me/Br
 #### Bitcoin
 Tip address: 19fy9CsJvN39f3dV6MJy6FfvggP5zunh5j
 
+#### Ethereum                                                                                                 
+Tip Address: dc711e5e4cad4912cbd06f1f136bef05643ce3f0
+
 #### Litecoin
 Tip Address: LQSWiz3cKGDMLuFZqF7osUaxhSNJXxBtkD
