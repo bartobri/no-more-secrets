@@ -16,7 +16,7 @@
 #define INPUT_GROWTH_FACTOR    2
 
 int main(int argc, char *argv[]) {
-	int c, o, inSize = 0, inCapacity = INITIAL_CAPACITY;
+	int c, o, i, inCapacity = INITIAL_CAPACITY;
 	char *input = NULL;
 
 	// Processing command arguments
@@ -46,15 +46,15 @@ int main(int argc, char *argv[]) {
 		}
 	}
 	
+	// Allocate memory for our input buffer
 	if ((input = malloc(inCapacity + 1)) == NULL) {
 		fprintf (stderr, "Memory Allocation Error! Quitting...\n");
 		return 1;
 	}
 
 	// Geting input
-	while ((c = getchar()) != EOF) {
-		++inSize;
-		if (inSize > inCapacity) {
+	for (i = 0; (c = getchar()) != EOF; ++i) {
+		if (i >= inCapacity) {
 			inCapacity *= INPUT_GROWTH_FACTOR;
 			input = realloc(input, inCapacity + 1);
 			if (input == NULL) {
@@ -62,8 +62,8 @@ int main(int argc, char *argv[]) {
 				return 1;
 			}
 		}
-		input[inSize - 1] = c;
-		input[inSize] = '\0';
+		input[i] = c;
+		input[i+1] = '\0';
 	}
 
 	// Execute effect
