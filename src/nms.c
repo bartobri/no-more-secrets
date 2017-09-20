@@ -57,6 +57,10 @@ int main(int argc, char *argv[]) {
 		if (inSize > inCapacity) {
 			inCapacity *= INPUT_GROWTH_FACTOR;
 			input = realloc(input, inCapacity + 1);
+			if (input == NULL) {
+				fprintf (stderr, "Memory Allocation Error! Quitting...\n");
+				return 1;
+			}
 		}
 		input[inSize - 1] = c;
 		input[inSize] = '\0';
