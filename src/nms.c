@@ -12,10 +12,11 @@
 #include "nmseffect.h"
 
 #define VERSION                "0.3.3"
+#define INITIAL_CAPACITY       50
 #define INPUT_GROWTH_FACTOR    2
 
 int main(int argc, char *argv[]) {
-	int c, o, inSize = 0, inCapacity = 0;
+	int c, o, inSize = 0, inCapacity = INITIAL_CAPACITY;
 	char *input = NULL;
 
 	// Processing command arguments
@@ -44,12 +45,17 @@ int main(int argc, char *argv[]) {
 				return 1;
 		}
 	}
+	
+	if ((input = malloc(inCapacity + 1)) == NULL) {
+		fprintf (stderr, "Memory Allocation Error! Quitting...\n");
+		return 1;
+	}
 
 	// Geting input
 	while ((c = getchar()) != EOF) {
 		++inSize;
 		if (inSize > inCapacity) {
-			inCapacity = inCapacity == 0 ? INPUT_GROWTH_FACTOR : inCapacity * INPUT_GROWTH_FACTOR;
+			inCapacity *= INPUT_GROWTH_FACTOR;
 			input = realloc(input, inCapacity + 1);
 		}
 		input[inSize - 1] = c;
