@@ -159,7 +159,7 @@ void nmstermio_clear_input(void) {
 char nmstermio_get_char(void) {
 	struct timespec ts;
 	int t = 50;
-	char c;
+	int c;
 	
 	ts.tv_sec = t / 1000;
 	ts.tv_nsec = (t % 1000) * 1000000;
@@ -168,7 +168,7 @@ char nmstermio_get_char(void) {
 		nanosleep(&ts, NULL);
 	}
 	
-	return c;
+	return (char)c;
 }
 
 /*
