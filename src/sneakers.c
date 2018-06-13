@@ -14,7 +14,8 @@
 int main(void) {
 	int termCols, spaces = 0;
 	char input;
-	char display[2000];
+	char r_opts[8];
+	char display[4000];
 	char *head1Left      = "DATANET PROC RECORD:  45-3456-W-3452";
 	char *head1Right     = "Transnet on/xc-3";
 	char *head2Center    = "FEDERAL RESERVE TRANSFER NODE";
@@ -160,14 +161,25 @@ int main(void) {
 
 	// Settings
 	nmseffect_set_input_position(((termCols - strlen(foot2Center)) / 2) + 2, 18);
-	nmseffect_set_returnopts("123456");
+	r_opts[0] = 49;
+	r_opts[1] = 50;
+	r_opts[2] = 51;
+	r_opts[3] = 52;
+	r_opts[4] = 53;
+	r_opts[5] = 54;
+	r_opts[6] = 27;
+	r_opts[7] = 0;
+	nmseffect_set_returnopts(r_opts);
 	nmseffect_set_clearscr(1);
 
 	// Execut effect
 	input = nmseffect_exec(display);
 	
 	// Print user choice
-	printf("You chose %c\n", input);
+	if (input == 27)
+		printf("Aborted!\n");
+	else 
+		printf("You chose %c\n", input);
 
 	return 0;
 }
