@@ -15,7 +15,7 @@ int main(void) {
 	int termCols, spaces = 0;
 	char input;
 	char r_opts[8];
-	char display[4000];
+	char *display        = NULL;
 	char *head1Left      = "DATANET PROC RECORD:  45-3456-W-3452";
 	char *head1Right     = "Transnet on/xc-3";
 	char *head2Center    = "FEDERAL RESERVE TRANSFER NODE";
@@ -35,6 +35,13 @@ int main(void) {
 	struct winsize w;
 	ioctl(0, TIOCGWINSZ, &w);
 	termCols = w.ws_col;
+
+	// Allocate space for our display string
+	if ((display = malloc(20 * termCols)) == NULL)
+	{
+		fprintf(stderr, "Memory Allocation Error. Quitting!\n");
+		return 1;
+	}
 
 	// Start building the display string
 	strcpy(display, head1Left);
@@ -172,7 +179,7 @@ int main(void) {
 	nmseffect_set_returnopts(r_opts);
 	nmseffect_set_clearscr(1);
 
-	// Execut effect
+	// Execute effect
 	input = nmseffect_exec(display);
 	
 	// Print user choice
@@ -180,6 +187,8 @@ int main(void) {
 		printf("Aborted!\n");
 	else 
 		printf("You chose %c\n", input);
+
+	free(display);
 
 	return 0;
 }
