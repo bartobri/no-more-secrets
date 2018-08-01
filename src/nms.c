@@ -15,12 +15,21 @@
 #define INITIAL_CAPACITY       50
 #define INPUT_GROWTH_FACTOR    2
 
+char *HELP_STRING = "USAGE: nsm [OPTIONS]\n"\
+" -a Set the auto-decrypt flag. This will automatically start the decryption\n    sequence without requiring a key press.\n"\
+" -s Set a flag to mask space characters. This will only mask single blank\n    space characters. Other space characters such as tabs and newlines will not\n    be masked.\n"\
+" -f <color> Set the foreground color of the decrypted text to the color\n    specified. Valid options are white, yellow, black, magenta, blue, green, or \n    red. This is blue by default.\n"\
+" -c Clear the screen prior to printing any output. Specifically, it saves the\n    state of the terminal (all current output), and restores it once the \n    effect is comlpeted. Note that when using this option, nms requires the user\n    to press a key before restoring the terminal.\n"\
+" -v Display version info.\n"\
+" -h Display this help.\n";
+
+
 int main(int argc, char *argv[]) {
 	int c, o, i, inCapacity = INITIAL_CAPACITY;
 	char *input = NULL;
 
 	// Processing command arguments
-	while ((o = getopt(argc, argv, "f:ascv")) != -1) {
+	while ((o = getopt(argc, argv, "f:ascvh")) != -1) {
 		switch (o) {
 			case 'f':
 				nmseffect_set_foregroundcolor(optarg);
@@ -36,6 +45,10 @@ int main(int argc, char *argv[]) {
 				break;
 			case 'v':
 				printf("nms version " VERSION "\n");
+				return 0;
+			case 'h':
+				printf("nms version " VERSION "\n");
+				printf(HELP_STRING);
 				return 0;
 			case '?':
 				if (isprint(optopt))
