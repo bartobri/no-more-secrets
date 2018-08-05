@@ -260,11 +260,11 @@ int nmstermio_get_cursor_row(void) {
 	int i, r = 0;
 	int row = 0;
 	char buf[10];
-	char *cmd = "\033[6n";
+	char cmd[] = "\033[6n";
 
 	memset(buf, 0, sizeof(buf));
 
-	write(STDOUT_FILENO, cmd, sizeof(cmd));
+	write(STDOUT_FILENO, cmd, sizeof(cmd) - 1);
 
 	r = read(STDIN_FILENO, buf, sizeof(buf));
 
