@@ -264,7 +264,7 @@ int nmstermio_get_cursor_row(void) {
 
 	memset(buf, 0, sizeof(buf));
 
-	write(STDOUT_FILENO, cmd, sizeof(cmd));
+	write(STDOUT_FILENO, cmd, strlen(cmd));
 
 	r = read(STDIN_FILENO, buf, sizeof(buf));
 
