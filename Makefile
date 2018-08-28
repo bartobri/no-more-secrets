@@ -13,7 +13,7 @@ OBJ=obj
 SRC=src
 
 CC ?= gcc
-CFLAGS ?= -Wextra -Wall
+CFLAGS ?= -Wextra -Wall -O2
 
 .PHONY: all install uninstall clean
 
