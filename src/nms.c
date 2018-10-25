@@ -13,16 +13,19 @@
 #include "input.h"
 #include "error.h"
 
-#define VERSION                "0.3.3"
+#define VERSION "0.3.4"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 	int r, o;
 	unsigned char *input;
 
 	input = NULL;
 
-	while ((o = getopt(argc, argv, "f:ascv")) != -1) {
-		switch (o) {
+	while ((o = getopt(argc, argv, "f:ascv")) != -1)
+	{
+		switch (o)
+		{
 			case 'f':
 				nmseffect_set_foregroundcolor(optarg);
 				break;
@@ -37,13 +40,18 @@ int main(int argc, char *argv[]) {
 				break;
 			case 'v':
 				printf("nms version " VERSION "\n");
-				return 0;
+				return EXIT_SUCCESS;
 			case '?':
 				if (isprint(optopt))
-					fprintf (stderr, "Unknown option '-%c'.\n", optopt);
+				{
+					error_log("Unknown option '-%c'.", optopt);
+				}
 				else
-					fprintf (stderr, "Unknown option character '\\x%x'.\n", optopt);
-				return 1;
+				{
+					error_log("Unknown option character '\\x%x'.", optopt);
+				}
+				error_print();
+				return EXIT_FAILURE;
 		}
 	}
 
