@@ -58,19 +58,13 @@ static void nmseffect_sleep(int);
  * string that is provided as an argument. It returns the last character
  * pressed by the user.
  */
-char nmseffect_exec(char *string) {
+char nmseffect_exec(unsigned char *string, int string_len) {
 	struct charAttr *list_pointer = NULL;
 	struct charAttr *list_head    = NULL;
 	struct charAttr *list_temp    = NULL;
-	int i, revealed = 0;
+	int i, l, revealed = 0;
 	int maxRows, maxCols, curRow, curCol, origRow = 0, origCol = 0;
 	char ret = 0;
-
-	// Error if we have an empty string.
-	if (string == NULL || string[0] == '\0') {
-		fprintf(stderr, "Error. Empty string.\n");
-		return 0;
-	}
 	
 	// Reassociate STDIN to the terminal if needed
 	if (!isatty(STDIN_FILENO) && !freopen ("/dev/tty", "r", stdin)) {
@@ -108,8 +102,8 @@ char nmseffect_exec(char *string) {
 	curCol = origCol;
 
 	// Processing input
-	for (i = 0; string[i] != '\0'; ++i) {
-		
+	for (i = 0; i < string_len; ++i) {
+
 		// Don't go beyond maxRows
 		if (curRow - origRow >= maxRows - 1) {
 			break;
@@ -125,11 +119,12 @@ char nmseffect_exec(char *string) {
 		}
 
 		// Get character's byte-length and store character.
-		if (mblen(&string[i], 4) > 0) {
-			list_pointer->source = malloc(mblen(&string[i], 4) + 1);
-			strncpy(list_pointer->source, &string[i], mblen(&string[i], 4));
-			list_pointer->source[mblen(&string[i], 4)] = '\0';
-			i += (mblen(&string[i], 4) - 1);
+		l = mblen((char *)&string[i], 4);
+		if (l > 0) {
+			list_pointer->source = malloc(l + 1);
+			memcpy(list_pointer->source, &string[i], l);
+			list_pointer->source[l] = '\0';
+			i += (l - 1);
 		} else {
 			fprintf(stderr, "Unknown character encountered. Quitting.\n");
 			nmstermio_restore_terminal();

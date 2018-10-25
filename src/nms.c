@@ -10,16 +10,17 @@
 #include <unistd.h>
 #include <ctype.h>
 #include "nmseffect.h"
+#include "input.h"
+#include "error.h"
 
 #define VERSION                "0.3.3"
-#define INITIAL_CAPACITY       50
-#define INPUT_GROWTH_FACTOR    2
 
 int main(int argc, char *argv[]) {
-	int c, o, i, inCapacity = INITIAL_CAPACITY;
-	char *input = NULL;
+	int r, o;
+	unsigned char *input;
 
-	// Processing command arguments
+	input = NULL;
+
 	while ((o = getopt(argc, argv, "f:ascv")) != -1) {
 		switch (o) {
 			case 'f':
@@ -45,32 +46,24 @@ int main(int argc, char *argv[]) {
 				return 1;
 		}
 	}
-	
-	// Allocate memory for our input buffer
-	if ((input = malloc(inCapacity + 1)) == NULL) {
-		fprintf (stderr, "Memory Allocation Error! Quitting...\n");
-		return 1;
+
+	r = input_get(&input, "Enter input: ");
+	if (r < 0)
+	{
+		error_log("Could not get input.");
+		error_print();
+		return EXIT_FAILURE;
+	}
+	else if (r == 0)
+	{
+		error_log("Input is empty.");
+		error_print();
+		return EXIT_FAILURE;
 	}
 
-	// Geting input
-	for (i = 0; (c = getchar()) != EOF; ++i) {
-		if (i >= inCapacity) {
-			inCapacity *= INPUT_GROWTH_FACTOR;
-			input = realloc(input, inCapacity + 1);
-			if (input == NULL) {
-				fprintf (stderr, "Memory Allocation Error! Quitting...\n");
-				return 1;
-			}
-		}
-		input[i] = c;
-		input[i+1] = '\0';
-	}
+	r = nmseffect_exec(input, r);
 
-	// Execute effect
-	c = nmseffect_exec(input);
-
-	// Free allocated memory (not necessary here, but good practice)
 	free(input);
 
-	return 0;
+	return EXIT_SUCCESS;
 }

@@ -9,7 +9,7 @@
 #define NMSEFFECT_H 1
 
 // Function prototypes
-char nmseffect_exec(char *);
+char nmseffect_exec(unsigned char *, int string_len);
 void nmseffect_set_foregroundcolor(char *);
 void nmseffect_set_returnopts(char *);
 void nmseffect_set_autodecrypt(int);

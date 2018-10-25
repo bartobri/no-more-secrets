@@ -17,7 +17,7 @@ CFLAGS ?= -Wextra -Wall -O2
 
 .PHONY: all install uninstall clean
 
-nms: $(OBJ)/nmscharset.o $(OBJ)/nmstermio.o $(OBJ)/nmseffect.o $(OBJ)/nms.o | $(BIN)
+nms: $(OBJ)/input.o $(OBJ)/error.o $(OBJ)/nmscharset.o $(OBJ)/nmstermio.o $(OBJ)/nmseffect.o $(OBJ)/nms.o | $(BIN)
 	$(CC) $(CFLAGS) -o $(BIN)/$@ $^
 
 sneakers: $(OBJ)/nmscharset.o $(OBJ)/nmstermio.o $(OBJ)/nmseffect.o $(OBJ)/sneakers.o | $(BIN)
