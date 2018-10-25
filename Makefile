@@ -28,10 +28,10 @@ all: nms sneakers
 all-ncurses: nms-ncurses sneakers-ncurses
 
 nms-ncurses: $(OBJ)/input.o $(OBJ)/error.o $(OBJ)/nmscharset.o $(OBJ)/nmstermio_ncurses.o $(OBJ)/nmseffect.o $(OBJ)/nms.o | $(BIN)
-	$(CC) $(CFLAGS) -o $(BIN)/nms $^ -lncurses
+	$(CC) $(CFLAGS) -o $(BIN)/nms $^ -lncursesw
 
 sneakers-ncurses: $(OBJ)/nmscharset.o $(OBJ)/nmstermio_ncurses.o $(OBJ)/nmseffect.o $(OBJ)/sneakers.o | $(BIN)
-	$(CC) $(CFLAGS) -o $(BIN)/sneakers $^ -lncurses
+	$(CC) $(CFLAGS) -o $(BIN)/sneakers $^ -lncursesw
 
 $(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
 	$(CC) $(CFLAGS) -o $@ -c $<

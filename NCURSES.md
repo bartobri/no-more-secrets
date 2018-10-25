@@ -8,7 +8,7 @@ operating systems.
 
 ```
 sudo apt-get update
-sudo apt-get install lib32ncurses5-dev
+sudo apt-get install lib32ncursesw5-dev
 ```
 
 #### Fedora Linux
