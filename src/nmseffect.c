@@ -35,8 +35,6 @@
 static int autoDecrypt      = 0;            // Auto-decrypt flag
 static int maskBlank        = 0;            // Mask blank spaces
 static int colorOn          = 1;            // Terminal color flag
-static int inputPositionX   = -1;           // X coordinate for input position
-static int inputPositionY   = -1;           // Y coordinate for input position
 
 // Character attribute structure, linked list. Keeps track of every
 // character's attributes required for rendering and decryption effect.
@@ -353,18 +351,6 @@ void nmseffect_set_color(int setting) {
 		colorOn = 1;
 	else
 		colorOn = 0;
-}
-
-/*
- * Set the desired coordinates of the cursor in the terminal window when
- * nmseffect_exec() gets the character selection from the user that is set
- * with nmseffect_set_returnopts().
- */
-void nmseffect_set_input_position(int x, int y) {
-	if (x >= 0 && y >= 0) {
-		inputPositionX = x;
-		inputPositionY = y;
-	}
 }
 
 /*
