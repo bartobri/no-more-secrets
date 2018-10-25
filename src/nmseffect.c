@@ -32,7 +32,6 @@
 #define REVEAL_LOOP_SPEED    50    // miliseconds between each reveal loop
 
 // Behavior settings
-static char *returnOpts     = NULL;         // Return option setting
 static int autoDecrypt      = 0;            // Auto-decrypt flag
 static int maskBlank        = 0;            // Mask blank spaces
 static int colorOn          = 1;            // Terminal color flag
@@ -278,29 +277,9 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 		nmseffect_sleep(REVEAL_LOOP_SPEED);
 	}
 
-	// Flush any input up to this point
 	nmstermio_clear_input();
-
-	// Check if user must select from a set of options
-	if (returnOpts != NULL && strlen(returnOpts) > 0) {
-		
-		// Position cursor if necessary
-		if (inputPositionY >= 0 && inputPositionX >= 0) {
-			nmstermio_move_cursor(inputPositionY, inputPositionX);
-		}
-		
-		nmstermio_show_cursor();
-		
-		// Get and validate user selection
-		while (strchr(returnOpts, ret = nmstermio_get_char()) == NULL) {
-			nmstermio_beep();
-		}
-
-	}
 	
-	// User must press a key to continue when clearSrc is set
-	// without returnOpts
-	else if (nmstermio_get_clearscr()) {
+	if (nmstermio_get_clearscr()) {
 		nmstermio_get_char();
 	}
 	
@@ -327,18 +306,6 @@ char nmseffect_exec(unsigned char *string, int string_len) {
  */
 void nmseffect_set_foregroundcolor(char *color) {
 	nmstermio_set_foregroundcolor(color);
-}
-
-/*
- * Copy the string argument to the 'returnOpts' variable. This string is
- * used to determine what character the user must choose from before
- * nmseffect_exec() returns execution to the calling function. Normally
- * this is left NULL. Use only when you want to present a menu with
- * selection choices to the user.
- */
-void nmseffect_set_returnopts(char *opts) {
-	returnOpts = realloc(returnOpts, strlen(opts) + 1);
-	strcpy(returnOpts, opts);
 }
 
 /*
