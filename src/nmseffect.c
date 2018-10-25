@@ -63,12 +63,6 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 	int maxRows, maxCols, curRow, curCol, origRow = 0, origCol = 0;
 	char ret = 0;
 	
-	// Reassociate STDIN to the terminal if needed
-	if (!isatty(STDIN_FILENO) && !freopen ("/dev/tty", "r", stdin)) {
-		fprintf(stderr, "Error. Can't associate STDIN with terminal.\n");
-		return 0;
-	}
-	
 	// Needed for UTF-8 support
 	setlocale(LC_ALL, "");
 	

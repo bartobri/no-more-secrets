@@ -294,6 +294,10 @@ static void nmstermio_set_terminal(int s) {
 	struct termios tp;
 	static struct termios save;
 	static int state = 1;
+
+	if (!isatty(STDIN_FILENO)) {
+		stdin = freopen("/dev/tty", "r", stdin);
+	}
 	
 	if (s == 0) {
 		if (tcgetattr(STDIN_FILENO, &tp) == -1) {

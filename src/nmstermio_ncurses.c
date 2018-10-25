@@ -11,6 +11,8 @@
  * functionality is defined and implemented here.
  */
 
+#include <stdio.h>
+#include <unistd.h>
 #include <string.h>
 #include <ncurses.h>
 
@@ -25,6 +27,9 @@ static int foregroundColor   = COLOR_BLUE;            // Foreground color settin
  * otherwise.
  */
 void nmstermio_init_terminal(void) {
+	if (!isatty(STDIN_FILENO)) {
+		stdin = freopen("/dev/tty", "r", stdin);
+	}
 	initscr();
 	cbreak();
 	noecho();
