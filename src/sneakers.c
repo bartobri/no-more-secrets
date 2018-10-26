@@ -13,8 +13,7 @@
 
 int main(void) {
 	int termCols, spaces = 0;
-	char input;
-	char r_opts[8];
+	unsigned char *display_uc = NULL;
 	char *display        = NULL;
 	char *head1Left      = "DATANET PROC RECORD:  45-3456-W-3452";
 	char *head1Right     = "Transnet on/xc-3";
@@ -42,6 +41,16 @@ int main(void) {
 		fprintf(stderr, "Memory Allocation Error. Quitting!\n");
 		return 1;
 	}
+
+	// Allocate space for our display string
+	if ((display_uc = malloc(20 * termCols)) == NULL)
+	{
+		fprintf(stderr, "Memory Allocation Error. Quitting!\n");
+		return 1;
+	}
+
+	memset(display, 0, 20 * termCols);
+	memset(display_uc, 0, 20 * termCols);
 
 	// Start building the display string
 	strcpy(display, head1Left);
@@ -166,29 +175,15 @@ int main(void) {
 	}
 	strcat(display, foot2Center);
 
-	// Settings
-	nmseffect_set_input_position(((termCols - strlen(foot2Center)) / 2) + 2, 18);
-	r_opts[0] = 49;
-	r_opts[1] = 50;
-	r_opts[2] = 51;
-	r_opts[3] = 52;
-	r_opts[4] = 53;
-	r_opts[5] = 54;
-	r_opts[6] = 27;
-	r_opts[7] = 0;
-	nmseffect_set_returnopts(r_opts);
 	nmseffect_set_clearscr(1);
 
+	memcpy(display_uc, display, 20 * termCols);
+
 	// Execute effect
-	input = nmseffect_exec(display);
-	
-	// Print user choice
-	if (input == 27)
-		printf("Aborted!\n");
-	else 
-		printf("You chose %c\n", input);
+	nmseffect_exec(display_uc, strlen(display));
 
 	free(display);
+	free(display_uc);
 
 	return 0;
 }
