@@ -80,6 +80,11 @@ $ make sneakers-ncurses     ## Optional
 $ sudo make install
 ```
 
+#### Live Demo:
+
+You can also play with `nms` in a free online workspace:
+[Try `nms` in Gitpod](https://gitpod.io#https://github.com/bartobri/no-more-secrets).
+
 Usage
 -----
 
