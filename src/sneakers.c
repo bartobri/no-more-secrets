@@ -32,7 +32,11 @@ int main(void) {
 
 	// Get terminal dimentions (needed for centering)
 	struct winsize w;
-	ioctl(0, TIOCGWINSZ, &w);
+    // if not an interactive tty, w is not populated, resulting in UB
+	if (ioctl(0, TIOCGWINSZ, &w) == -1) {
+        perror("Input not from an interactive terminal");
+        return 1;
+    }
 	termCols = w.ws_col;
 
 	// Allocate space for our display string
@@ -45,6 +49,7 @@ int main(void) {
 	// Allocate space for our display string
 	if ((display_uc = malloc(20 * termCols)) == NULL)
 	{
+        free(display);
 		fprintf(stderr, "Memory Allocation Error. Quitting!\n");
 		return 1;
 	}
