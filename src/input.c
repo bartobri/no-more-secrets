@@ -17,7 +17,7 @@
 #include "input.h"
 #include "error.h"
 
-int input_get(unsigned char** dest, char *prompt)
+int input_get(unsigned char **dest, char *prompt)
 {
 	int r, input_len;
 	fd_set input_stream;
@@ -27,7 +27,7 @@ int input_get(unsigned char** dest, char *prompt)
 	FD_ZERO(&input_stream);
 	input_len = 0;
 
-	timeout.tv_sec  = 10;
+	timeout.tv_sec = 10;
 	timeout.tv_usec = 0;
 
 	if (isatty(STDIN_FILENO))
@@ -81,7 +81,7 @@ int input_get(unsigned char** dest, char *prompt)
 	return input_len;
 }
 
-int input_get_str(char** dest, char *prompt)
+int input_get_str(char **dest, char *prompt)
 {
 	int r, i, input_len;
 	unsigned char *input;
@@ -140,7 +140,7 @@ int input_get_str(char** dest, char *prompt)
 	return input_len;
 }
 
-int input_get_from_pipe(unsigned char** dest)
+int input_get_from_pipe(unsigned char **dest)
 {
 	int r;
 

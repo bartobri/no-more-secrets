@@ -11,32 +11,34 @@
 #include <sys/ioctl.h>
 #include "nmseffect.h"
 
-int main(void) {
+int main(void)
+{
 	int termCols, spaces = 0;
 	unsigned char *display_uc = NULL;
-	char *display        = NULL;
-	char *head1Left      = "DATANET PROC RECORD:  45-3456-W-3452";
-	char *head1Right     = "Transnet on/xc-3";
-	char *head2Center    = "FEDERAL RESERVE TRANSFER NODE";
-	char *head3Center    = "National Headquarters";
-	char *head4Center    = "************  Remote Systems Network Input Station  ************";
-	char *head5Center    = "================================================================";
-	char *menu1          = "[1] Interbank Funds Transfer  (Code Prog: 485-GWU)";
-	char *menu2          = "[2] International Telelink Access  (Code Lim: XRP-262)";
-	char *menu3          = "[3] Remote Facsimile Send/Receive  (Code Tran:  2LZP-517)";
-	char *menu4          = "[4] Regional Bank Interconnect  (Security Code:  47-B34)";
-	char *menu5          = "[5] Update System Parameters  (Entry Auth. Req.)";
-	char *menu6          = "[6] Remote Operator Logon/Logoff";
-	char *foot1Center    = "================================================================";
-	char *foot2Center    = "[ ] Select Option or ESC to Abort";
+	char *display = NULL;
+	char *head1Left = "DATANET PROC RECORD:  45-3456-W-3452";
+	char *head1Right = "Transnet on/xc-3";
+	char *head2Center = "FEDERAL RESERVE TRANSFER NODE";
+	char *head3Center = "National Headquarters";
+	char *head4Center = "************  Remote Systems Network Input Station  ************";
+	char *head5Center = "================================================================";
+	char *menu1 = "[1] Interbank Funds Transfer  (Code Prog: 485-GWU)";
+	char *menu2 = "[2] International Telelink Access  (Code Lim: XRP-262)";
+	char *menu3 = "[3] Remote Facsimile Send/Receive  (Code Tran:  2LZP-517)";
+	char *menu4 = "[4] Regional Bank Interconnect  (Security Code:  47-B34)";
+	char *menu5 = "[5] Update System Parameters  (Entry Auth. Req.)";
+	char *menu6 = "[6] Remote Operator Logon/Logoff";
+	char *foot1Center = "================================================================";
+	char *foot2Center = "[ ] Select Option or ESC to Abort";
 
 	// Get terminal dimentions (needed for centering)
 	struct winsize w;
-    // if not an interactive tty, w is not populated, resulting in UB
-	if (ioctl(0, TIOCGWINSZ, &w) == -1) {
-        perror("Input not from an interactive terminal");
-        return 1;
-    }
+	// if not an interactive tty, w is not populated, resulting in UB
+	if (ioctl(0, TIOCGWINSZ, &w) == -1)
+	{
+		perror("Input not from an interactive terminal");
+		return 1;
+	}
 	termCols = w.ws_col;
 
 	// Allocate space for our display string
@@ -49,7 +51,7 @@ int main(void) {
 	// Allocate space for our display string
 	if ((display_uc = malloc(20 * termCols)) == NULL)
 	{
-        free(display);
+		free(display);
 		fprintf(stderr, "Memory Allocation Error. Quitting!\n");
 		return 1;
 	}
@@ -61,7 +63,8 @@ int main(void) {
 	strcpy(display, head1Left);
 
 	spaces = termCols - strlen(head1Left) - strlen(head1Right);
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -70,7 +73,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = (termCols - strlen(head2Center)) / 2;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -80,7 +84,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = (termCols - strlen(head3Center)) / 2;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -90,7 +95,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = (termCols - strlen(head4Center)) / 2;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -99,7 +105,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = (termCols - strlen(head5Center)) / 2;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -109,7 +116,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = ((termCols - strlen(head5Center)) / 2) + 3;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -118,7 +126,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = ((termCols - strlen(head5Center)) / 2) + 3;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -127,7 +136,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = ((termCols - strlen(head5Center)) / 2) + 3;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -136,7 +146,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = ((termCols - strlen(head5Center)) / 2) + 3;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -145,7 +156,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = ((termCols - strlen(head5Center)) / 2) + 3;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -154,7 +166,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = ((termCols - strlen(head5Center)) / 2) + 3;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -164,7 +177,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = (termCols - strlen(foot1Center)) / 2;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}
@@ -174,7 +188,8 @@ int main(void) {
 	strcat(display, "\n");
 
 	spaces = (termCols - strlen(foot2Center)) / 2;
-	while (spaces > 0) {
+	while (spaces > 0)
+	{
 		strcat(display, " ");
 		--spaces;
 	}

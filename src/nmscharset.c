@@ -9,7 +9,7 @@
  * The nmscharset module defines the character set that is used to
  * represent encryption.
  */
- 
+
 #include <stdlib.h>
 
 // Total characters in charTable[] array.
@@ -51,12 +51,12 @@ static char *charTable[] = {
 	"\xe2\x96\x90", "\xe2\x96\x80", "\xe2\x88\x9e", "\xe2\x88\xa9",
 	"\xe2\x89\xa1", "\xe2\x89\xa5", "\xe2\x89\xa4", "\xe2\x8c\xa0",
 	"\xe2\x8c\xa1", "\xe2\x89\x88", "\xe2\x88\x99", "\xe2\x88\x9a",
-	"\xe2\x81\xbf", "\xe2\x96\xa0"
-};
+	"\xe2\x81\xbf", "\xe2\x96\xa0"};
 
 /*
  * Return a random character from charTable[].
  */
-char *nmscharset_get_random(void) {
+char *nmscharset_get_random(void)
+{
 	return charTable[rand() % CHAR_COUNT];
 }

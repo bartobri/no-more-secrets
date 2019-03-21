@@ -27,5 +27,4 @@ void nmstermio_set_clearscr(int);
 void nmstermio_set_foregroundcolor(char *);
 int nmstermio_get_cursor_row(void);
 
-
 #endif

@@ -24,33 +24,33 @@
 #endif
 
 // Macros for VT100 codes
-#define CLEAR_SCR()          printf("\033[2J")           // Clear Screen
-#define CURSOR_HOME()        printf("\033[H")            // Move cursor to home position (0,0)
-#define CURSOR_MOVE(y,x)     printf("\033[%i;%iH", y, x) // Move cursor to x,y
-#define BEEP()               printf("\a");               // terminal bell
-#define BOLD()               printf("\033[1m")           // Cursor bold
-#define FOREGROUND_COLOR(x)  printf("\033[3%im", x)      // Set foreground color
-#define CLEAR_ATTR()         printf("\033[0m")           // Clear bold/color attributes
-#define SCREEN_SAVE()        printf("\033[?47h")         // Save screen display
-#define SCREEN_RESTORE()     printf("\033[?47l")         // Restore screen to previously saved state
-#define CURSOR_SAVE()        printf("\033[s")            // Save cursor position
-#define CURSOR_RESTORE()     printf("\033[u")            // Restore cursor position
-#define CURSOR_HIDE()        printf("\033[?25l")         // Hide cursor
-#define CURSOR_SHOW()        printf("\033[?25h")         // Unhide cursor
+#define CLEAR_SCR() printf("\033[2J")				  // Clear Screen
+#define CURSOR_HOME() printf("\033[H")				  // Move cursor to home position (0,0)
+#define CURSOR_MOVE(y, x) printf("\033[%i;%iH", y, x) // Move cursor to x,y
+#define BEEP() printf("\a");						  // terminal bell
+#define BOLD() printf("\033[1m")					  // Cursor bold
+#define FOREGROUND_COLOR(x) printf("\033[3%im", x)	// Set foreground color
+#define CLEAR_ATTR() printf("\033[0m")				  // Clear bold/color attributes
+#define SCREEN_SAVE() printf("\033[?47h")			  // Save screen display
+#define SCREEN_RESTORE() printf("\033[?47l")		  // Restore screen to previously saved state
+#define CURSOR_SAVE() printf("\033[s")				  // Save cursor position
+#define CURSOR_RESTORE() printf("\033[u")			  // Restore cursor position
+#define CURSOR_HIDE() printf("\033[?25l")			  // Hide cursor
+#define CURSOR_SHOW() printf("\033[?25h")			  // Unhide cursor
 
 // Color identifiers
-#define COLOR_BLACK   0
-#define COLOR_RED     1
-#define COLOR_GREEN   2
-#define COLOR_YELLOW  3
-#define COLOR_BLUE    4
+#define COLOR_BLACK 0
+#define COLOR_RED 1
+#define COLOR_GREEN 2
+#define COLOR_YELLOW 3
+#define COLOR_BLUE 4
 #define COLOR_MAGENTA 5
-#define COLOR_CYAN    6
-#define COLOR_WHITE   7
+#define COLOR_CYAN 6
+#define COLOR_WHITE 7
 
 // Terminal IO settings
-static int clearScr          = 0;                     // clearScr flag
-static int foregroundColor   = COLOR_BLUE;            // Foreground color setting
+static int clearScr = 0;				 // clearScr flag
+static int foregroundColor = COLOR_BLUE; // Foreground color setting
 
 // Function prototypes
 static void nmstermio_set_terminal(int);
@@ -61,13 +61,15 @@ static void nmstermio_set_terminal(int);
  * flag is set, it will also save the state of the cursor and screen (so
  * it can be restored) and then clear it.
  */
-void nmstermio_init_terminal(void) {
+void nmstermio_init_terminal(void)
+{
 
 	// Turn off line buffering and echo
 	nmstermio_set_terminal(0);
-	
+
 	// Save terminal state, clear screen, and home/hide the cursor
-	if (clearScr) {
+	if (clearScr)
+	{
 		CURSOR_SAVE();
 		SCREEN_SAVE();
 		CLEAR_SCR();
@@ -82,15 +84,17 @@ void nmstermio_init_terminal(void) {
  * and echo. If the clearScr flag is set, it will also restore the
  * terminal content and cursor position.
  */
-void nmstermio_restore_terminal(void) {
-	
+void nmstermio_restore_terminal(void)
+{
+
 	// Restore screen and cursor is clearSrc is set
-	if (clearScr) {
+	if (clearScr)
+	{
 		SCREEN_RESTORE();
 		CURSOR_SHOW();
 		CURSOR_RESTORE();
 	}
-	
+
 	// Turn on line buffering and echo
 	nmstermio_set_terminal(1);
 }
@@ -98,34 +102,38 @@ void nmstermio_restore_terminal(void) {
 /*
  * Get and return the number of rows in the current terminal window.
  */
-int nmstermio_get_rows(void) {
+int nmstermio_get_rows(void)
+{
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    
+
 	return w.ws_row;
 }
 
 /*
  * Get and return the number of cols in the current terminal window.
  */
-int nmstermio_get_cols(void) {
+int nmstermio_get_cols(void)
+{
 	struct winsize w;
 	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    
+
 	return w.ws_col;
 }
 
 /*
  * Move terminal cursor to the given x/y coordinates.
  */
-void nmstermio_move_cursor(int y, int x) {
+void nmstermio_move_cursor(int y, int x)
+{
 	CURSOR_MOVE(y, x);
 }
 
 /*
  * Print the given character string to the terminal output.
  */
-void nmstermio_print_string(char *s) {
+void nmstermio_print_string(char *s)
+{
 	printf("%s", s);
 }
 
@@ -133,7 +141,8 @@ void nmstermio_print_string(char *s) {
  * Refresh the screen. Display all pending output that has not been
  * displayed yet.
  */
-void nmstermio_refresh(void) {
+void nmstermio_refresh(void)
+{
 	fflush(stdout);
 }
 
@@ -141,12 +150,14 @@ void nmstermio_refresh(void) {
  * Clear all input pending in STDIN. This is used prior to getting user
  * input to clear the input queue in case of any prior errant keystrokes.
  */
-void nmstermio_clear_input(void) {
+void nmstermio_clear_input(void)
+{
 	int i;
-	
+
 	ioctl(STDIN_FILENO, FIONREAD, &i);
 
-	while (i-- > 0) {
+	while (i-- > 0)
+	{
 		getchar();
 	}
 }
@@ -156,18 +167,20 @@ void nmstermio_clear_input(void) {
  * is turned off, we must constantly loop until we get a character other
  * than EOF.
  */
-char nmstermio_get_char(void) {
+char nmstermio_get_char(void)
+{
 	struct timespec ts;
 	int t = 50;
 	int c;
-	
+
 	ts.tv_sec = t / 1000;
 	ts.tv_nsec = (t % 1000) * 1000000;
 
-	while ((c = getchar()) == EOF) {
+	while ((c = getchar()) == EOF)
+	{
 		nanosleep(&ts, NULL);
 	}
-	
+
 	return (char)c;
 }
 
@@ -176,17 +189,19 @@ char nmstermio_get_char(void) {
  * apply the bold and color attributes (if colorOn flag is set) to this
  * string.
  */
-void nmstermio_print_reveal_string(char *s, int colorOn) {
-	
+void nmstermio_print_reveal_string(char *s, int colorOn)
+{
+
 	// Set bold and foreground color
 	BOLD();
-	if (colorOn) {
+	if (colorOn)
+	{
 		FOREGROUND_COLOR(foregroundColor);
 	}
-	
+
 	// print string
 	printf("%s", s);
-	
+
 	// Unset bold and foreground color
 	CLEAR_ATTR();
 }
@@ -194,7 +209,8 @@ void nmstermio_print_reveal_string(char *s, int colorOn) {
 /*
  * Display the cursor that have been turned off by nmstermio_init_terminal().
  */
-void nmstermio_show_cursor(void) {
+void nmstermio_show_cursor(void)
+{
 	CURSOR_SHOW();
 }
 
@@ -202,7 +218,8 @@ void nmstermio_show_cursor(void) {
  * Make the terminal beep. Used when the returnOpts setting is set in the
  * nmseffect module.
  */
-void nmstermio_beep(void) {
+void nmstermio_beep(void)
+{
 	BEEP();
 }
 
@@ -210,14 +227,16 @@ void nmstermio_beep(void) {
  * Return the status of the clearScr flag. This is used by the nmseffect
  * module to make certain decisions based on its value.
  */
-int nmstermio_get_clearscr(void) {
+int nmstermio_get_clearscr(void)
+{
 	return clearScr;
 }
 
 /*
  * Sets the clearScr flag according to the true/false value of the 's' argument.
  */
-void nmstermio_set_clearscr(int s) {
+void nmstermio_set_clearscr(int s)
+{
 	if (s)
 		clearScr = 1;
 	else
@@ -229,23 +248,24 @@ void nmstermio_set_clearscr(int s) {
  * are revealed by nmstermio_print_reveal_string(). Valid arguments are
  * "white", "yellow", "magenta", "blue", "green", "red", and "cyan".
  */
-void nmstermio_set_foregroundcolor(char *c) {
+void nmstermio_set_foregroundcolor(char *c)
+{
 
-	if(strcmp("white", c) == 0)
-		foregroundColor =  COLOR_WHITE;
-	else if(strcmp("yellow", c) == 0)
+	if (strcmp("white", c) == 0)
+		foregroundColor = COLOR_WHITE;
+	else if (strcmp("yellow", c) == 0)
 		foregroundColor = COLOR_YELLOW;
-	else if(strcmp("black", c) == 0)
+	else if (strcmp("black", c) == 0)
 		foregroundColor = COLOR_BLACK;
-	else if(strcmp("magenta", c) == 0)
+	else if (strcmp("magenta", c) == 0)
 		foregroundColor = COLOR_MAGENTA;
-	else if(strcmp("blue", c) == 0)
+	else if (strcmp("blue", c) == 0)
 		foregroundColor = COLOR_BLUE;
-	else if(strcmp("green", c) == 0)
+	else if (strcmp("green", c) == 0)
 		foregroundColor = COLOR_GREEN;
-	else if(strcmp("red", c) == 0)
+	else if (strcmp("red", c) == 0)
 		foregroundColor = COLOR_RED;
-	else if(strcmp("cyan", c) == 0)
+	else if (strcmp("cyan", c) == 0)
 		foregroundColor = COLOR_CYAN;
 	else
 		foregroundColor = COLOR_BLUE;
@@ -256,7 +276,8 @@ void nmstermio_set_foregroundcolor(char *c) {
  * sending the appropriate ANSI escape code to the terminal and
  * reading/parsing its response.
  */
-int nmstermio_get_cursor_row(void) {
+int nmstermio_get_cursor_row(void)
+{
 	int i, r;
 	int row = 0;
 	char buf[10];
@@ -268,20 +289,24 @@ int nmstermio_get_cursor_row(void) {
 
 	r = read(STDIN_FILENO, buf, sizeof(buf));
 
-	for (i = 0; i < r; ++i) {
-		if (buf[i] == 27 || buf[i] == '[') {
+	for (i = 0; i < r; ++i)
+	{
+		if (buf[i] == 27 || buf[i] == '[')
+		{
 			continue;
 		}
 
-		if (buf[i] >= '0' && buf[i] <= '9') {
+		if (buf[i] >= '0' && buf[i] <= '9')
+		{
 			row = (row * 10) + (buf[i] - '0');
 		}
-		
-		if (buf[i] == ';' || buf[i] == 'R' || buf[i] == 0) {
+
+		if (buf[i] == ';' || buf[i] == 'R' || buf[i] == 0)
+		{
 			break;
 		}
 	}
-	
+
 	return row;
 }
 
@@ -290,31 +315,38 @@ int nmstermio_get_cursor_row(void) {
  * that evaluates to true. Restore the original terminal values when passed
  * an integer value that evaluates to false.
  */
-static void nmstermio_set_terminal(int s) {
+static void nmstermio_set_terminal(int s)
+{
 	struct termios tp;
 	static struct termios save;
 	static int state = 1;
 
-	if (!isatty(STDIN_FILENO)) {
+	if (!isatty(STDIN_FILENO))
+	{
 		stdin = freopen("/dev/tty", "r", stdin);
 	}
-	
-	if (s == 0) {
-		if (tcgetattr(STDIN_FILENO, &tp) == -1) {
+
+	if (s == 0)
+	{
+		if (tcgetattr(STDIN_FILENO, &tp) == -1)
+		{
 			return;
 		}
 
 		save = tp;
-		
-		tp.c_lflag &=(~ICANON & ~ECHO);
-		
-		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &tp) == -1) {
+
+		tp.c_lflag &= (~ICANON & ~ECHO);
+
+		if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &tp) == -1)
+		{
 			return;
 		}
-	} else {
+	}
+	else
+	{
 		if (state == 0 && tcsetattr(STDIN_FILENO, TCSANOW, &save) == -1)
 			return;
 	}
-	
+
 	state = s;
 }

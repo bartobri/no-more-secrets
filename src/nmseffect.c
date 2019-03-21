@@ -4,7 +4,7 @@
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GPL License. See LICENSE for more details.
  */
- 
+
 /*
  * The nmseffect module is the primary module that drives the effect
  * execution. Most attributes, settings, and code that define the behavior
@@ -26,19 +26,20 @@
 #include "nmscharset.h"
 
 // Speed settings
-#define TYPE_EFFECT_SPEED    4     // miliseconds per char
-#define JUMBLE_SECONDS       2     // number of seconds for jumble effect
-#define JUMBLE_LOOP_SPEED    35    // miliseconds between each jumble
-#define REVEAL_LOOP_SPEED    50    // miliseconds between each reveal loop
+#define TYPE_EFFECT_SPEED 4  // miliseconds per char
+#define JUMBLE_SECONDS 2	 // number of seconds for jumble effect
+#define JUMBLE_LOOP_SPEED 35 // miliseconds between each jumble
+#define REVEAL_LOOP_SPEED 50 // miliseconds between each reveal loop
 
 // Behavior settings
-static int autoDecrypt      = 0;            // Auto-decrypt flag
-static int maskBlank        = 0;            // Mask blank spaces
-static int colorOn          = 1;            // Terminal color flag
+static int autoDecrypt = 0; // Auto-decrypt flag
+static int maskBlank = 0;   // Mask blank spaces
+static int colorOn = 1;		// Terminal color flag
 
 // Character attribute structure, linked list. Keeps track of every
 // character's attributes required for rendering and decryption effect.
-struct charAttr {
+struct charAttr
+{
 	char *source;
 	char *mask;
 	int width;
@@ -55,27 +56,29 @@ static void nmseffect_sleep(int);
  * string that is provided as an argument. It returns the last character
  * pressed by the user.
  */
-char nmseffect_exec(unsigned char *string, int string_len) {
+char nmseffect_exec(unsigned char *string, int string_len)
+{
 	struct charAttr *list_pointer = NULL;
-	struct charAttr *list_head    = NULL;
-	struct charAttr *list_temp    = NULL;
+	struct charAttr *list_head = NULL;
+	struct charAttr *list_temp = NULL;
 	int i, l, revealed = 0;
 	int maxRows, maxCols, curRow, curCol, origRow = 0, origCol = 0;
 	char ret = 0;
-	
+
 	// Needed for UTF-8 support
 	setlocale(LC_ALL, "");
-	
+
 	// Seed my random number generator with the current time
 	srand(time(NULL));
-	
+
 	// Initialize terminal
 	nmstermio_init_terminal();
-	
-	if (!nmstermio_get_clearscr()) {
+
+	if (!nmstermio_get_clearscr())
+	{
 		// Get current row position
 		origRow = nmstermio_get_cursor_row();
-		
+
 		// nmstermio_get_cursor_row() may display output in some terminals. So
 		// we need to reposition the cursor to the start of the row, print
 		// some blank spaces, and the reposition again.
@@ -93,46 +96,59 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 	curCol = origCol;
 
 	// Processing input
-	for (i = 0; i < string_len; ++i) {
+	for (i = 0; i < string_len; ++i)
+	{
 
 		// Don't go beyond maxRows
-		if (curRow - origRow >= maxRows - 1) {
+		if (curRow - origRow >= maxRows - 1)
+		{
 			break;
 		}
 
 		// Allocate memory for next list link
-		if (list_pointer == NULL) {
+		if (list_pointer == NULL)
+		{
 			list_pointer = malloc(sizeof(struct charAttr));
 			list_head = list_pointer;
-		} else {
+		}
+		else
+		{
 			list_pointer->next = malloc(sizeof(struct charAttr));
 			list_pointer = list_pointer->next;
 		}
 
 		// Get character's byte-length and store character.
 		l = mblen((char *)&string[i], 4);
-		if (l > 0) {
+		if (l > 0)
+		{
 			list_pointer->source = malloc(l + 1);
 			memcpy(list_pointer->source, &string[i], l);
 			list_pointer->source[l] = '\0';
 			i += (l - 1);
-		} else {
+		}
+		else
+		{
 			fprintf(stderr, "Unknown character encountered. Quitting.\n");
 			nmstermio_restore_terminal();
 			return 0;
 		}
 
 		// Set flag if we have a whitespace character
-		if (strlen(list_pointer->source) == 1 && isspace(list_pointer->source[0])) {
+		if (strlen(list_pointer->source) == 1 && isspace(list_pointer->source[0]))
+		{
 
 			// If flag is enabled, mask blank spaces as well
-			if (maskBlank && (list_pointer->source[0] == ' ')) {
+			if (maskBlank && (list_pointer->source[0] == ' '))
+			{
 				list_pointer->is_space = 0;
-			} else {
+			}
+			else
+			{
 				list_pointer->is_space = 1;
 			}
-
-		} else {
+		}
+		else
+		{
 			list_pointer->is_space = 0;
 		}
 
@@ -146,36 +162,41 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 		wchar_t widec[sizeof(list_pointer->source)] = {};
 		mbstowcs(widec, list_pointer->source, sizeof(list_pointer->source));
 		list_pointer->width = wcwidth(*widec);
-		
+
 		// Set next node to null
 		list_pointer->next = NULL;
 
 		// Track row count
-		if (string[i] == '\n' || (curCol += list_pointer->width) > maxCols) {
+		if (string[i] == '\n' || (curCol += list_pointer->width) > maxCols)
+		{
 			curCol = 0;
 			curRow++;
-			if (curRow == maxRows + 1 && origRow > 0) {
+			if (curRow == maxRows + 1 && origRow > 0)
+			{
 				origRow--;
 				curRow--;
 			}
 		}
 	}
-	
+
 	// Print mask characters with 'type effect'
-	for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next) {
+	for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next)
+	{
 
 		// Print mask character (or space)
-		if (list_pointer->is_space) {
+		if (list_pointer->is_space)
+		{
 			nmstermio_print_string(list_pointer->source);
 			continue;
 		}
-		
+
 		// print mask character
 		nmstermio_print_string(list_pointer->mask);
-		if (list_pointer->width == 2) {
+		if (list_pointer->width == 2)
+		{
 			nmstermio_print_string(nmscharset_get_random());
 		}
-		
+
 		// flush output and sleep
 		nmstermio_refresh();
 		nmseffect_sleep(TYPE_EFFECT_SPEED);
@@ -192,73 +213,88 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 		nmstermio_get_char();
 
 	// Jumble loop
-	for (i = 0; i < (JUMBLE_SECONDS * 1000) / JUMBLE_LOOP_SPEED; ++i) {
-		
+	for (i = 0; i < (JUMBLE_SECONDS * 1000) / JUMBLE_LOOP_SPEED; ++i)
+	{
+
 		// Move cursor to start position
 		nmstermio_move_cursor(origRow, origCol);
-		
+
 		// Print new mask for all characters
-		for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next) {
-	
+		for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next)
+		{
+
 			// Print mask character (or space)
-			if (list_pointer->is_space) {
+			if (list_pointer->is_space)
+			{
 				nmstermio_print_string(list_pointer->source);
 				continue;
 			}
-			
+
 			// print new mask character
 			nmstermio_print_string(nmscharset_get_random());
-			if (list_pointer->width == 2) {
+			if (list_pointer->width == 2)
+			{
 				nmstermio_print_string(nmscharset_get_random());
 			}
 		}
-		
+
 		// flush output and sleep
 		nmstermio_refresh();
 		nmseffect_sleep(JUMBLE_LOOP_SPEED);
 	}
 
 	// Reveal loop
-	while (!revealed) {
-		
+	while (!revealed)
+	{
+
 		// Move cursor to start position
 		nmstermio_move_cursor(origRow, origCol);
-		
+
 		// Set revealed flag
 		revealed = 1;
-		
-		for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next) {
-	
+
+		for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next)
+		{
+
 			// Print mask character (or space)
-			if (list_pointer->is_space) {
+			if (list_pointer->is_space)
+			{
 				nmstermio_print_string(list_pointer->source);
 				continue;
 			}
-			
+
 			// If we still have time before the char is revealed, display the mask
-			if (list_pointer->time > 0) {
-				
+			if (list_pointer->time > 0)
+			{
+
 				// Change the mask randomly
-				if (list_pointer->time < 500) {
-					if (rand() % 3 == 0) {
-						list_pointer->mask = nmscharset_get_random();
-					}
-				} else {
-					if (rand() % 10 == 0) {
+				if (list_pointer->time < 500)
+				{
+					if (rand() % 3 == 0)
+					{
 						list_pointer->mask = nmscharset_get_random();
 					}
 				}
-				
+				else
+				{
+					if (rand() % 10 == 0)
+					{
+						list_pointer->mask = nmscharset_get_random();
+					}
+				}
+
 				// Print mask
 				nmstermio_print_string(list_pointer->mask);
-				
+
 				// Decrement reveal time
 				list_pointer->time -= REVEAL_LOOP_SPEED;
-				
+
 				// Unset revealed flag
 				revealed = 0;
-			} else {
-				
+			}
+			else
+			{
+
 				// print source character
 				nmstermio_print_reveal_string(list_pointer->source, colorOn);
 			}
@@ -270,17 +306,19 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 	}
 
 	nmstermio_clear_input();
-	
-	if (nmstermio_get_clearscr()) {
+
+	if (nmstermio_get_clearscr())
+	{
 		nmstermio_get_char();
 	}
-	
+
 	// Restore terminal
 	nmstermio_restore_terminal();
 
-	// Freeing the list. 
+	// Freeing the list.
 	list_pointer = list_head;
-	while (list_pointer != NULL) {
+	while (list_pointer != NULL)
+	{
 		list_temp = list_pointer;
 		list_pointer = list_pointer->next;
 		free(list_temp->source);
@@ -296,7 +334,8 @@ char nmseffect_exec(unsigned char *string, int string_len) {
  * revealed. Valid arguments are "white", "yellow", "magenta", "blue",
  * "green", "red", and "cyan".
  */
-void nmseffect_set_foregroundcolor(char *color) {
+void nmseffect_set_foregroundcolor(char *color)
+{
 	nmstermio_set_foregroundcolor(color);
 }
 
@@ -305,7 +344,8 @@ void nmseffect_set_foregroundcolor(char *color) {
  * 'setting' argument. When set to true, nmseffect_exec() will not
  * require a key press to start the decryption effect.
  */
-void nmseffect_set_autodecrypt(int setting) {
+void nmseffect_set_autodecrypt(int setting)
+{
 	if (setting)
 		autoDecrypt = 1;
 	else
@@ -317,11 +357,12 @@ void nmseffect_set_autodecrypt(int setting) {
  * 'setting' argument. When set to true, blank spaces characters
  * will be masked as well.
  */
-void nmseffect_set_maskblank(int setting) {
-    if (setting)
-        maskBlank = 1;
-    else
-        maskBlank = 0;
+void nmseffect_set_maskblank(int setting)
+{
+	if (setting)
+		maskBlank = 1;
+	else
+		maskBlank = 0;
 }
 
 /*
@@ -329,7 +370,8 @@ void nmseffect_set_maskblank(int setting) {
  * the clearScr flag according to the true/false value. When set to true,
  * nmseffect_exec() will clear the screen before displaying any characters.
  */
-void nmseffect_set_clearscr(int setting) {
+void nmseffect_set_clearscr(int setting)
+{
 	nmstermio_set_clearscr(setting);
 }
 
@@ -340,7 +382,8 @@ void nmseffect_set_clearscr(int setting) {
  * do not support color. Though, compiling with ncurses support is perhaps
  * a better option, as it will detect color capabilities automatically.
  */
-void nmseffect_set_color(int setting) {
+void nmseffect_set_color(int setting)
+{
 	if (setting)
 		colorOn = 1;
 	else
@@ -350,11 +393,12 @@ void nmseffect_set_color(int setting) {
 /*
  * Sleep for the number of milliseconds indicated by argument 't'.
  */
-static void nmseffect_sleep(int t) {
+static void nmseffect_sleep(int t)
+{
 	struct timespec ts;
-	
+
 	ts.tv_sec = t / 1000;
 	ts.tv_nsec = (t % 1000) * 1000000;
-	
+
 	nanosleep(&ts, NULL);
 }
