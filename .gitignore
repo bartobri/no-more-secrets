@@ -1,3 +1,191 @@
 bin/*
 obj/*
 .vs
+
+### C ###
+# Prerequisites
+*.d
+
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Linker output
+*.ilk
+*.map
+*.exp
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
+
+### Eclipse ###
+
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# External tool builders
+.externalToolBuilders/
+
+# Locally stored "Eclipse launch configurations"
+*.launch
+
+# PyDev specific (Python IDE for Eclipse)
+*.pydevproject
+
+# CDT-specific (C/C++ Development Tooling)
+.cproject
+
+# CDT- autotools
+.autotools
+
+# Java annotation processor (APT)
+.factorypath
+
+# PDT-specific (PHP Development Tools)
+.buildpath
+
+# sbteclipse plugin
+.target
+
+# Tern plugin
+.tern-project
+
+# TeXlipse plugin
+.texlipse
+
+# STS (Spring Tool Suite)
+.springBeans
+
+# Code Recommenders
+.recommenders/
+
+# Annotation Processing
+.apt_generated/
+
+# Scala IDE specific (Scala & Java development for Eclipse)
+.cache-main
+.scala_dependencies
+.worksheet
+
+### Eclipse Patch ###
+# Eclipse Core
+.project
+
+# JDT-specific (Eclipse Java Development Tools)
+.classpath
+
+# Annotation Processing
+.apt_generated
+
+.sts4-cache/
+
+### Linux ###
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# KDE directory preferences
+.directory
+
+# Linux trash folder which might appear on any partition or disk
+.Trash-*
+
+# .nfs files are created when an open file is removed but is still being accessed
+.nfs*
+
+### NetBeans ###
+**/nbproject/private/
+**/nbproject/Makefile-*.mk
+**/nbproject/Package-*.bash
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+
+### Windows ###
+# Windows thumbnail cache files
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+
+# Dump file
+*.stackdump
+
+# Folder config file
+[Dd]esktop.ini
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
+
+# Windows Installer files
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# Windows shortcuts
+*.lnk
+
+# End of https://www.gitignore.io/api/Linux,VisualStudioCode,C,Eclipse,NetBeans,Windows
+n
