@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <getopt.h>
 #include "nmseffect.h"
 #include "input.h"
 #include "error.h"
@@ -22,7 +23,7 @@ int main(int argc, char *argv[])
 
 	input = NULL;
 
-	while ((opt = getopt(argc, argv, "f:ascv")) != -1)
+	while ((opt = getopt(argc, argv, "f:aschv")) != -1)
 	{
 		switch (opt)
 		{
@@ -38,6 +39,16 @@ int main(int argc, char *argv[])
 		case 'c':
 			nmseffect_set_clearscr(1);
 			break;
+		case 'h':
+			printf("Usage : nms [-a] [-s] [-f <color>] [-c] [-h] [-v] \n");
+			printf("Flags : \n");
+			printf("        -a Set the auto-decrypt flag.\n");
+			printf("        -s Set a flag to mask space characters.\n");
+			printf("        -f <color> Set the foreground color.\n");
+			printf("        -c Clear the screen prior.\n");
+			printf("        -h Prints help information.\n");
+			printf("        -v Display version information.\n");
+			return EXIT_SUCCESS;
 		case 'v':
 			printf("nms version " VERSION "\n");
 			return EXIT_SUCCESS;
