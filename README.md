@@ -8,8 +8,8 @@ famous data decryption effect seen on screen in the 1992 hacker movie Sneakers.
 For reference, you can see this effect at 0:35 in [this movie clip](https://www.youtube.com/watch?v=F5bAa6gFvLs&t=35).
 
 This command works on piped data. Pipe any ASCII or UTF-8 text to `nms`,
-and it will apply the hollywood effect, initially showing encrypted data,
-then starting a decryption sequence to reveal the original plaintext characters.
+and it will apply the Hollywood effect, initially showing encrypted data,
+then starting a decryption sequence to reveal the original plain-text characters.
 
 ![Screenshot](http://www.brianbarto.info/extern/images/nms/nms.gif)
 
@@ -38,7 +38,7 @@ Table of Contents
 Download and Install
 --------------------
 
-More and more unix/linux platforms are including this project in their
+More and more Unix/Linux platforms are including this project in their
 package manager. You may wish to search your package manager to see if it
 is an installation option. If you install form a package manager, please
 check that you have the latest version (`nms -v`). If not, I suggest
@@ -121,7 +121,7 @@ or red. This is blue by default.
 
 Clear the screen prior to printing any output. Specifically,
 it saves the state of the terminal (all current output), and restores it
-once the effect is comlpeted. Note that when using this option, `nms` requires
+once the effect is completed. Note that when using this option, `nms` requires
 the user to press a key before restoring the terminal.
 
 `-v`
