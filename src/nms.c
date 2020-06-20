@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2017 Brian Barto
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GPL License. See LICENSE for more details.
  */
@@ -32,9 +32,9 @@ int main(int argc, char *argv[])
 			case 'a':
 				nmseffect_set_autodecrypt(1);
 				break;
-            case 's':
-                nmseffect_set_maskblank(1);
-                break;
+			case 's':
+				nmseffect_set_maskblank(1);
+				break;
 			case 'c':
 				nmseffect_set_clearscr(1);
 				break;
