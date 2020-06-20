@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 
 	input = NULL;
 
-	while ((o = getopt(argc, argv, "f:ascv")) != -1)
+	while ((o = getopt(argc, argv, "f:aschv")) != -1)
 	{
 		switch (o)
 		{
@@ -40,6 +40,23 @@ int main(int argc, char *argv[])
 				break;
 			case 'v':
 				printf("nms version " VERSION "\n");
+				return EXIT_SUCCESS;
+			case 'h':
+				printf("Usage:\nnms works on piped data. Pipe any ASCII or UTF-8 characters to it and enjoy the magic. In the below examples, I use a simple directory listing.\n");
+				printf(" $ ls -l | nms\n");
+				printf(" $ ls -l | nms -a       // Set auto-decrypt flag\n");
+				printf(" $ ls -l | nms -s       // Set flag to mask space characters\n");
+				printf(" $ ls -l | nms -f green // Set foreground color to green\n");
+				printf(" $ ls -l | nms -c       // Clear screen\n");
+				printf(" $ nms -h               // Display this message end exit\n");
+				printf(" $ nms -v               // Display version info and exit\n\n");
+				printf("Command Line Options:\n");
+				printf(" -a: Set the auto-decrypt flag. This will automatically start the decryption sequence without requiring a key press.\n");
+				printf(" -s: Set a flag to mask space characters. This will only mask single blank space characters. Other space characters such as tabs and newlines will not be masked.\n");
+				printf(" -f <color>: Set the foreground color of the decrypted text to the color specified. Valid options are white, yellow, black, magenta, blue, green, or red. This is blue by default.\n");
+				printf(" -c: Clear the screen prior to printing any output. Specifically, it saves the state of the terminal (all current output), and restores it once the effect is completed. Note that when using this option, nms requires the user to press a key before restoring the terminal.\n");
+				printf(" -h: Print this message and exit.\n");
+				printf(" -v: Display version info and exit.\n");
 				return EXIT_SUCCESS;
 			case '?':
 				if (isprint(optopt))
