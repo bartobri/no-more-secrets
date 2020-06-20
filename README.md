@@ -92,6 +92,7 @@ $ ls -l | nms -a           // Set auto-decrypt flag
 $ ls -l | nms -s           // Set flag to mask space characters
 $ ls -l | nms -f green     // Set foreground color to green
 $ ls -l | nms -c           // Clear screen
+$ nms -h                   // Display help message
 $ nms -v                   // Display version
 ```
 
@@ -123,6 +124,10 @@ Clear the screen prior to printing any output. Specifically,
 it saves the state of the terminal (all current output), and restores it
 once the effect is completed. Note that when using this option, `nms` requires
 the user to press a key before restoring the terminal.
+
+`-h`
+
+Display help message.
 
 `-v`
 
