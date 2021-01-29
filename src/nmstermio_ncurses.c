@@ -28,7 +28,7 @@ static int foregroundColor   = COLOR_BLUE;            // Foreground color settin
  */
 void nmstermio_init_terminal(void) {
 	if (!isatty(STDIN_FILENO)) {
-		stdin = freopen("/dev/tty", "r", stdin);
+		freopen("/dev/tty", "r", stdin);
 	}
 	initscr();
 	cbreak();
