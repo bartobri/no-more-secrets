@@ -22,12 +22,15 @@ int main(int argc, char *argv[])
 
 	input = NULL;
 
-	while ((o = getopt(argc, argv, "f:ascv")) != -1)
+	while ((o = getopt(argc, argv, "f:t:ascv")) != -1)
 	{
 		switch (o)
 		{
 			case 'f':
 				nmseffect_set_foregroundcolor(optarg);
+				break;
+			case 't':
+				nmseffect_set_jumbletime(optarg);
 				break;
 			case 'a':
 				nmseffect_set_autodecrypt(1);

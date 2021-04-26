@@ -91,6 +91,7 @@ $ ls -l | nms
 $ ls -l | nms -a           // Set auto-decrypt flag
 $ ls -l | nms -s           // Set flag to mask space characters
 $ ls -l | nms -f green     // Set foreground color to green
+$ ls -l | nms -t 1000      // Set the decryption speed to 1000 (half of default)
 $ ls -l | nms -c           // Clear screen
 $ nms -v                   // Display version
 ```

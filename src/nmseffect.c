@@ -1,10 +1,10 @@
 /*
  * Copyright (c) 2017 Brian Barto
- * 
+ *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GPL License. See LICENSE for more details.
  */
- 
+
 /*
  * The nmseffect module is the primary module that drives the effect
  * execution. Most attributes, settings, and code that define the behavior
@@ -27,14 +27,15 @@
 
 // Speed settings
 #define TYPE_EFFECT_SPEED    4     // miliseconds per char
-#define JUMBLE_SECONDS       2     // number of seconds for jumble effect
 #define JUMBLE_LOOP_SPEED    35    // miliseconds between each jumble
-#define REVEAL_LOOP_SPEED    50    // miliseconds between each reveal loop
+#define REVEAL_TIME_SPEED    50    // miliseconds of reveal time step
 
 // Behavior settings
-static int autoDecrypt      = 0;            // Auto-decrypt flag
-static int maskBlank        = 0;            // Mask blank spaces
-static int colorOn          = 1;            // Terminal color flag
+static int autoDecrypt      = 0;      // Auto-decrypt flag
+static int maskBlank        = 0;      // Mask blank spaces
+static int colorOn          = 1;      // Terminal color flag
+static int jumbleMillis     = 2000;   // number of millis for jumble effect
+static int revealLoopSpeed  = 50;     // miliseconds between each reveal loop
 
 // Character attribute structure, linked list. Keeps track of every
 // character's attributes required for rendering and decryption effect.
@@ -62,20 +63,20 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 	int i, l, revealed = 0;
 	int maxRows, maxCols, curRow, curCol, origRow = 0, origCol = 0;
 	char ret = 0;
-	
+
 	// Needed for UTF-8 support
 	setlocale(LC_ALL, "");
-	
+
 	// Seed my random number generator with the current time
 	srand(time(NULL));
-	
+
 	// Initialize terminal
 	nmstermio_init_terminal();
-	
+
 	if (!nmstermio_get_clearscr()) {
 		// Get current row position
 		origRow = nmstermio_get_cursor_row();
-		
+
 		// nmstermio_get_cursor_row() may display output in some terminals. So
 		// we need to reposition the cursor to the start of the row, print
 		// some blank spaces, and the reposition again.
@@ -146,7 +147,7 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 		wchar_t widec[sizeof(list_pointer->source)] = {};
 		mbstowcs(widec, list_pointer->source, sizeof(list_pointer->source));
 		list_pointer->width = wcwidth(*widec);
-		
+
 		// Set next node to null
 		list_pointer->next = NULL;
 
@@ -160,7 +161,7 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 			}
 		}
 	}
-	
+
 	// Print mask characters with 'type effect'
 	for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next) {
 
@@ -169,13 +170,13 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 			nmstermio_print_string(list_pointer->source);
 			continue;
 		}
-		
+
 		// print mask character
 		nmstermio_print_string(list_pointer->mask);
 		if (list_pointer->width == 2) {
 			nmstermio_print_string(nmscharset_get_random());
 		}
-		
+
 		// flush output and sleep
 		nmstermio_refresh();
 		nmseffect_sleep(TYPE_EFFECT_SPEED);
@@ -192,27 +193,27 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 		nmstermio_get_char();
 
 	// Jumble loop
-	for (i = 0; i < (JUMBLE_SECONDS * 1000) / JUMBLE_LOOP_SPEED; ++i) {
-		
+	for (i = 0; i < jumbleMillis / JUMBLE_LOOP_SPEED; ++i) {
+
 		// Move cursor to start position
 		nmstermio_move_cursor(origRow, origCol);
-		
+
 		// Print new mask for all characters
 		for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next) {
-	
+
 			// Print mask character (or space)
 			if (list_pointer->is_space) {
 				nmstermio_print_string(list_pointer->source);
 				continue;
 			}
-			
+
 			// print new mask character
 			nmstermio_print_string(nmscharset_get_random());
 			if (list_pointer->width == 2) {
 				nmstermio_print_string(nmscharset_get_random());
 			}
 		}
-		
+
 		// flush output and sleep
 		nmstermio_refresh();
 		nmseffect_sleep(JUMBLE_LOOP_SPEED);
@@ -220,24 +221,24 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 
 	// Reveal loop
 	while (!revealed) {
-		
+
 		// Move cursor to start position
 		nmstermio_move_cursor(origRow, origCol);
-		
+
 		// Set revealed flag
 		revealed = 1;
-		
+
 		for (list_pointer = list_head; list_pointer != NULL; list_pointer = list_pointer->next) {
-	
+
 			// Print mask character (or space)
 			if (list_pointer->is_space) {
 				nmstermio_print_string(list_pointer->source);
 				continue;
 			}
-			
+
 			// If we still have time before the char is revealed, display the mask
 			if (list_pointer->time > 0) {
-				
+
 				// Change the mask randomly
 				if (list_pointer->time < 500) {
 					if (rand() % 3 == 0) {
@@ -248,17 +249,17 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 						list_pointer->mask = nmscharset_get_random();
 					}
 				}
-				
+
 				// Print mask
 				nmstermio_print_string(list_pointer->mask);
-				
+
 				// Decrement reveal time
-				list_pointer->time -= REVEAL_LOOP_SPEED;
-				
+				list_pointer->time -= REVEAL_TIME_SPEED;
+
 				// Unset revealed flag
 				revealed = 0;
 			} else {
-				
+
 				// print source character
 				nmstermio_print_reveal_string(list_pointer->source, colorOn);
 			}
@@ -266,19 +267,19 @@ char nmseffect_exec(unsigned char *string, int string_len) {
 
 		// flush output and sleep
 		nmstermio_refresh();
-		nmseffect_sleep(REVEAL_LOOP_SPEED);
+		nmseffect_sleep(revealLoopSpeed);
 	}
 
 	nmstermio_clear_input();
-	
+
 	if (nmstermio_get_clearscr()) {
 		nmstermio_get_char();
 	}
-	
+
 	// Restore terminal
 	nmstermio_restore_terminal();
 
-	// Freeing the list. 
+	// Freeing the list.
 	list_pointer = list_head;
 	while (list_pointer != NULL) {
 		list_temp = list_pointer;
@@ -298,6 +299,20 @@ char nmseffect_exec(unsigned char *string, int string_len) {
  */
 void nmseffect_set_foregroundcolor(char *color) {
 	nmstermio_set_foregroundcolor(color);
+}
+
+/*
+ * Set jumbleMillis according to the value parsed from the
+ * 'time' argument, with a minimum of 0. This adjusts the duration
+ * of the jumbling. Also adjusts the revealLoopSpeed to a 1:40 ratio.
+ */
+void nmseffect_set_jumbletime(char *time) {
+  float millis = atoi(time);
+  if (millis < 0)
+    jumbleMillis = 0;
+  else
+    jumbleMillis = millis;
+  revealLoopSpeed = jumbleMillis/40;
 }
 
 /*
@@ -352,9 +367,9 @@ void nmseffect_set_color(int setting) {
  */
 static void nmseffect_sleep(int t) {
 	struct timespec ts;
-	
+
 	ts.tv_sec = t / 1000;
 	ts.tv_nsec = (t % 1000) * 1000000;
-	
+
 	nanosleep(&ts, NULL);
 }
