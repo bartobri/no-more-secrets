@@ -118,6 +118,10 @@ Set the foreground color of the decrypted text to the color
 specified. Valid options are white, yellow, black, magenta, blue, green,
 or red. This is blue by default.
 
+`-t <time>`
+
+Set the speed of the decryption. Adjusts both the jumbling and reveal stages of the animation. Default is 2000.
+
 `-c`
 
 Clear the screen prior to printing any output. Specifically,
