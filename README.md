@@ -40,7 +40,7 @@ Download and Install
 
 More and more Unix/Linux platforms are including this project in their
 package manager. You may wish to search your package manager to see if it
-is an installation option. If you install form a package manager, please
+is an installation option. If you install from a package manager, please
 check that you have the latest version (`nms -v`). If not, I suggest
 installing from source by following the instructions below.
 
