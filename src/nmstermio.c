@@ -296,7 +296,7 @@ static void nmstermio_set_terminal(int s) {
 	static int state = 1;
 
 	if (!isatty(STDIN_FILENO)) {
-		freopen("/dev/tty", "r", stdin);
+		stdin = freopen("/dev/tty", "r", stdin);
 	}
 	
 	if (s == 0) {
