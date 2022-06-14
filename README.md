@@ -11,13 +11,13 @@ This command works on piped data. Pipe any ASCII or UTF-8 text to `nms`,
 and it will apply the Hollywood effect, initially showing encrypted data,
 then starting a decryption sequence to reveal the original plain-text characters.
 
-![Screenshot](http://www.brianbarto.info/extern/images/nms/nms.gif)
+![Screenshot](https://www.brianbarto.info/static/nms/nms.gif)
 
 Also included in this project is a program called `sneakers` that recreates
 what we see in the above movie clip. Note that this program requires the
 user to select one of the menu options before it terminates.
 
-![Screenshot](http://www.brianbarto.info/extern/images/nms/sneakers.gif)
+![Screenshot](https://www.brianbarto.info/static/nms/sneakers.gif)
 
 By default, this project has no dependencies, but it does rely on ANSI/VT100
 terminal escape sequences to recreate the effect. Most modern terminal
