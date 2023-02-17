@@ -35,7 +35,6 @@ Table of Contents
 2. [Usage](#usage)
 3. [The NMS Library](#the-nms-library)
 4. [License](#license)
-5. [Tips](#tips)
 
 Download and Install
 --------------------
