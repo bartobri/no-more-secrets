@@ -1,5 +1,7 @@
 ![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)
 
+Like this project? Consider tipping me: [https://github.com/sponsors/bartobri](https://github.com/sponsors/bartobri)
+
 No More Secrets
 ===============
 
@@ -143,8 +145,3 @@ License
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License. See [LICENSE](LICENSE) for
 more details.
-
-Tips
-----
-
-[Tips are always appreciated!](https://github.com/bartobri/tips)
