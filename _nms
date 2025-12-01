@@ -1,0 +1,23 @@
+#compdef nms
+
+local -a args colors auto_tip space_tip foreground_tip clear_tip version_tip
+
+# Define color options. If more are added, append below.
+colors=(white black yellow magenta cyan blue green red)
+
+# Short descriptions for CLI options 
+auto_tip='Set the auto-decrypt flag. Decryption sequence starts without requiring a key press.'
+space_tip='Set the mask blanks flag. Blank spaces will be encrypted and decrypted.'
+foreground_tip='Set the foreground color of the decrypted text to the color specified.'
+clear_tip='Clear the screen prior to printing any output.'
+version_tip='Display version info.'
+
+args=(
+    "-a[$auto_tip]"
+    "-s[$space_tip]"
+    "-f+[$foreground_tip]:color:_values / $colors"
+    "-c[$clear_tip]"
+    "-v[$version_tip]"
+)
+ 
+_arguments -s -S  $args
